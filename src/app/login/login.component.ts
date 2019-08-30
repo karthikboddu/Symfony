@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
       this.authenticationService.logout();
 
       // get return url from route parameters or default to '/'
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+      this.returnUrl = 'home';
   }
 
   // convenience getter for easy access to form fields
@@ -51,11 +51,13 @@ export class LoginComponent implements OnInit {
       this.authenticationService.login(this.f.username.value, this.f.password.value)
           .pipe(first())
           .subscribe(
-              data => {
+              data => { 
                   this.router.navigate([this.returnUrl]);
+                  localStorage.setItem('currentUser', data.token);
               },
               error => {
-                  this.alertService.error(error);
+                  console.log("errors",error);
+                  this.alertService.error(error.statusText);
                   this.loading = false;
               });
   }

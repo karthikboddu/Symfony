@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import {ServiceUrlService} from '../serviceUrl/service-url.service';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 @Injectable({
@@ -7,19 +7,11 @@ import { map } from 'rxjs/operators';
 })
 export class AuthenticationService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private serviceUrl:ServiceUrlService) { }
 
   login(username: string, password: string) {
-      return this.http.post<any>(`/users/authenticate`, { username: username, password: password })
-          .pipe(map(user => {
-              // login successful if there's a jwt token in the response
-              if (user && user.token) {
-                  // store user details and jwt token in local storage to keep user logged in between page refreshes
-                  localStorage.setItem('currentUser', JSON.stringify(user));
-              }
+      return this.http.post<any>(this.serviceUrl.host+this.serviceUrl.login, { username: username, password: password });
 
-              return user;
-          }));
   }
 
   logout() {

@@ -9,4 +9,5 @@ export class ServiceUrlService {
   constructor() { }
   public host = environment.baseUrl;
   public register = '/api/register';
+  public login = '/api/token';
 }
