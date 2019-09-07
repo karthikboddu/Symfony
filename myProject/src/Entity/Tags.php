@@ -33,6 +33,11 @@ class Tags
      */
     private $tagpost;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="usertags")
+     */
+    private $taguser;
+
     public function __construct()
     {
         $this->tagpost = new ArrayCollection();
@@ -94,6 +99,18 @@ class Tags
                 $tagpost->setPosttag(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTaguser(): ?User
+    {
+        return $this->taguser;
+    }
+
+    public function setTaguser(?User $taguser): self
+    {
+        $this->taguser = $taguser;
 
         return $this;
     }

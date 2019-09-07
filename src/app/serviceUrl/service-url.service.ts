@@ -10,4 +10,7 @@ export class ServiceUrlService {
   public host = environment.baseUrl;
   public register = '/api/register';
   public login = '/api/token';
+  public post = '/api/post';
+  public posts = '/api/posts';
+  public postid = '/api/postById';
 }
