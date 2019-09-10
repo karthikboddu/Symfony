@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-
+use Symfony\Component\HttpKernel\Exception\HttpException;
 class PostController extends AbstractController
 {
 
@@ -80,7 +80,7 @@ class PostController extends AbstractController
 
     /**
      * @Route(path="/api/postById", name="postById")
-     * @Method("GET")
+     * @Method("POST")
      */
     public function getPostById(Request $request,PostRepository $postRepository){
         if($this->jwtEncoder->supports($request)){
@@ -89,10 +89,11 @@ class PostController extends AbstractController
             $username = $data['username'];
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
-            $userd = $em->getRepository(Post::class)->findOneBySomeField('1');
+            $userd = $em->getRepository(Post::class)->findBy(['postuser'=>$user->getId()]);
             
             return $userd;
         }
+        return new JsonResponse(['status' => 'f']);
     }
  
 

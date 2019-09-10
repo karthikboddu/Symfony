@@ -17,24 +17,23 @@ export class PostService {
 
     getById() {
       debugger
-      let headers_object = new HttpHeaders().set(
-        "Authorization",
-        'Bearer ${this.authenticationService.getToken()}'
-      );
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+        headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
       
-        return this.http.post(this.serviceUrl.host+this.serviceUrl.postid,{headers: headers_object});
+        return this.http.get(this.serviceUrl.host+this.serviceUrl.postid,{headers: headers});
     }
 
     post(post: Post) {
         debugger
         let registerpost = new FormData();
-        registerpost.append("title",post.title);
+        registerpost.append("name",post.name);
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+        headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
         registerpost.append("description",post.description);
-        let headers_object = new HttpHeaders().set(
-          "Authorization",
-          this.authenticationService.getToken()
-        );
-        return this.http.post(this.serviceUrl.host+this.serviceUrl.post, registerpost,{headers:headers_object});
+        
+        return this.http.post(this.serviceUrl.host+this.serviceUrl.post, post,{headers:headers});
     }
 
     update(post: Post) {

@@ -26,10 +26,6 @@ class Post
      */
     private $description;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $tags;
 
     /**
      * @ORM\Column(type="datetime")
@@ -75,17 +71,6 @@ class Post
         return $this;
     }
 
-    public function getTags(): ?string
-    {
-        return $this->tags;
-    }
-
-    public function setTags(?string $tags): self
-    {
-        $this->tags = $tags;
-
-        return $this;
-    }
 
     public function getCreated(): ?\DateTimeInterface
     {

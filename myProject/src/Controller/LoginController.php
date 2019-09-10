@@ -67,9 +67,9 @@ class LoginController extends Controller
     }
 
     
-    public function getUserToken(Request $request){
-        $preAuthToken = $this->jwtEncoder->getCredentials($request);
-        $data = $this->jwtEncoderIn->decode($preAuthToken);
-    }
+    // public function getUserToken(Request $request){
+    //     $preAuthToken = $this->jwtEncoder->getCredentials($request);
+    //     $data = $this->jwtEncoderIn->decode($preAuthToken);
+    // }
 
 }

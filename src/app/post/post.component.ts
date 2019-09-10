@@ -26,8 +26,8 @@ export class PostComponent implements OnInit {
 
   ngOnInit() {
       this.loginForm = this.formBuilder.group({
-          username: ['', Validators.required],
-          password: ['', Validators.required]
+          name: ['', Validators.required],
+          description: ['', Validators.required]
       });
 
       // reset login status
@@ -53,8 +53,9 @@ export class PostComponent implements OnInit {
           .pipe(first())
           .subscribe(
               data => {  
+                  console.log("data",data);
                   this.router.navigate([this.returnUrl]);
-                  
+                  this.loading = true;
               },
               error => {
                   console.log("errors",error);
