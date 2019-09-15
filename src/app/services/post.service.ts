@@ -44,4 +44,8 @@ export class PostService {
         return this.http.delete(`/posts/` + id);
     }
 
+    getTags(){
+      return this.http.get(this.serviceUrl.host+this.serviceUrl.tags);
+    }
+
 }

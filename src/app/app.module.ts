@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { AlertComponent } from './alert/alert.component';
 import { PostComponent } from './post/post.component';
+import { MoviesComponent } from './movies/movies.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +20,8 @@ import { PostComponent } from './post/post.component';
     RegisterComponent,
     HomeComponent,
     AlertComponent,
-    PostComponent
+    PostComponent,
+    MoviesComponent
   ],
   imports: [
     BrowserModule,

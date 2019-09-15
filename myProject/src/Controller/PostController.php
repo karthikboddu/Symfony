@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Entity\Tags;
 use App\Entity\User;
 use App\Form\PostType;
 use App\Repository\PostRepository;
+use App\Repository\TagsRepository;
 use App\Security\JwtAuthenticator;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -90,6 +92,25 @@ class PostController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
             $userd = $em->getRepository(Post::class)->findBy(['postuser'=>$user->getId()]);
+            
+            return $userd;
+        }
+        return new JsonResponse(['status' => 'f']);
+    }
+
+
+    /**
+     * @Route(path="/api/postByTag", name="postByTag")
+     * @Method("POST")
+     */
+    public function getPostByTag(Request $request,TagsRepository $tagsRepository){
+        if($this->jwtEncoder->supports($request)){
+            $preAuthToken = $this->jwtEncoder->getCredentials($request);
+            $data = $this->jwtEncoderIn->decode($preAuthToken);
+            $username = $data['username'];
+            $em = $this->getDoctrine()->getManager();
+            $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
+            $userd = $em->getRepository(Post::class)->findBy(['postuser'=>$user->getId(),'posttag'=>'1']);
             
             return $userd;
         }

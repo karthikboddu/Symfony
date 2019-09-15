@@ -9,7 +9,8 @@ import { Post } from '../models/post';
 })
 export class HomeComponent implements OnInit {
 
-	allPost : any;
+  allPost : any;
+  allTags : any;
   constructor(private postService: PostService) { }
 
   ngOnInit() {
@@ -24,6 +25,19 @@ export class HomeComponent implements OnInit {
               error => {
                   console.log("errors",error);
               });
+
+    
+    this.postService.getTags()
+          .pipe(first())
+          .subscribe(
+            data => {
+              this.allTags = data;
+              console.log("tags",data);
+            },
+            error => {
+                console.log(error);
+            }
+          )          
   }
 
 }

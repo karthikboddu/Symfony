@@ -1,1 +1,13 @@
-<app-post></app-post>
+<div class="row">
+    
+    <mat-card class="card col-xs-12 col-sm-6 col-md-4" *ngFor="let posts of allPost" >
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{posts.name}}</h5>
+                <p class="card-text">{{posts.description}}</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <span class="badge badge-dark">{{posts.posttag.name}}</span>
+            </div>
+        
+    </mat-card>
+</div>
