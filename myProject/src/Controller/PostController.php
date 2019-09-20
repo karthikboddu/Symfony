@@ -18,6 +18,7 @@ use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Aws\S3\S3Client;
 class PostController extends AbstractController
 {
 
@@ -117,5 +118,42 @@ class PostController extends AbstractController
         return new JsonResponse(['status' => 'f']);
     }
  
+
+
+    /**
+     * @Route(path="/api/upload", name="upload")
+     * @Method("POST")
+     */
+  public function upload(Request $request, S3Client $s3Client)
+  {
+    try {
+      $cmd = $s3Client->getCommand('PutObject', [
+          'Bucket' => $this->getParameter('app.s3.bucket.demo'),
+          'ACL' => 'public-read',
+          'Key' => 'demo/demo',
+          'ContentType' => 'image/png',
+      ]);
+
+      $signedRequest = $s3Client->createPresignedRequest($cmd, '+20 minutes');
+
+      $response = new JsonResponse([
+          'signedUrl' => (string) $signedRequest->getUri(),
+          'imageUrl' => sprintf("https://%s.s3.amazonaws.com/%s", 
+              $this->getParameter('app.s3.bucket.demo'),
+              $request->request->get('name')
+          )
+      ], Response::HTTP_OK);
+
+      return $response;
+
+    } catch (\Exception $exception) {
+        
+      return new JsonResponse([
+          'success' => false,
+          'code'    => $exception->getCode(),
+          'message' => $exception->getMessage(),
+      ], Response::HTTP_SERVICE_UNAVAILABLE);
+    }
+  }
 
 }
