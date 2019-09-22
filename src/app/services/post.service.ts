@@ -48,4 +48,16 @@ export class PostService {
       return this.http.get(this.serviceUrl.host+this.serviceUrl.tags);
     }
 
+    upload(file,name){
+      debugger
+      let uploads = new FormData();
+      uploads.append("file",file);
+      uploads.append("name",name);
+      let headers = new HttpHeaders();
+
+      headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
+      
+      return this.http.post(this.serviceUrl.host+this.serviceUrl.upload,uploads,{headers:headers});
+    }
+
 }

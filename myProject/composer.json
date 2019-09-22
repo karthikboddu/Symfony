@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "aws/aws-sdk-php-symfony": "^2.0",
+        "doctrine/annotations": "^1.7",
         "friendsofsymfony/rest-bundle": "dev-master",
         "gesdinet/jwt-refresh-token-bundle": "^0.7.1",
         "jms/serializer-bundle": "^2.0@dev",

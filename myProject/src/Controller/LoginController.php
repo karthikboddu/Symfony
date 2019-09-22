@@ -66,10 +66,17 @@ class LoginController extends Controller
         throw new \Exception('This should never be reached!');
     }
 
-    
-    // public function getUserToken(Request $request){
-    //     $preAuthToken = $this->jwtEncoder->getCredentials($request);
-    //     $data = $this->jwtEncoderIn->decode($preAuthToken);
-    // }
+    /**
+     * @Route(path="/api/check_login", name="checklogin")
+     * @Method("POST")
+     */
+    public function getUserToken(Request $request){
+        $preAuthToken = $this->jwtEncoder->getCredentials($request);
+        $data = $this->jwtEncoderIn->decode($preAuthToken);
+        if ($data == false) {
+            throw new CustomUserMessageAuthenticationException('Expired Token');
+        }
+        return $data;
+    }
 
 }
