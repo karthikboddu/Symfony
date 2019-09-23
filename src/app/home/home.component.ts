@@ -3,6 +3,7 @@ import { PostService } from '../services/post.service';
 import { first } from 'rxjs/operators';
 import { Post } from '../models/post';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -16,12 +17,21 @@ export class HomeComponent implements OnInit {
   imgURL: any;
   public message: string;
   fileToUpload: File = null;
-  
-  constructor(private postService: PostService,private http: HttpClient) { }
+  sub:any;
+  page:any;
+  constructor(private postService: PostService,private http: HttpClient,  private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
-  	this.postService.getById()
-  	      .pipe(first())
+
+    this.page = this.route.snapshot.queryParamMap.get('page');
+
+    if(this.page){
+      this.getPostTags();
+    }
+    else{
+        this.postService.getById()
+          .pipe(first())
           .subscribe(
               data => {  
                   this.allPost = data;
@@ -31,6 +41,8 @@ export class HomeComponent implements OnInit {
               error => {
                   console.log("errors",error);
               });
+  
+    }
 
     
     this.postService.getTags()
@@ -42,8 +54,19 @@ export class HomeComponent implements OnInit {
             },
             error => {
                 console.log(error);
-            }
-          )          
+            });
+
+    // this.sub = this.route
+    //   .queryParams
+    //   .subscribe(params => {
+    //     // Defaults to 0 if no query param provided.
+    //     this.page = +params['page'] || 0;
+    //     console.log("page",this.page);
+    //   });                  
+
+
+
+
   }
 
   preview(files:FileList) {
@@ -77,6 +100,22 @@ export class HomeComponent implements OnInit {
       }
     )      
 
+  }
+
+  getPostTags(){
+        this.page = this.route.snapshot.queryParamMap.get('page');
+        this.router.navigate(['/home'],this.page);
+        console.log("page",this.page);
+          this.postService.postByTag(this.page)
+          .pipe(first())
+          .subscribe(
+            data => {
+              this.allPost = data;
+              console.log("tagspost",data);
+            },
+            error => {
+                console.log(error);
+            });
   }
 
 }

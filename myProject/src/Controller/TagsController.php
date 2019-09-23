@@ -27,7 +27,7 @@ class TagsController extends AbstractController
     }
 
     /**
-     * @Route(path="/api/tags", name="posts")
+     * @Route(path="/api/tags", name="gettags")
      * @Method("GET")
      */
     public function getAllPost(TagsRepository $tagsRepository){

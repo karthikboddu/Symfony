@@ -57,17 +57,24 @@ class PostController extends AbstractController
             $post = new Post();
             $form = $this->createForm(PostType::class, $post);
             $form->handleRequest($request);
-
+            $em = $this->getDoctrine()->getManager();
             if ($form->isValid()) {
                 $preAuthToken = $this->jwtEncoder->getCredentials($request);
                 $data = $this->jwtEncoderIn->decode($preAuthToken);
                 $username = $data['username'];
-                $em = $this->getDoctrine()->getManager();
+                $tagName = $request->get('tag');
+                if($request->get('tag')){
+                    $tag = $em->getRepository(Tags::class)->findOneBy(['name'=>$tagName]);
+                }
+                else{
+                    $tag = $em->getRepository(Tags::class)->findOneBy(['name'=> 'others']);
+                }
+                
 
                 $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
                 $post->setCreated(new \DateTime());
                 $post->setPostuser($user);
-
+                $post->setPosttag($tag);
 
                 $em->persist($post);
                 $em->flush();
@@ -79,7 +86,7 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route(path="/api/posts", name="posts")
+     * @Route(path="/api/posts", name="getposts")
      * @Method("GET")
      */
     public function getAllPost(PostRepository $postRepository)
@@ -110,10 +117,10 @@ class PostController extends AbstractController
 
 
     /**
-     * @Route(path="/api/postByTag", name="postByTag")
-     * @Method("POST")
+     * @Route(path="/api/postByTag/{tag}", name="postByTag")
+     * @Method("GET")
      */
-    public function getPostByTag(Request $request, TagsRepository $tagsRepository)
+    public function getPostByTag(Request $request, TagsRepository $tagsRepository,$tag)
     {
         if ($this->jwtEncoder->supports($request)) {
             $preAuthToken = $this->jwtEncoder->getCredentials($request);
@@ -121,11 +128,12 @@ class PostController extends AbstractController
             $username = $data['username'];
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
-            $userd = $em->getRepository(Post::class)->findBy(['postuser' => $user->getId(), 'posttag' => '1']);
-
+            $tags = $em->getRepository(Tags::class)->findOneBy(['name' => $tag]);
+            $userd = $em->getRepository(Post::class)->findBy(['postuser' => $user->getId(), 'posttag' => $tags->getId()]);
+   
             return $userd;
         }
-        return new JsonResponse(['status' => 'f']);
+        return new JsonResponse(['status' => $request->headers->has('Authorization')]);
     }
 
 
@@ -214,13 +222,53 @@ class PostController extends AbstractController
                 //     $fff = $fileupload->getName();
 
                 $username = $data['username'];
-                $result = $s3Client->getObject(array(
+                $response = $s3Client->getObject(array(
                     'Bucket' => $this->getParameter('app.s3.bucket.demo'),
-                    'Key' => $username,
-                    
+                    'Key' => "karthikboddu/green-circle.png",
+                    'SaveAs' => '/home/karthik/Downloads/elsfrance'
                 ));
-                return $result;
+                // $objects = $s3Client->getIterator('ListObjects', array(
+                //     "Bucket" => $this->getParameter('app.s3.bucket.demo'),
+                //     "key" => 'karthikboddu/green-circle.png', //must have the trailing forward slash "/"
+                //     'SaveAs' => '/var/Downloads/elsfrance'
+                // ));
+
+                 //   $body = $response->get('Body');
+                 // $body->rewind();
+
+                  return $response->get('Body');
+
             }
         }
+        return "f";
+    }
+
+    /**
+     * @Route(path="/api/test/{tag}", name="uploadstag")
+     * @Method("GET")
+     */
+    public function getPostByTagUser(Request $request ,$tag)
+    {
+        if ($this->jwtEncoder->supports($request)) {
+        }
+            $preAuthToken = $this->jwtEncoder->getCredentials($request);
+            $data = $this->jwtEncoderIn->decode($preAuthToken);
+            // if ($data == false) {
+            //     throw new CustomUserMessageAuthenticationException('Expired Token');
+            // } else {
+            //     // $fileupload = new FileUpload();
+            //     // $form = $this->createForm(FileUploadType::class, $fileupload);
+            //     // $form->handleRequest($request);
+            //     // $filName = $request->files->get('file');
+            //     // //$fileName = $fileupload->getFile();
+            //     // if ($form->isValid()) {
+            //     //     $fileName = $fileupload->getFile();
+            //     //     $fff = $fileupload->getName();
+
+            //     $username = $data['username'];
+
+            //     return $result;
+            // }
+        return $tag;
     }
 }

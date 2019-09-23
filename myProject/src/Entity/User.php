@@ -72,15 +72,10 @@ class User implements UserInterface
      */
     private $postuser;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Tags", mappedBy="taguser")
-     */
-    private $usertags;
 
     public function __construct()
     {
         $this->postuser = new ArrayCollection();
-        $this->usertags = new ArrayCollection();
     }
 
 	public function getId(): int
@@ -231,34 +226,4 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Tags[]
-     */
-    public function getUsertags(): Collection
-    {
-        return $this->usertags;
-    }
-
-    public function addUsertag(Tags $usertag): self
-    {
-        if (!$this->usertags->contains($usertag)) {
-            $this->usertags[] = $usertag;
-            $usertag->setTaguser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUsertag(Tags $usertag): self
-    {
-        if ($this->usertags->contains($usertag)) {
-            $this->usertags->removeElement($usertag);
-            // set the owning side to null (unless already changed)
-            if ($usertag->getTaguser() === $this) {
-                $usertag->setTaguser(null);
-            }
-        }
-
-        return $this;
-    }
 }

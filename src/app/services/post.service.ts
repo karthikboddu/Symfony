@@ -60,4 +60,13 @@ export class PostService {
       return this.http.post(this.serviceUrl.host+this.serviceUrl.upload,uploads,{headers:headers});
     }
 
+    postByTag(tag){
+      debugger
+      let headers = new HttpHeaders();
+       
+      headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
+      
+      return this.http.get(this.serviceUrl.host+this.serviceUrl.postByTag+"/"+tag,{headers:headers});
+    }
+
 }

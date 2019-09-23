@@ -14,5 +14,6 @@ export class ServiceUrlService {
   public posts = '/api/posts';
   public postid = '/api/postById';
   public tags = '/api/tags';
+  public postByTag = '/api/postByTag';
   public upload = '/api/upload';
 }

@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'post', component: PostComponent },
   { path:'home',component:HomeComponent},
+  { path:'home/:id',component:HomeComponent},
   { path:'movies',component:MoviesComponent}
 ];
 
