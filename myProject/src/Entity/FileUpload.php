@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,6 +32,21 @@ class FileUpload
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $name;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Post", mappedBy="postfile")
+     */
+    private $filepost;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $etag;
+
+    public function __construct()
+    {
+        $this->filepost = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -68,6 +85,46 @@ class FileUpload
     public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Post[]
+     */
+    public function getFilepost(): Collection
+    {
+        return $this->filepost;
+    }
+
+    public function addFilepost(Post $filepost): self
+    {
+        if (!$this->filepost->contains($filepost)) {
+            $this->filepost[] = $filepost;
+            $filepost->addPostfile($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFilepost(Post $filepost): self
+    {
+        if ($this->filepost->contains($filepost)) {
+            $this->filepost->removeElement($filepost);
+            $filepost->removePostfile($this);
+        }
+
+        return $this;
+    }
+
+    public function getEtag(): ?string
+    {
+        return $this->etag;
+    }
+
+    public function setEtag(string $etag): self
+    {
+        $this->etag = $etag;
 
         return $this;
     }

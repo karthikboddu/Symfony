@@ -93,7 +93,7 @@ class PostController extends AbstractController
     {
         $data = $postRepository->findAll();
 
-        return $data;
+        return new JsonResponse(['status' => 'ok', 'data' => $data]);
     }
 
     /**
@@ -160,7 +160,7 @@ class PostController extends AbstractController
                     if ($form->isValid()) {
                         $fileName = $fileupload->getFile();
                         $fff = $fileupload->getName();
-
+                         $em = $this->getDoctrine()->getManager();
                         $username = $data['username'];
                         //$key =   $request->request->get('file');
 
@@ -169,10 +169,11 @@ class PostController extends AbstractController
                         //     'ACL' => 'public-read',
                         //     'Key' => $request->request->get('name'),
                         //     'SourceFile' => '/home/nishith/Downloads/green-circle.png',
-                        // ]);      
+                        // ]);    
+
 
                         $result = $s3Client->putObject([
-                            'Bucket' => 'my-blog-19',
+                            'Bucket' => $this->getParameter('app.s3.bucket.demo'),
                             'Key'    => $username . "/" . $fff,
                             'Body'   => 'this is the body!',
                             'SourceFile' => $fileName
@@ -186,6 +187,12 @@ class PostController extends AbstractController
                         //         $request->request->get('name')
                         //     )
                         // ], Response::HTTP_OK);
+                        
+   
+                        $fileupload->setUploadedAt(new \DateTime());
+                        $fileupload->setEtag($result->get('ETag'));
+                        $em->persist($fileupload);
+                        $em->flush();
                     }
                     return $result;
                 }
@@ -222,21 +229,33 @@ class PostController extends AbstractController
                 //     $fff = $fileupload->getName();
 
                 $username = $data['username'];
+                // $response = $s3Client->getObject(array(
+                //     'Bucket' => $this->getParameter('app.s3.bucket.demo'),
+                //     'Key' => "karthikboddu/green-circle.png",
+                //     'SaveAs' => '/home/karthik/Downloads/elsfrance/green-circle.png'
+                // ));
+                $objects = $s3Client->getIterator('ListObjects', array(
+                    "Bucket" => $this->getParameter('app.s3.bucket.demo'),
+                    "Prefix" => $username."/" //must have the trailing forward slash "/"
+                    
+                ));
+
+                foreach ($objects as $object) {
+                    // Do something with the object 
+
+                    $etag = stripslashes($object['ETag']);
                 $response = $s3Client->getObject(array(
                     'Bucket' => $this->getParameter('app.s3.bucket.demo'),
-                    'Key' => "karthikboddu/green-circle.png",
-                    'SaveAs' => '/home/karthik/Downloads/elsfrance'
+                    'Key' => $object['Key'],
+                    'SaveAs' => "/home/karthik/Documents/Symfony/src/assets/".$etag.".png"
                 ));
-                // $objects = $s3Client->getIterator('ListObjects', array(
-                //     "Bucket" => $this->getParameter('app.s3.bucket.demo'),
-                //     "key" => 'karthikboddu/green-circle.png', //must have the trailing forward slash "/"
-                //     'SaveAs' => '/var/Downloads/elsfrance'
-                // ));
+                  
+                }
 
                  //   $body = $response->get('Body');
                  // $body->rewind();
 
-                  return $response->get('Body');
+                  return $object;
 
             }
         }
@@ -245,6 +264,36 @@ class PostController extends AbstractController
 
     /**
      * @Route(path="/api/test/{tag}", name="uploadstag")
+     * @Method("GET")
+     */
+    public function test(Request $request ,$tag)
+    {
+        if ($this->jwtEncoder->supports($request)) {
+        }
+            $preAuthToken = $this->jwtEncoder->getCredentials($request);
+            $data = $this->jwtEncoderIn->decode($preAuthToken);
+            // if ($data == false) {
+            //     throw new CustomUserMessageAuthenticationException('Expired Token');
+            // } else {
+            //     // $fileupload = new FileUpload();
+            //     // $form = $this->createForm(FileUploadType::class, $fileupload);
+            //     // $form->handleRequest($request);
+            //     // $filName = $request->files->get('file');
+            //     // //$fileName = $fileupload->getFile();
+            //     // if ($form->isValid()) {
+            //     //     $fileName = $fileupload->getFile();
+            //     //     $fff = $fileupload->getName();
+
+            //     $username = $data['username'];
+
+            //     return $result;
+            // }
+        return $tag;
+    }
+
+
+        /**
+     * @Route(path="/api/viewPostByUser/{tag}", name="viewpost")
      * @Method("GET")
      */
     public function getPostByTagUser(Request $request ,$tag)

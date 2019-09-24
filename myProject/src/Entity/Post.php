@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,16 @@ class Post
      * @ORM\ManyToOne(targetEntity="App\Entity\Tags", inversedBy="tagpost")
      */
     private $posttag;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\FileUpload", inversedBy="filepost")
+     */
+    private $postfile;
+
+    public function __construct()
+    {
+        $this->postfile = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,6 +116,32 @@ class Post
     public function setPosttag(?Tags $posttag): self
     {
         $this->posttag = $posttag;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|FileUpload[]
+     */
+    public function getPostfile(): Collection
+    {
+        return $this->postfile;
+    }
+
+    public function addPostfile(FileUpload $postfile): self
+    {
+        if (!$this->postfile->contains($postfile)) {
+            $this->postfile[] = $postfile;
+        }
+
+        return $this;
+    }
+
+    public function removePostfile(FileUpload $postfile): self
+    {
+        if ($this->postfile->contains($postfile)) {
+            $this->postfile->removeElement($postfile);
+        }
 
         return $this;
     }

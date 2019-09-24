@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class HomeComponent implements OnInit {
 
   allPost : any;
+  allImg : any;
   allTags : any;
   public imagePath;
   imgURL: any;
@@ -35,8 +36,9 @@ export class HomeComponent implements OnInit {
           .subscribe(
               data => {  
                   this.allPost = data;
-                  
+                  this.allImg = data[0]['postfile'];
                   console.log("data",data);
+                  console.log("imgdata",data['postfile']);
               },
               error => {
                   console.log("errors",error);
