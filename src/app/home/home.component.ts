@@ -36,9 +36,9 @@ export class HomeComponent implements OnInit {
           .subscribe(
               data => {  
                   this.allPost = data;
-                  this.allImg = data[0]['postfile'];
+                  //this.allImg = data[0]['postfile'];
                   console.log("data",data);
-                  console.log("imgdata",data['postfile']);
+                  //console.log("imgdata",data['postfile']);
               },
               error => {
                   console.log("errors",error);

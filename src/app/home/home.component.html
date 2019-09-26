@@ -7,8 +7,8 @@
 
     </div>
     <mat-card class="col-xs-12 col-sm-6 col-md-4" *ngFor="let posts of allPost; let i=index" >
-            <div class="blog-image"  *ngFor="let img of allImg">
-                <img mat-card-image class="img-article" src="/home/karthik/Documents/Symfony/src/assets/{{img.etag}}"  alt="...">
+            <div class="blog-image"  *ngFor="let img of posts.postfile">
+                <img mat-card-image class="img-article" src="assets/{{img.etag}}"  alt="...">
             </div>
             <div class="blog-content">
                 <mat-card-header>

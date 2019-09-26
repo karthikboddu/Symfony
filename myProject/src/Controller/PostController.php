@@ -190,7 +190,8 @@ class PostController extends AbstractController
                         
    
                         $fileupload->setUploadedAt(new \DateTime());
-                        $fileupload->setEtag($result->get('ETag'));
+                        $etag = str_replace("\"","" , $result->get('ETag'));
+                        $fileupload->setEtag($etag);
                         $em->persist($fileupload);
                         $em->flush();
                     }
@@ -243,7 +244,8 @@ class PostController extends AbstractController
                 foreach ($objects as $object) {
                     // Do something with the object 
 
-                    $etag = stripslashes($object['ETag']);
+                    //$etag = stripslashes($object['ETag']);
+                    $etag = str_replace("\"","" , $object['ETag']);
                 $response = $s3Client->getObject(array(
                     'Bucket' => $this->getParameter('app.s3.bucket.demo'),
                     'Key' => $object['Key'],
