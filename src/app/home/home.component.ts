@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   fileToUpload: File = null;
   sub:any;
   page:any;
+  pageUrl:any;
   constructor(private postService: PostService,private http: HttpClient,  private route: ActivatedRoute,
     private router: Router) { }
 
@@ -114,6 +115,23 @@ export class HomeComponent implements OnInit {
             data => {
               this.allPost = data;
               console.log("tagspost",data);
+            },
+            error => {
+                console.log(error);
+            });
+  }
+
+
+  getSinglePostS(){
+        this.pageUrl = this.route.snapshot.queryParamMap.get('posturl');
+        this.router.navigate(['/viewpost'],this.pageUrl);
+        console.log("page",this.pageUrl);
+          this.postService.getSinglePostByUrl(this.pageUrl)
+          .pipe(first())
+          .subscribe(
+            data => {
+              this.allPost = data;
+              console.log("posturldata",data);
             },
             error => {
                 console.log(error);

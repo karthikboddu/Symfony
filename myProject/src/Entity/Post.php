@@ -49,6 +49,11 @@ class Post
      */
     private $postfile;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $posturl;
+
     public function __construct()
     {
         $this->postfile = new ArrayCollection();
@@ -142,6 +147,18 @@ class Post
         if ($this->postfile->contains($postfile)) {
             $this->postfile->removeElement($postfile);
         }
+
+        return $this;
+    }
+
+    public function getPosturl(): ?string
+    {
+        return $this->posturl;
+    }
+
+    public function setPosturl(string $posturl): self
+    {
+        $this->posturl = $posturl;
 
         return $this;
     }

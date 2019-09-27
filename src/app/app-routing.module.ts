@@ -13,7 +13,8 @@ const routes: Routes = [
   { path:'home',component:HomeComponent},
   { path:'home/:id',component:HomeComponent},
   { path:'movies',component:MoviesComponent},
-  { path:'viewpost',component:ViewpostComponent}
+  { path:'viewpost',component:ViewpostComponent},
+  { path:'viewpost/:id',component:ViewpostComponent}
 ];
 
 @NgModule({

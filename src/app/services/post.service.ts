@@ -69,4 +69,12 @@ export class PostService {
       return this.http.get(this.serviceUrl.host+this.serviceUrl.postByTag+"/"+tag,{headers:headers});
     }
 
+    getSinglePostByUrl(postUrl){
+      let headers = new HttpHeaders();
+
+      headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
+      
+      return this.http.post(this.serviceUrl.host+this.serviceUrl.singlePost+"/"+postUrl,{headers:headers});
+    }
+
 }
