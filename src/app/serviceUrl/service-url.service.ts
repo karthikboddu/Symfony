@@ -17,4 +17,5 @@ export class ServiceUrlService {
   public postByTag = '/api/postByTag';
   public upload = '/api/upload';
   public singlePost = '/api/viewPostByUser';
+  public getAuth = '/api/check_login';
 }

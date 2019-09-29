@@ -112,6 +112,14 @@ class PostController extends AbstractController
             $username = $data['username'];
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
+            $role = $user->getRoles();
+        
+            if(in_array('ROLE_USER',$role)){
+                $userd = $this->roleUser();
+                return $userd;
+            }else if($role == 'ROLE_ADMIN'){
+
+            }
             $userd = $em->getRepository(Post::class)->findBy(['postuser' => $user->getId()]);
 
             return $userd;
@@ -256,7 +264,7 @@ class PostController extends AbstractController
                 $response = $s3Client->getObject(array(
                     'Bucket' => $this->getParameter('app.s3.bucket.demo'),
                     'Key' => $object['Key'],
-                    'SaveAs' => "/home/karthik/Documents/Symfony/src/assets/".$etag.".".$ext
+                    'SaveAs' => "/home/nishith/Downloads/symfony/Symfony/src/assets/".$etag.".".$ext
                 ));
                   
                 }
@@ -339,4 +347,13 @@ class PostController extends AbstractController
             // }
         return $postDat;
     }
+
+
+
+
+    public function roleUser(){
+        $user = $this->getDoctrine()->getRepository(Post::class)->findByUsers();
+        return $user;
+    }
+
 }

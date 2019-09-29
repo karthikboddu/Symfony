@@ -21,6 +21,7 @@ class UserType extends AbstractType
             ->add('username',TextType::class, ['label'=> 'username'],['attr' => ['maxlength' => 4]])
             ->add('email', TextType::class, ['label'=> 'email'])
             ->add('password', TextType::class, ['label'=> 'password'])
+            ->add('phonenumber', TextType::class, ['label'=> 'phonenumber'])
         ;
     }
 //curl -H "Content-Type: application/json" -d '{"name":"walter","surname":"white","username":"karthik","email":"walterwhite@gmail.com","password":"karthikb23"}' http://127.0.0.1:8000/api/register

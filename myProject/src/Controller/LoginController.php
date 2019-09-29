@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,7 @@ use App\Security\JwtAuthenticator;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
+use Zend\Code\Reflection\DocBlock\Tag\ReturnTag;
 
 class LoginController extends Controller
 {
@@ -33,7 +35,13 @@ class LoginController extends Controller
         if (!$user) {
             throw $this->createNotFoundException();
         }
-        $use = new User();
+        // $role = $user->getRoles();
+        // $use = new User();
+        // if(in_array('ROLE_USER',$role)){
+        //    $uu = $this->roleUser();
+        // }else if($role == 'ROLE_ADMIN'){
+
+        // }
         $password = $request->request->get('password');
         $isValid = $this->get('security.password_encoder')
             ->isPasswordValid($user, $password);
@@ -71,12 +79,31 @@ class LoginController extends Controller
      * @Method("POST")
      */
     public function getUserToken(Request $request){
-        $preAuthToken = $this->jwtEncoder->getCredentials($request);
-        $data = $this->jwtEncoderIn->decode($preAuthToken);
-        if ($data == false) {
-            throw new CustomUserMessageAuthenticationException('Expired Token');
+        try{
+            $preAuthToken = $this->jwtEncoder->getCredentials($request);
+            $data = $this->jwtEncoderIn->decode($preAuthToken);
+            if ($data) {
+                
+            
+            return new JsonResponse([
+                'success' => $data,
+                'code'    => '200',
+                'message' => 'Authorized User',
+            ], Response::HTTP_OK);
         }
-        return $data;
+        } catch (\Exception $exception) {
+
+            return new JsonResponse([
+                'success' => 'UnAuthorized User',
+                'code'    => $exception->getCode(),
+                'message' => $exception->getMessage(),
+            ], Response::HTTP_SERVICE_UNAVAILABLE);
+        }
+    }
+
+    public function roleUser(){
+        $user = $this->getDoctrine()->getRepository(Post::class)->findByUsers();
+        return $user;
     }
 
 }

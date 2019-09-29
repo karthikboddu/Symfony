@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 /**
  * @method Post|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +19,7 @@ class PostRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Post::class);
+        $this->em = $this->getEntityManager();
     }
 
     // /**
@@ -45,6 +48,12 @@ class PostRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
+    }
+
+    public function findByUsers(){
+        $query = $this->em->createQuery("SELECT u,pt,pf FROM App\Entity\Post u JOIN u.posttag pt JOIN u.postfile pf");
+        $users = $query->getArrayResult();
+        return $users;
     }
     
 }

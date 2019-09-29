@@ -30,7 +30,7 @@ class RegistrationController extends FOSRestController
             $password = $this->get('security.password_encoder')
                 ->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
-            $user->setRoles(['ROLE_ADMIN']);
+            $user->setRoles(['ROLE_USER']);
             $user->setCreatedAt(new \DateTime());
             $user->setActive(true);
             $em = $this->getDoctrine()->getManager();
