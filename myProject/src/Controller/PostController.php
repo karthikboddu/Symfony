@@ -26,6 +26,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Cocur\Slugify\Slugify;
+
 class PostController extends AbstractController
 {
 
@@ -49,7 +50,7 @@ class PostController extends AbstractController
      * @Route(path="/api/post", name="post")
      * @Method("POST")
      */
-    public function postRegisterAction(Request $request): JsonResponse
+    public function postRegisterAction(Request $request,S3Client $s3Client)
     {
         if ($this->jwtEncoder->supports($request)) {
 
@@ -58,33 +59,36 @@ class PostController extends AbstractController
             $form = $this->createForm(PostType::class, $post);
             $form->handleRequest($request);
             $em = $this->getDoctrine()->getManager();
-            if ($form->isValid()) {
+            // if ($form->isValid()) {
                 $preAuthToken = $this->jwtEncoder->getCredentials($request);
                 $data = $this->jwtEncoderIn->decode($preAuthToken);
                 $username = $data['username'];
                 $tagName = $request->get('tag');
-                if($request->get('tag')){
-                    $tag = $em->getRepository(Tags::class)->findOneBy(['name'=>$tagName]);
+                if ($request->get('tags')) {
+                    $tag = $em->getRepository(Tags::class)->findOneBy(['name' => $tagName]);
+                } else {
+                    $tag = $em->getRepository(Tags::class)->findOneBy(['name' => 'others']);
                 }
-                else{
-                    $tag = $em->getRepository(Tags::class)->findOneBy(['name'=> 'others']);
-                }
-            $slugify = new Slugify();
-            $slug = $slugify->slugify($post->getName(),'_');
-            $numOfBytes =5;
-            $randomBytes = random_bytes($numOfBytes);
-            $randomString = base64_encode($randomBytes);
+                $imgname = $request->get('imagename');
+                if ($request->get('imgname')) {
+                 $ffff=   $this->uploadForm($request,$s3Client);
+                } else { }
+                $slugify = new Slugify();
+                $slug = $slugify->slugify($post->getName(), '_');
+                $numOfBytes = 5;
+                $randomBytes = random_bytes($numOfBytes);
+                $randomString = base64_encode($randomBytes);
 
                 $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
                 $post->setCreated(new \DateTime());
                 $post->setPostuser($user);
                 $post->setPosttag($tag);
-                $post->setPosturl($slug."-".$randomString);
+                $post->setPosturl($slug . "-" . $randomString);
                 $em->persist($post);
                 $em->flush();
 
-                return new JsonResponse(['status' => 'ok', 'data' => $data]);
-            }
+                return new JsonResponse(['status' => 'ok', 'data' => $imgname]);
+            // }
         }
         throw new HttpException(400, "Invalid data");
     }
@@ -113,16 +117,14 @@ class PostController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
             $role = $user->getRoles();
-        
-            if(in_array('ROLE_USER',$role)){
+
+            if (in_array('ROLE_USER', $role)) {
                 $userd = $this->roleUser();
                 return $userd;
-            }else if($role == 'ROLE_ADMIN'){
+            } else if ($role == 'ROLE_ADMIN') { }
+            // $userd = $em->getRepository(Post::class)->findBy(['postuser' => $user->getId()]);
 
-            }
-            $userd = $em->getRepository(Post::class)->findBy(['postuser' => $user->getId()]);
-
-            return $userd;
+            // return $userd;
         }
         return new JsonResponse(['status' => 'f']);
     }
@@ -132,7 +134,7 @@ class PostController extends AbstractController
      * @Route(path="/api/postByTag/{tag}", name="postByTag")
      * @Method("GET")
      */
-    public function getPostByTag(Request $request, TagsRepository $tagsRepository,$tag)
+    public function getPostByTag(Request $request, TagsRepository $tagsRepository, $tag)
     {
         if ($this->jwtEncoder->supports($request)) {
             $preAuthToken = $this->jwtEncoder->getCredentials($request);
@@ -142,7 +144,7 @@ class PostController extends AbstractController
             $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
             $tags = $em->getRepository(Tags::class)->findOneBy(['name' => $tag]);
             $userd = $em->getRepository(Post::class)->findBy(['postuser' => $user->getId(), 'posttag' => $tags->getId()]);
-   
+
             return $userd;
         }
         return new JsonResponse(['status' => $request->headers->has('Authorization')]);
@@ -172,9 +174,9 @@ class PostController extends AbstractController
                     if ($form->isValid()) {
                         $fileName = $fileupload->getFile();
                         $fff = $fileupload->getName();
-                         $em = $this->getDoctrine()->getManager();
+                        $em = $this->getDoctrine()->getManager();
                         $username = $data['username'];
-                        $ext = pathinfo($fileName."/".$fff, PATHINFO_EXTENSION);
+                        $ext = pathinfo($fileName . "/" . $fff, PATHINFO_EXTENSION);
                         //$key =   $request->request->get('file');
 
                         // $cmd = $s3Client->getCommand('PutObject', [
@@ -187,6 +189,7 @@ class PostController extends AbstractController
 
                         $result = $s3Client->putObject([
                             'Bucket' => $this->getParameter('app.s3.bucket.demo'),
+                            'ACL' => 'public-read',
                             'Key'    => $username . "/" . $fff,
                             'Body'   => 'this is the body!',
                             'SourceFile' => $fileName
@@ -200,11 +203,11 @@ class PostController extends AbstractController
                         //         $request->request->get('name')
                         //     )
                         // ], Response::HTTP_OK);
-                        
-   
+
+
                         $fileupload->setUploadedAt(new \DateTime());
-                        $etag = str_replace("\"","" , $result->get('ETag'));
-                        $fileupload->setEtag($etag.".".$ext);
+                        $etag = str_replace("\"", "", $result->get('ETag'));
+                        $fileupload->setEtag($etag . "." . $ext);
                         $em->persist($fileupload);
                         $em->flush();
                     }
@@ -218,6 +221,47 @@ class PostController extends AbstractController
                 'code'    => $exception->getCode(),
                 'message' => $exception->getMessage(),
             ], Response::HTTP_SERVICE_UNAVAILABLE);
+        }
+    }
+
+    public function uploadForm($request, $s3Client)
+    {
+        if ($this->jwtEncoder->supports($request)) {
+            $preAuthToken = $this->jwtEncoder->getCredentials($request);
+            $data = $this->jwtEncoderIn->decode($preAuthToken);
+            if ($data == false) {
+                throw new CustomUserMessageAuthenticationException('Expired Token');
+            } else {
+                $fileupload = new FileUpload();
+                $form = $this->createForm(FileUploadType::class, $fileupload);
+                $form->handleRequest($request);
+                $filName = $request->files->get('file');
+                //$fileName = $fileupload->getFile();
+                // if ($form->isValid()) {
+                    $fileName = $fileupload->getFile();
+                    $fff = $fileupload->getName();
+                    $em = $this->getDoctrine()->getManager();
+                    $username = $data['username'];
+                    $ext = pathinfo($fileName . "/" . $fff, PATHINFO_EXTENSION);
+                    //$key =   $request->request->get('file');
+
+                    // $cmd = $s3Client->getCommand('PutObject', [
+                    //     'Bucket' => $this->getParameter('app.s3.bucket.demo'),
+                    //     'ACL' => 'public-read',
+                    //     'Key' => $request->request->get('name'),
+                    //     'SourceFile' => '/home/nishith/Downloads/green-circle.png',
+                    // ]);    
+
+
+                    $result = $s3Client->putObject([
+                        'Bucket' => $this->getParameter('app.s3.bucket.demo'),
+                        'Key'    => $username . "/" . $fff,
+                        'Body'   => 'this is the body!',
+                        'SourceFile' => $fileName
+                    ]);
+                    return $fileupload;
+                // }
+            }
         }
     }
 
@@ -250,8 +294,8 @@ class PostController extends AbstractController
                 // ));
                 $objects = $s3Client->getIterator('ListObjects', array(
                     "Bucket" => $this->getParameter('app.s3.bucket.demo'),
-                    "Prefix" => $username."/" //must have the trailing forward slash "/"
-                    
+                    "Prefix" => $username . "/" //must have the trailing forward slash "/"
+
                 ));
 
                 foreach ($objects as $object) {
@@ -260,20 +304,18 @@ class PostController extends AbstractController
                     $ext = pathinfo($key, PATHINFO_EXTENSION);
 
                     //$etag = stripslashes($object['ETag']);
-                    $etag = str_replace("\"","" , $object['ETag']);
-                $response = $s3Client->getObject(array(
-                    'Bucket' => $this->getParameter('app.s3.bucket.demo'),
-                    'Key' => $object['Key'],
-                    'SaveAs' => "/home/nishith/Downloads/symfony/Symfony/src/assets/".$etag.".".$ext
-                ));
-                  
+                    $etag = str_replace("\"", "", $object['ETag']);
+                    $response = $s3Client->getObject(array(
+                        'Bucket' => $this->getParameter('app.s3.bucket.demo'),
+                        'Key' => $object['Key'],
+                        'SaveAs' => "/home/karthik/Documents/Symfony/src/assets/" . $etag . "." . $ext
+                    ));
                 }
 
-                 //   $body = $response->get('Body');
-                 // $body->rewind();
+                //   $body = $response->get('Body');
+                // $body->rewind();
 
-                  return $response;
-
+                return $response;
             }
         }
         return "f";
@@ -283,77 +325,77 @@ class PostController extends AbstractController
      * @Route(path="/api/test/{tag}", name="uploadstag")
      * @Method("GET")
      */
-    public function test(Request $request ,$tag)
+    public function test(Request $request, $tag)
     {
         // if ($this->jwtEncoder->supports($request)) {
         // }
         //     $preAuthToken = $this->jwtEncoder->getCredentials($request);
         //     $data = $this->jwtEncoderIn->decode($preAuthToken);
         $slugify = new Slugify();
-        $slug = $slugify->slugify($tag,'_');
-       $numOfBytes =5;
+        $slug = $slugify->slugify($tag, '_');
+        $numOfBytes = 5;
         $randomBytes = random_bytes($numOfBytes);
         $randomString = base64_encode($randomBytes);
-                   // $slugurl = $slug."-".$random;
-            // if ($data == false) 
-            //     throw new CustomUserMessageAuthenticationException('Expired Token');
-            // } else {
-            //     // $fileupload = new FileUpload();
-            //     // $form = $this->createForm(FileUploadType::class, $fileupload);
-            //     // $form->handleRequest($request);
-            //     // $filName = $request->files->get('file');
-            //     // //$fileName = $fileupload->getFile();
-            //     // if ($form->isValid()) {
-            //     //     $fileName = $fileupload->getFile();
-            //     //     $fff = $fileupload->getName();
+        // $slugurl = $slug."-".$random;
+        // if ($data == false) 
+        //     throw new CustomUserMessageAuthenticationException('Expired Token');
+        // } else {
+        //     // $fileupload = new FileUpload();
+        //     // $form = $this->createForm(FileUploadType::class, $fileupload);
+        //     // $form->handleRequest($request);
+        //     // $filName = $request->files->get('file');
+        //     // //$fileName = $fileupload->getFile();
+        //     // if ($form->isValid()) {
+        //     //     $fileName = $fileupload->getFile();
+        //     //     $fff = $fileupload->getName();
 
-            //     $username = $data['username'];
+        //     $username = $data['username'];
 
-            //     return $result;
-            // }
+        //     return $result;
+        // }
         return $randomString;
     }
 
 
-        /**
+    /**
      * @Route(path="/api/viewPostByUser/{tag}", name="viewpost")
      * @Method("GET")
      */
-    public function getPostByTagUser(Request $request ,$tag)
+    public function getPostByTagUser(Request $request, $tag)
     {
         // if ($this->jwtEncoder->supports($request)) {
         // }
         //     $preAuthToken = $this->jwtEncoder->getCredentials($request);
         //     $data = $this->jwtEncoderIn->decode($preAuthToken);
-         $em = $this->getDoctrine()->getManager();
-         $postDat = array();
+        $em = $this->getDoctrine()->getManager();
+        $postDat = array();
         $postData = $em->getRepository(Post::class)->findOneBy(['posturl' => $tag]);
         $postDat[0] = $postData;
-            // if ($data == false) {
-            //     throw new CustomUserMessageAuthenticationException('Expired Token');
-            // } else {
-            //     // $fileupload = new FileUpload();
-            //     // $form = $this->createForm(FileUploadType::class, $fileupload);
-            //     // $form->handleRequest($request);
-            //     // $filName = $request->files->get('file');
-            //     // //$fileName = $fileupload->getFile();
-            //     // if ($form->isValid()) {
-            //     //     $fileName = $fileupload->getFile();
-            //     //     $fff = $fileupload->getName();
+        // if ($data == false) {
+        //     throw new CustomUserMessageAuthenticationException('Expired Token');
+        // } else {
+        //     // $fileupload = new FileUpload();
+        //     // $form = $this->createForm(FileUploadType::class, $fileupload);
+        //     // $form->handleRequest($request);
+        //     // $filName = $request->files->get('file');
+        //     // //$fileName = $fileupload->getFile();
+        //     // if ($form->isValid()) {
+        //     //     $fileName = $fileupload->getFile();
+        //     //     $fff = $fileupload->getName();
 
-            //     $username = $data['username'];
+        //     $username = $data['username'];
 
-            //     return $result;
-            // }
+        //     return $result;
+        // }
         return $postDat;
     }
 
 
 
 
-    public function roleUser(){
+    public function roleUser()
+    {
         $user = $this->getDoctrine()->getRepository(Post::class)->findByUsers();
         return $user;
     }
-
 }

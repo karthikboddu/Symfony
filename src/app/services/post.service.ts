@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {ServiceUrlService} from '../serviceUrl/service-url.service';
 import { Post } from '../models/post';
 import { AuthenticationService } from './authentication.service';
+import { post } from 'selenium-webdriver/http';
 
 @Injectable({
   providedIn: 'root'
@@ -24,16 +25,19 @@ export class PostService {
         return this.http.get(this.serviceUrl.host+this.serviceUrl.postid,{headers: headers});
     }
 
-    post(post: Post) {
+    post(posts,imagePath,fileToUpload,divTags) {
         debugger
-        let registerpost = new FormData();
-        registerpost.append("name",post.name);
-        let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
+       
+        let uploads = new FormData();
+        uploads.append("file",fileToUpload);
+        uploads.append("imgname",imagePath);
+        uploads.append("name",posts.name);
+        uploads.append("description",posts.description);
+        let headers = new HttpHeaders();
+  
         headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
-        registerpost.append("description",post.description);
         
-        return this.http.post(this.serviceUrl.host+this.serviceUrl.post, post,{headers:headers});
+        return this.http.post(this.serviceUrl.host+this.serviceUrl.post,uploads,{headers:headers});
     }
 
     update(post: Post) {

@@ -26,11 +26,11 @@ ngOnInit() {
            console.log("errors",error);
        });
        console.log("isauth",this.isAuthenticated);
-       if(this.isAuthenticated){
-        this.router.navigate(['/home']);
-       }else{
-        this.router.navigate(['/login']);
-       }
+      //  if(this.isAuthenticated){
+      //   this.router.navigate(['/home']);
+      //  }else{
+      //   this.router.navigate(['/login']);
+      //  }
        
 }
 

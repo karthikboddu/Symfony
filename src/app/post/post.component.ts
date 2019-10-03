@@ -66,7 +66,7 @@ export class PostComponent implements OnInit {
       }
 
       this.loading = true;
-      this.postService.post(this.loginForm.value)
+      this.postService.post(this.loginForm.value,this.imagePath,this.fileToUpload,this.divtags)
           .pipe(first())
           .subscribe(
               data => {  

@@ -1,6 +1,7 @@
-.card{
-    margin-top: 20px;
-    margin-right: 6px; 
+.matcard{
+    // margin-top: 20px;
+    margin-right: 30px; 
+    margin-bottom: 30px;
 }
 .blog {
   width:100%;
@@ -14,12 +15,12 @@
   float: left;
   padding: 0;
 }
-.blog .blog-image {
-  float: left;
-  margin-right: 25px;
-  border: 8px solid #f2f2f2;
-  padding:20px;
-}
+// .blog .blog-image {
+//   float: left;
+//   margin-right: 25px;
+//   border: 8px solid #f2f2f2;
+//   padding:20px;
+// }
 .blog .blog-image img {
   max-width: 100%;
   height: auto;
