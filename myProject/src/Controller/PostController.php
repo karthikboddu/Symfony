@@ -63,15 +63,15 @@ class PostController extends AbstractController
                 $preAuthToken = $this->jwtEncoder->getCredentials($request);
                 $data = $this->jwtEncoderIn->decode($preAuthToken);
                 $username = $data['username'];
-                $tagName = $request->get('tag');
-                if ($request->get('tags')) {
+                $tagName = $request->get('posttag');
+                if ($request->get('posttag')) {
                     $tag = $em->getRepository(Tags::class)->findOneBy(['name' => $tagName]);
                 } else {
                     $tag = $em->getRepository(Tags::class)->findOneBy(['name' => 'others']);
                 }
-                $imgname = $request->get('imagename');
+                $imgname = $request->get('imgname');
                 if ($request->get('imgname')) {
-                 $ffff=   $this->uploadForm($request,$s3Client);
+                 $fileEntity =   $this->uploadForm($request,$s3Client);
                 } else { }
                 $slugify = new Slugify();
                 $slug = $slugify->slugify($post->getName(), '_');
@@ -84,6 +84,7 @@ class PostController extends AbstractController
                 $post->setPostuser($user);
                 $post->setPosttag($tag);
                 $post->setPosturl($slug . "-" . $randomString);
+                $post->addPostfile($fileEntity);
                 $em->persist($post);
                 $em->flush();
 
@@ -208,6 +209,7 @@ class PostController extends AbstractController
                         $fileupload->setUploadedAt(new \DateTime());
                         $etag = str_replace("\"", "", $result->get('ETag'));
                         $fileupload->setEtag($etag . "." . $ext);
+                        $fileupload->setImageUrl($result->get('ObjectURL'));
                         $em->persist($fileupload);
                         $em->flush();
                     }
@@ -255,10 +257,17 @@ class PostController extends AbstractController
 
                     $result = $s3Client->putObject([
                         'Bucket' => $this->getParameter('app.s3.bucket.demo'),
+                        'ACL' => 'public-read',
                         'Key'    => $username . "/" . $fff,
                         'Body'   => 'this is the body!',
                         'SourceFile' => $fileName
-                    ]);
+                    ]);         
+                    $fileupload->setUploadedAt(new \DateTime());
+                    $etag = str_replace("\"", "", $result->get('ETag'));
+                    $fileupload->setEtag($etag . "." . $ext);
+                    $fileupload->setImageUrl($result->get('ObjectURL'));
+                    $em->persist($fileupload);
+                    $em->flush();
                     return $fileupload;
                 // }
             }

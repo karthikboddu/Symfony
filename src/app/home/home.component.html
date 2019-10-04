@@ -6,12 +6,13 @@
         <input placeholder="Input" #file type="file" accept='image/*' (change)="preview($event.target.files)">
 
     </div>
+    <mat-spinner *ngIf="allPost.length === 0"></mat-spinner>
     <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let posts of allPost; let i=index">
 
 
         <mat-card class="blog-content matcard" *ngFor="let postusers of posts.postuser">
             <div class="blog-image" *ngFor="let img of postusers.postfile">
-                <img mat-card-image class="img-article" src="assets/{{img.etag}}" alt="...">
+                <img mat-card-image class="img-article img-responsive" src="{{img.imageUrl}}" alt="...">
             </div>
             <mat-card-header>
                 <mat-card-title class="title">{{postusers.name}}</mat-card-title>

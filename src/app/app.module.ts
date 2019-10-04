@@ -12,7 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { AlertComponent } from './alert/alert.component';
 import { PostComponent } from './post/post.component';
 import { MoviesComponent } from './movies/movies.component';
-import { MatButtonModule,MatInputModule, MatCardModule,MatChipsModule, MatMenuModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatFormFieldModule } from '@angular/material';
+import { MatButtonModule,MatInputModule, MatCardModule,MatChipsModule, MatMenuModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatFormFieldModule, MatProgressSpinnerModule } from '@angular/material';
 import { ViewpostComponent } from './viewpost/viewpost.component';
 @NgModule({
   declarations: [
@@ -38,7 +38,7 @@ import { ViewpostComponent } from './viewpost/viewpost.component';
     MatButtonModule,
     MatInputModule,
     MatChipsModule,
-    MatMenuModule,MatIconModule, MatSidenavModule, MatListModule
+    MatMenuModule,MatIconModule, MatSidenavModule, MatListModule,MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

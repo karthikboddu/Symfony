@@ -33,6 +33,7 @@ export class PostService {
         uploads.append("imgname",imagePath);
         uploads.append("name",posts.name);
         uploads.append("description",posts.description);
+        uploads.append("tags",divTags);
         let headers = new HttpHeaders();
   
         headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
