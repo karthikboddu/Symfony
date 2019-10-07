@@ -6,6 +6,9 @@ import { HomeComponent } from './home/home.component';
 import { PostComponent } from './post/post.component';
 import { MoviesComponent } from './movies/movies.component';
 import {ViewpostComponent} from './viewpost/viewpost.component';
+import { AdminComponent } from './Admin/admin/admin.component';
+import {AuthGuard} from './auth/auth.guard';
+import {AdminGuard} from './auth/admin.guard';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -14,11 +17,25 @@ const routes: Routes = [
   { path:'home/:id',component:HomeComponent},
   { path:'movies',component:MoviesComponent},
   { path:'viewpost',component:ViewpostComponent},
-  { path:'viewpost/:id',component:ViewpostComponent}
+  { path:'viewpost/:id',component:ViewpostComponent},
+  {
+    path: 'admin',
+    canActivate: [
+      AuthGuard,
+      AdminGuard
+    ],
+    children: [
+      {
+        path: '',
+        component: AdminComponent
+      }
+    ]
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers : [AuthGuard,AdminGuard]
 })
 export class AppRoutingModule { }

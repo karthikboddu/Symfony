@@ -50,13 +50,20 @@ class PostRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findByUsers(){
+    public function findByUsersRoles(){
         // $query = $this->em->createQuery("SELECT p,pt,pf FROM App\Entity\Post p JOIN p.posttag pt left JOIN p.postfile pf");
         // $users = $query->getArrayResult();
 
 
-        $query1= $this->em->createQuery("SELECT u,pu,pt,pf FROM App\Entity\User u JOIN u.postuser pu JOIN pu.posttag pt LEFT JOIN pu.postfile pf WHERE u.active = '0' ");
+        $query1= $this->em->createQuery("SELECT u,pu,pt,pf FROM App\Entity\User u JOIN u.postuser pu JOIN pu.posttag pt LEFt JOIN pu.postfile pf WHERE u.active = '1' ");
         $users1 = $query1->getArrayResult();
+        return $users1;
+    }
+
+
+    public function findByAllUserHomePosts(){
+        $query1= $this->em->createQuery("SELECT u,pu,pt,pf FROM App\Entity\User u JOIN u.postuser pu JOIN pu.posttag pt LEFt JOIN pu.postfile pf WHERE u.active = '1' ");
+        $users1 = $query1->getScalarResult();
         return $users1;
     }
     

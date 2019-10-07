@@ -6,7 +6,7 @@
         <input placeholder="Input" #file type="file" accept='image/*' (change)="preview($event.target.files)">
 
     </div>
-    <mat-spinner *ngIf="allPost.length === 0"></mat-spinner>
+    <!-- <mat-spinner *ngIf="allPost.length === 0"></mat-spinner> -->
     <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let posts of allPost; let i=index">
 
 

@@ -82,4 +82,9 @@ export class PostService {
       return this.http.post(this.serviceUrl.host+this.serviceUrl.singlePost+"/"+postUrl,{headers:headers});
     }
 
+    getPostsByHomeScreen(){
+      
+      return this.http.get(this.serviceUrl.host+this.serviceUrl.postsByHomeScreen);
+    }
+
 }

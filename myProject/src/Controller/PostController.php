@@ -63,10 +63,10 @@ class PostController extends AbstractController
                 $preAuthToken = $this->jwtEncoder->getCredentials($request);
                 $data = $this->jwtEncoderIn->decode($preAuthToken);
                 $username = $data['username'];
-                $tagName = $request->get('posttag');
-                if ($request->get('posttag')) {
+                $tagName = $request->get('tags');
+                if (empty( $request->get('tags'))) {
                     $tag = $em->getRepository(Tags::class)->findOneBy(['name' => $tagName]);
-                } else {
+                } else{
                     $tag = $em->getRepository(Tags::class)->findOneBy(['name' => 'others']);
                 }
                 $imgname = $request->get('imgname');
@@ -119,13 +119,14 @@ class PostController extends AbstractController
             $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
             $role = $user->getRoles();
 
-            if (in_array('ROLE_USER', $role)) {
-                $userd = $this->roleUser();
-                return $userd;
-            } else if ($role == 'ROLE_ADMIN') { }
+            // if (in_array('ROLE_USER', $role)) {
+            //     $userd = $this->roleUser();
+            //     return $userd;
+            // } else if ($role == 'ROLE_ADMIN==') { }
             // $userd = $em->getRepository(Post::class)->findBy(['postuser' => $user->getId()]);
-
-            // return $userd;
+            $userd = $this->roleUser();
+            
+            return $userd;
         }
         return new JsonResponse(['status' => 'f']);
     }
@@ -400,11 +401,34 @@ class PostController extends AbstractController
     }
 
 
-
-
+    /**
+     * @Route(path="/api/testing", name="testing")
+     * @Method("GET")
+     */
     public function roleUser()
     {
-        $user = $this->getDoctrine()->getRepository(Post::class)->findByUsers();
+        $user = $this->getDoctrine()->getRepository(Post::class)->findByUsersRoles();
         return $user;
+    }
+
+
+    /**
+     * @Route(path="/api/postsByHomeScreen", name="postsbyhomescreen")
+     * @Method("GET")
+     */
+    public function postsByHomeScreen(){
+
+            $em = $this->getDoctrine()->getManager();
+            $userd = $this->getDoctrine()->getRepository(Post::class)->findByAllUserHomePosts();
+            // if (in_array('ROLE_USER', $role)) {
+            //     $userd = $this->roleUser();
+            //     return $userd;
+            // } else if ($role == 'ROLE_ADMIN==') { }
+            // $userd = $em->getRepository(Post::class)->findBy(['postuser' => $user->getId()]);
+            
+            $data = array($userd);
+            return $data;
+        
+        
     }
 }

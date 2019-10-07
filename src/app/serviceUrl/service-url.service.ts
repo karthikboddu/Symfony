@@ -18,4 +18,6 @@ export class ServiceUrlService {
   public upload = '/api/upload';
   public singlePost = '/api/viewPostByUser';
   public getAuth = '/api/check_login';
+  public postsByHomeScreen = '/api/postsByHomeScreen';
+  public isTokenValid = '/api/auth/isTokenValid'
 }

@@ -19,10 +19,13 @@ use Zend\Code\Reflection\DocBlock\Tag\ReturnTag;
 
 class LoginController extends Controller
 {
+    
     public function __construct(JwtAuthenticator $jwtEncoder,JWTEncoderInterface $jwtEncoderIn)
     {
         $this->jwtEncoder = $jwtEncoder;
         $this->jwtEncoderIn = $jwtEncoderIn;
+        $this->isTokenValid = false;
+        $this->isAdmin = false;
     }
     /**
      * @Route("/api/token", name="token_authentication")
@@ -35,13 +38,13 @@ class LoginController extends Controller
         if (!$user) {
             throw $this->createNotFoundException();
         }
-        // $role = $user->getRoles();
+         $role = $user->getRoles();
         // $use = new User();
-        // if(in_array('ROLE_USER',$role)){
-        //    $uu = $this->roleUser();
-        // }else if($role == 'ROLE_ADMIN'){
-
-        // }
+        if(in_array('ROLE_USER',$role)){
+           $role = $role['0'];
+        }else {
+            $this->isAdmin = true;
+        }
         $password = $request->request->get('password');
         $isValid = $this->get('security.password_encoder')
             ->isPasswordValid($user, $password);
@@ -58,7 +61,7 @@ class LoginController extends Controller
 
 
         
-        return new JsonResponse(['token' => $token]);
+        return new JsonResponse(['role'=>$role,'isAdmin'=>$this->isAdmin,'token' => $token]);
     }
 
     /**
@@ -104,6 +107,42 @@ class LoginController extends Controller
     public function roleUser(){
         $user = $this->getDoctrine()->getRepository(Post::class)->findByUsers();
         return $user;
+    }
+
+    /**
+    * @Route("/api/auth/isTokenValid", methods={"GET"})
+    */
+    public function isTokenValid(Request $request){
+        try {
+            if($this->jwtEncoder->supports($request)) {
+            $preAuthToken = $this->jwtEncoder->getCredentials($request);
+            $data = $this->jwtEncoderIn->decode($preAuthToken);
+            if ($data) {
+                $this->isTokenValid = true;
+
+            }
+            else if ($data == false) {
+                $this->isTokenValid = false;
+            }
+        }
+        if($this->isTokenValid){
+            return new JsonResponse([
+                'success' => 'true',
+            ], Response::HTTP_OK);
+        }else{
+            return new JsonResponse([
+                'success' => 'false',
+            ], Response::HTTP_SERVICE_UNAVAILABLE);
+        }
+    } catch (\Exception $exception) {
+
+        return new JsonResponse([
+            'success' => 'false',
+            'code'    => $exception->getCode(),
+            'message' => $exception->getMessage(),
+        ], Response::HTTP_SERVICE_UNAVAILABLE);
+    }
+
     }
 
 }

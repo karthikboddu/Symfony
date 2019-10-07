@@ -53,6 +53,13 @@ export class LoginComponent implements OnInit {
           .subscribe(
               data => { 
                   this.router.navigate([this.returnUrl]);
+                  this.authenticationService.setLoggedIn(true);
+                  debugger
+                  if(data.isAdmin){
+                      console.log("admin",data.isAdmin);
+                      this.authenticationService.setAdmin(true);
+                  }
+                  console.log("admin",data.isAdmin);
                   localStorage.setItem('currentUser', data.token);
               },
               error => {

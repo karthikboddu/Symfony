@@ -14,6 +14,10 @@ import { PostComponent } from './post/post.component';
 import { MoviesComponent } from './movies/movies.component';
 import { MatButtonModule,MatInputModule, MatCardModule,MatChipsModule, MatMenuModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatFormFieldModule, MatProgressSpinnerModule } from '@angular/material';
 import { ViewpostComponent } from './viewpost/viewpost.component';
+import { SliderComponent } from './slider/slider.component';
+import { SliderItemDirective } from './slider/slider-item.directive';
+import { AdminComponent } from './Admin/admin/admin.component';
+import { AuthenticationService } from './services/authentication.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +27,10 @@ import { ViewpostComponent } from './viewpost/viewpost.component';
     AlertComponent,
     PostComponent,
     MoviesComponent,
-    ViewpostComponent
+    ViewpostComponent,
+    SliderComponent,
+    SliderItemDirective,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +47,7 @@ import { ViewpostComponent } from './viewpost/viewpost.component';
     MatChipsModule,
     MatMenuModule,MatIconModule, MatSidenavModule, MatListModule,MatProgressSpinnerModule
   ],
-  providers: [],
+  providers: [AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
