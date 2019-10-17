@@ -54,6 +54,11 @@ class Post
      */
     private $posturl;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $status;
+
     public function __construct()
     {
         $this->postfile = new ArrayCollection();
@@ -159,6 +164,18 @@ class Post
     public function setPosturl(string $posturl): self
     {
         $this->posturl = $posturl;
+
+        return $this;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

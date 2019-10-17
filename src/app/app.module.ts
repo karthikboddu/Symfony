@@ -18,6 +18,7 @@ import { SliderComponent } from './slider/slider.component';
 import { SliderItemDirective } from './slider/slider-item.directive';
 import { AdminComponent } from './Admin/admin/admin.component';
 import { AuthenticationService } from './services/authentication.service';
+import { AuthGuard } from './auth/auth.guard';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +48,7 @@ import { AuthenticationService } from './services/authentication.service';
     MatChipsModule,
     MatMenuModule,MatIconModule, MatSidenavModule, MatListModule,MatProgressSpinnerModule
   ],
-  providers: [AuthenticationService],
+  providers: [AuthenticationService,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

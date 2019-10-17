@@ -18,7 +18,7 @@
       </li>
       <li class="nav-item">
           <a class="nav-link"
-            *ngIf="authService.isAdmin && authService.isLoggedin"
+            *ngIf="authService.currentUserValue && authService.getAdmin"
             routerLink="/admin"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }">Admin</a>

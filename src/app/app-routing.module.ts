@@ -21,8 +21,7 @@ const routes: Routes = [
   {
     path: 'admin',
     canActivate: [
-      AuthGuard,
-      AdminGuard
+      AuthGuard,AdminGuard
     ],
     children: [
       {

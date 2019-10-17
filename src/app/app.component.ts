@@ -20,18 +20,19 @@ isTokenValid :any;
 allPost : any;
 admin :boolean;
 loggedin : boolean;
-fjvjh;
 ngOnInit() {
-    debugger
-    this.admin = this.authService.isAdmin;
-   this.loggedin = this.authService.isLoggedIn;
-   this.authService.getAuth() .pipe(first())
+
+   this.authService.getAuth().pipe(first())
    .subscribe(
        data => {  
-            this.isAuthenticated = true;         
-           console.log("auth",data);
+            this.isAuthenticated = true;
+            if(!data.code){
+                this.authService.logout();
+            }
+           console.log("auth",data.code);
        },
        error => {
+           
           this.isAuthenticated = false;
            console.log("errors",error);
        });
@@ -55,7 +56,6 @@ ngOnInit() {
                   console.log("errors",error);
               });
   
-       console.log("aaaaaaaaa",this.authService.tokenValid());
        
 }
 

@@ -100,7 +100,7 @@ class LoginController extends Controller
                 'success' => 'UnAuthorized User',
                 'code'    => $exception->getCode(),
                 'message' => $exception->getMessage(),
-            ], Response::HTTP_SERVICE_UNAVAILABLE);
+            ]);
         }
     }
 

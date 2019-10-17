@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
                       this.authenticationService.setAdmin(true);
                   }
                   console.log("admin",data.isAdmin);
-                  localStorage.setItem('currentUser', data.token);
+                  localStorage.setItem('currentUser', JSON.stringify(data));
               },
               error => {
                   console.log("errors",error);

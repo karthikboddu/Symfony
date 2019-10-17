@@ -3,18 +3,33 @@ import { ServiceUrlService } from '../serviceUrl/service-url.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-
+  tokenExists:any;
   constructor(private http: HttpClient, private serviceUrl: ServiceUrlService,private router: Router) { 
-    this.handleAuth();
+    //this.handleAuth();
+    debugger
+    this.tokenExists = this.getToken();
+    if(this.tokenExists){
+      this.currentUserSubject = new BehaviorSubject<boolean>(JSON.parse(localStorage.getItem('currentUser')));
+      this.currentUser = this.currentUserSubject.asObservable();
+      this.isAdmin = this.currentUserValue.isAdmin;
+      this.setAdmin(false);
+    }else{
+      this.router.navigate(['/login']);
+    }
+    //console.log("currentuser",this.currentUserValue);
   }
 
   isTokenValid :boolean;
+  userInfo:any;
   isAdmin : boolean
+  private currentUserSubject: BehaviorSubject<boolean>;
+  public currentUser: Observable<boolean>;
   isAdmin$ = new BehaviorSubject<boolean>(this.isAdmin);
   isLoggedIn: boolean;
   loggedIn$ = new BehaviorSubject<boolean>(this.isLoggedIn);
@@ -23,6 +38,14 @@ export class AuthenticationService {
   login(username: string, password: string) {
     return this.http.post<any>(this.serviceUrl.host + this.serviceUrl.login, { username: username, password: password });
 
+  }
+
+  public get currentUserValue(): any {
+    debugger
+    if(this.currentUserSubject.value){
+      return this.currentUserSubject.value;
+    }
+    
   }
 
   setLoggedIn(value: boolean) {
@@ -37,13 +60,23 @@ export class AuthenticationService {
     this.isAdmin = value;
   }
 
+  getAdmin(){
+    if(this.isAdmin$.value){
+      return this.isAdmin$.value;
+    }
+  }
   logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
   }
 
   public getToken(): string {
-    return localStorage.getItem('currentUser');
+    debugger
+    this.userInfo =  JSON.parse(localStorage.getItem('currentUser'));
+    if(this.userInfo){
+      return this.userInfo.token;
+    }
+    
   }
 
   getAuth() {
@@ -52,14 +85,23 @@ export class AuthenticationService {
 
     headers = headers.append('Authorization', 'Bearer ' + this.getToken());
 
-    return this.http.get(this.serviceUrl.host + this.serviceUrl.getAuth, { headers: headers });
+    return this.http.get<any>(this.serviceUrl.host + this.serviceUrl.getAuth, { headers: headers });
   }
 
   handleAuth(){
+ 
     if(this.isLoggedIn){
       this._getProfile();
     }else{
-      this._clearRedirect();
+      this.isAdmin$.subscribe(isad=>{
+        console.log("isad",isad);
+        this.isLoggedIn = isad;
+      });
+      this.loggedIn$.subscribe(islog=>{
+        console.log("islog",islog);
+        this.isLoggedIn = islog;
+      });
+      //this._clearRedirect();
       //  this.router.navigate(['/']);
       console.error(`Error authenticating`);
 
@@ -92,6 +134,7 @@ export class AuthenticationService {
       },
       error => {
           console.log("tokenvalid",error);
+          this.logout;
           this.isTokenValid = false;
       });
   }
