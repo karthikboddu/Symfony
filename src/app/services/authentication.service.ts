@@ -15,10 +15,14 @@ export class AuthenticationService {
     debugger
     this.tokenExists = this.getToken();
     if(this.tokenExists){
+      this.setLoggedIn(true);
       this.currentUserSubject = new BehaviorSubject<boolean>(JSON.parse(localStorage.getItem('currentUser')));
       this.currentUser = this.currentUserSubject.asObservable();
       this.isAdmin = this.currentUserValue.isAdmin;
-      this.setAdmin(false);
+      if(this.isAdmin){
+        this.setAdmin(true);
+      }
+      
     }else{
       this.router.navigate(['/login']);
     }
@@ -42,7 +46,7 @@ export class AuthenticationService {
 
   public get currentUserValue(): any {
     debugger
-    if(this.currentUserSubject.value){
+    if(this.tokenExists){
       return this.currentUserSubject.value;
     }
     

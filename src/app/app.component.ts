@@ -21,7 +21,8 @@ allPost : any;
 admin :boolean;
 loggedin : boolean;
 ngOnInit() {
-
+    console.log("adminshow",this.authService.isLoggedIn);
+    console.log("loginshow", this.authService.isAdmin);
    this.authService.getAuth().pipe(first())
    .subscribe(
        data => {  
