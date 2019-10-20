@@ -9,6 +9,7 @@ import {ViewpostComponent} from './viewpost/viewpost.component';
 import { AdminComponent } from './Admin/admin/admin.component';
 import {AuthGuard} from './auth/auth.guard';
 import {AdminGuard} from './auth/admin.guard';
+import { AdminViewusersComponent } from './Admin/admin-viewusers/admin-viewusers.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -27,6 +28,14 @@ const routes: Routes = [
       {
         path: '',
         component: AdminComponent
+      },
+      {
+        path :'users',
+        component : AdminViewusersComponent
+      },
+      {
+        path :'posts',
+        component : AdminViewusersComponent
       }
     ]
   },

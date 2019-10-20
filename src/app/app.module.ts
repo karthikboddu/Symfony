@@ -19,6 +19,10 @@ import { SliderItemDirective } from './slider/slider-item.directive';
 import { AdminComponent } from './Admin/admin/admin.component';
 import { AuthenticationService } from './services/authentication.service';
 import { AuthGuard } from './auth/auth.guard';
+import { HeadersComponent } from './headers/headers.component';
+import { AdminViewpostsComponent } from './Admin/admin-viewposts/admin-viewposts.component';
+import { AdminViewusersComponent } from './Admin/admin-viewusers/admin-viewusers.component';
+import { SliderImageComponent } from './slider-image/slider-image.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,8 +34,9 @@ import { AuthGuard } from './auth/auth.guard';
     MoviesComponent,
     ViewpostComponent,
     SliderComponent,
+    SliderImageComponent,
     SliderItemDirective,
-    AdminComponent
+    AdminComponent,HeadersComponent, AdminViewpostsComponent, AdminViewusersComponent
   ],
   imports: [
     BrowserModule,

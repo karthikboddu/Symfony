@@ -1,86 +1,32 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Demo</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" routerLink="/home">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/post">Top Picks</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/viewpost">Viewpost</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link"
-            *ngIf="authService.isLoggedIn && authService.isAdmin"
-            routerLink="/admin"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }">Admin</a>
-        </li>
-   
-      <!--         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li> -->
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/login">Login</a>
-    </li>
-  </div>
-</nav>
-
-<!-- <header>
-    <mat-toolbar color="primary">Demo </mat-toolbar>
-  </header> -->
+<app-headers></app-headers>
 <div class="container-fluid">
+  <app-slider-image></app-slider-image>
   <alert></alert>
-  <app-slider *ngFor="let posts of allPost">
+  
+  <!-- <app-slider *ngFor="let posts of allPost">
 
     <div appSliderItem *ngFor="let postusers of posts">
-      <mat-card class="example-card" >
+      <mat-card class="example-card" > -->
         <!-- <mat-card-header>
           <div mat-card-avatar class="shiba-header-image"></div>
           <mat-card-title>{{postusers.pu_name}}</mat-card-title>
           <mat-card-subtitle>{{postusers.pu_description}}</mat-card-subtitle>
         </mat-card-header> -->
        
-        <img mat-card-image src="{{postusers.pf_imageUrl}}" alt="Photo of a Shiba Inu">
+        <!-- <img mat-card-image src="{{postusers.pf_imageUrl}}" alt="Photo of a Shiba Inu">
         
         <mat-card-content>
           <p>
             {{postusers.pu_name}}
           </p>
-        </mat-card-content>
+        </mat-card-content> -->
         <!-- <mat-card-actions>
           <button mat-button>LIKE</button>
           <button mat-button>SHARE</button>
         </mat-card-actions> -->
-      </mat-card>
+      <!-- </mat-card>
     </div>
-  
-    
-  
-  
-    
-    
-  </app-slider>
+  </app-slider> -->
 
   <!-- <app-movies></app-movies> -->
   <router-outlet></router-outlet>

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\FileUpload;
 use App\Entity\Post;
 use App\Entity\Tags;
+use App\Entity\UploadMediaType;
 use App\Entity\User;
 use App\Form\FileUploadType;
 use App\Form\PostType;
@@ -34,6 +35,13 @@ class PostController extends AbstractController
     {
         $this->jwtEncoder = $jwtEncoder;
         $this->jwtEncoderIn = $jwtEncoderIn;
+
+    }
+
+    public function init(Request $request){
+        if(!$this->jwtEncoder->supports($request)){
+            return new JsonResponse(['status' => '0', 'message' => 'Invalid Json Request']);
+        }
     }
 
     /**
@@ -64,14 +72,17 @@ class PostController extends AbstractController
                 $data = $this->jwtEncoderIn->decode($preAuthToken);
                 $username = $data['username'];
                 $tagName = $request->get('tags');
-                if (empty( $request->get('tags'))) {
+                if (!empty( $request->get('tags'))) {
                     $tag = $em->getRepository(Tags::class)->findOneBy(['name' => $tagName]);
                 } else{
                     $tag = $em->getRepository(Tags::class)->findOneBy(['name' => 'others']);
                 }
-                $imgname = $request->get('imgname');
-                if ($request->get('imgname')) {
+                $imgname = $request->get('fileName');
+                if ($request->get('fileName')) {
                  $fileEntity =   $this->uploadForm($request,$s3Client);
+                 
+                 $ext = pathinfo($fileEntity->getFile() . "/" .$fileEntity->getFilename() , PATHINFO_EXTENSION);
+                 $UploadTypeName = $em->getRepository(UploadMediaType::class)->findOneBy(['mediaType' =>strtolower($ext)]);
                 } else { }
                 $slugify = new Slugify();
                 $slug = $slugify->slugify($post->getName(), '_');
@@ -85,6 +96,8 @@ class PostController extends AbstractController
                 $post->setPosttag($tag);
                 $post->setPosturl($slug . "-" . $randomString);
                 $post->addPostfile($fileEntity);
+                $post->setMediaTypeUpload($UploadTypeName);
+                $post->setStatus(true);
                 $em->persist($post);
                 $em->flush();
 
@@ -236,16 +249,20 @@ class PostController extends AbstractController
                 throw new CustomUserMessageAuthenticationException('Expired Token');
             } else {
                 $fileupload = new FileUpload();
+                $uploadType = new UploadMediaType();
+                
                 $form = $this->createForm(FileUploadType::class, $fileupload);
                 $form->handleRequest($request);
                 $filName = $request->files->get('file');
                 //$fileName = $fileupload->getFile();
                 // if ($form->isValid()) {
                     $fileName = $fileupload->getFile();
-                    $fff = $fileupload->getName();
+                    $fff = $fileupload->getFilename();
                     $em = $this->getDoctrine()->getManager();
                     $username = $data['username'];
                     $ext = pathinfo($fileName . "/" . $fff, PATHINFO_EXTENSION);
+                    $UploadTypeName = $em->getRepository(UploadMediaType::class)->findOneBy(['mediaType' =>strtolower($ext)]);
+
                     //$key =   $request->request->get('file');
 
                     // $cmd = $s3Client->getCommand('PutObject', [
@@ -259,7 +276,7 @@ class PostController extends AbstractController
                     $result = $s3Client->putObject([
                         'Bucket' => $this->getParameter('app.s3.bucket.demo'),
                         'ACL' => 'public-read',
-                        'Key'    => $username . "/" . $fff,
+                        'Key'    => $username . "/".$ext."/".$fff,
                         'Body'   => 'this is the body!',
                         'SourceFile' => $fileName
                     ]);         
@@ -270,6 +287,7 @@ class PostController extends AbstractController
                     $em->persist($fileupload);
                     $em->flush();
                     return $fileupload;
+                    //return new JsonResponse(['fileDetails' => $fileupload,'uploadMediaTypeName'=>$UploadTypeName]);
                 // }
             }
         }

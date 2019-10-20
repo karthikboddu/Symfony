@@ -21,22 +21,7 @@ allPost : any;
 admin :boolean;
 loggedin : boolean;
 ngOnInit() {
-    console.log("adminshow",this.authService.isLoggedIn);
-    console.log("loginshow", this.authService.isAdmin);
-   this.authService.getAuth().pipe(first())
-   .subscribe(
-       data => {  
-            this.isAuthenticated = true;
-            if(!data.code){
-                this.authService.logout();
-            }
-           console.log("auth",data.code);
-       },
-       error => {
-           
-          this.isAuthenticated = false;
-           console.log("errors",error);
-       });
+    
        console.log("isauth",this.isAuthenticated);
       //  if(this.isAuthenticated){
       //   this.router.navigate(['/home']);

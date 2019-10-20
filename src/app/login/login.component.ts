@@ -51,15 +51,21 @@ export class LoginComponent implements OnInit {
       this.authenticationService.login(this.f.username.value, this.f.password.value)
           .pipe(first())
           .subscribe(
-              data => { 
-                  this.router.navigate([this.returnUrl]);
-                  this.authenticationService.setLoggedIn(true);
-                  debugger
-                  if(data.isAdmin){
-                      console.log("admin",data.isAdmin);
+              data => {
+                  debugger 
+                  if(data.status){
+                    this.router.navigate([this.returnUrl]);
+                    this.authenticationService.setLoggedIn(true);
+                    debugger
+                    if(data.isAdmin){
+                        console.log("admin",data.isAdmin);
+                    }
+                    console.log("admin",data.isAdmin);
+                    localStorage.setItem('currentUser', JSON.stringify(data));
+                  }else{
+                    this.alertService.error(data.message);
                   }
-                  console.log("admin",data.isAdmin);
-                  localStorage.setItem('currentUser', JSON.stringify(data));
+                  
               },
               error => {
                   console.log("errors",error);

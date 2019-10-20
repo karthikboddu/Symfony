@@ -1,5 +1,6 @@
 <div class="row blog">
         <div class="col-md-6 offset-md-3">
+            </div>
             <span style="color:red;" *ngIf="message">{{message}}</span>
             <img [src]="imgURL" height="200" *ngIf="imgURL">
     
@@ -34,7 +35,7 @@
                     (click)="getSinglePostS()"><span class="badge badge-dark">More</span></a>
                 <a><span class="badge badge-dark">{{posts.username}}</span></a>
             </mat-card>
-        </div>
+ 
     
         <!--     <img mat-card-image class="img-article" src={{article.urlToImage}} alt=""> -->
     

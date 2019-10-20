@@ -59,6 +59,12 @@ class Post
      */
     private $status;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\UploadMediaType", inversedBy="mediaUploadType")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $mediaTypeUpload;
+
     public function __construct()
     {
         $this->postfile = new ArrayCollection();
@@ -176,6 +182,18 @@ class Post
     public function setStatus(bool $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getMediaTypeUpload(): ?UploadMediaType
+    {
+        return $this->mediaTypeUpload;
+    }
+
+    public function setMediaTypeUpload(?UploadMediaType $mediaTypeUpload): self
+    {
+        $this->mediaTypeUpload = $mediaTypeUpload;
 
         return $this;
     }

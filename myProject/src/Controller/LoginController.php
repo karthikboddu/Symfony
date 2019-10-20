@@ -19,8 +19,8 @@ use Zend\Code\Reflection\DocBlock\Tag\ReturnTag;
 
 class LoginController extends Controller
 {
-    
-    public function __construct(JwtAuthenticator $jwtEncoder,JWTEncoderInterface $jwtEncoderIn)
+
+    public function __construct(JwtAuthenticator $jwtEncoder, JWTEncoderInterface $jwtEncoderIn)
     {
         $this->jwtEncoder = $jwtEncoder;
         $this->jwtEncoderIn = $jwtEncoderIn;
@@ -33,35 +33,52 @@ class LoginController extends Controller
      */
     public function newTokenAction(Request $request): JsonResponse
     {
-        $username = $request->request->get('username');
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
-        if (!$user) {
-            throw $this->createNotFoundException();
+        try {
+            $username = $request->request->get('username');
+            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $username]);
+            if (!$user) {
+                throw $this->createNotFoundException();
+            }
+            $role = $user->getRoles();
+            $accountStatus = $user->getAccountstatus();
+            // $use = new User();
+            if (in_array('ACTIVE', $accountStatus)) {
+                if (in_array('ROLE_USER', $role)) {
+                    $role = $role['0'];
+                } else {
+                    $this->isAdmin = true;
+                }
+                $password = $request->request->get('password');
+                $isValid = $this->get('security.password_encoder')
+                    ->isPasswordValid($user, $password);
+                if (!$isValid) {
+                    throw new BadCredentialsException();
+                }
+                $token = $this->get('lexik_jwt_authentication.encoder')
+                    ->encode([
+                        'username' => $user->getUsername(),
+                        'exp' => time() + 3600 // 1 hour expiration
+                    ]);
+                return new JsonResponse([
+                    'status' => 1, 'role' => $role, 'isAdmin' => $this->isAdmin, 'token' => $token,
+                ]);
+            } else if (in_array('IN_ACTIVE', $accountStatus)) {
+                $message = 'Account Inactive';
+            } else if (in_array('DELETED', $accountStatus)) {
+                $message = 'Account Deleted';
+            }
+
+            return new JsonResponse([
+                'status' => 0,
+                'message' => $message,
+            ]);
+        } catch (\Exception $exception) {
+
+            return new JsonResponse([
+                'status' => $exception->getCode(),
+                'message' => 'Invalid credentials',
+            ]);
         }
-         $role = $user->getRoles();
-        // $use = new User();
-        if(in_array('ROLE_USER',$role)){
-           $role = $role['0'];
-        }else {
-            $this->isAdmin = true;
-        }
-        $password = $request->request->get('password');
-        $isValid = $this->get('security.password_encoder')
-            ->isPasswordValid($user, $password);
-
-        if (!$isValid) {
-            throw new BadCredentialsException();
-        }
-
-        $token = $this->get('lexik_jwt_authentication.encoder')
-            ->encode([
-                'username' => $user->getUsername(),
-                'exp' => time() + 3600 // 1 hour expiration
-        ]);
-
-
-        
-        return new JsonResponse(['role'=>$role,'isAdmin'=>$this->isAdmin,'token' => $token]);
     }
 
     /**
@@ -81,19 +98,20 @@ class LoginController extends Controller
      * @Route(path="/api/check_login", name="checklogin")
      * @Method("POST")
      */
-    public function getUserToken(Request $request){
-        try{
+    public function getUserToken(Request $request)
+    {
+        try {
             $preAuthToken = $this->jwtEncoder->getCredentials($request);
             $data = $this->jwtEncoderIn->decode($preAuthToken);
             if ($data) {
-                
-            
-            return new JsonResponse([
-                'success' => $data,
-                'code'    => '200',
-                'message' => 'Authorized User',
-            ], Response::HTTP_OK);
-        }
+
+
+                return new JsonResponse([
+                    'success' => $data,
+                    'code'    => '200',
+                    'message' => 'Authorized User',
+                ], Response::HTTP_OK);
+            }
         } catch (\Exception $exception) {
 
             return new JsonResponse([
@@ -104,45 +122,43 @@ class LoginController extends Controller
         }
     }
 
-    public function roleUser(){
+    public function roleUser()
+    {
         $user = $this->getDoctrine()->getRepository(Post::class)->findByUsers();
         return $user;
     }
 
     /**
-    * @Route("/api/auth/isTokenValid", methods={"GET"})
-    */
-    public function isTokenValid(Request $request){
+     * @Route("/api/auth/isTokenValid", methods={"GET"})
+     */
+    public function isTokenValid(Request $request)
+    {
         try {
-            if($this->jwtEncoder->supports($request)) {
-            $preAuthToken = $this->jwtEncoder->getCredentials($request);
-            $data = $this->jwtEncoderIn->decode($preAuthToken);
-            if ($data) {
-                $this->isTokenValid = true;
+            if ($this->jwtEncoder->supports($request)) {
+                $preAuthToken = $this->jwtEncoder->getCredentials($request);
+                $data = $this->jwtEncoderIn->decode($preAuthToken);
+                if ($data) {
+                    $this->isTokenValid = true;
+                } else if ($data == false) {
+                    $this->isTokenValid = false;
+                }
+            }
+            if ($this->isTokenValid) {
+                return new JsonResponse([
+                    'success' => 'true',
+                ], Response::HTTP_OK);
+            } else {
+                return new JsonResponse([
+                    'success' => 'false',
+                ], Response::HTTP_SERVICE_UNAVAILABLE);
+            }
+        } catch (\Exception $exception) {
 
-            }
-            else if ($data == false) {
-                $this->isTokenValid = false;
-            }
-        }
-        if($this->isTokenValid){
-            return new JsonResponse([
-                'success' => 'true',
-            ], Response::HTTP_OK);
-        }else{
             return new JsonResponse([
                 'success' => 'false',
+                'code'    => $exception->getCode(),
+                'message' => $exception->getMessage(),
             ], Response::HTTP_SERVICE_UNAVAILABLE);
         }
-    } catch (\Exception $exception) {
-
-        return new JsonResponse([
-            'success' => 'false',
-            'code'    => $exception->getCode(),
-            'message' => $exception->getMessage(),
-        ], Response::HTTP_SERVICE_UNAVAILABLE);
     }
-
-    }
-
 }

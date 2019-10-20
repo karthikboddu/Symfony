@@ -30,7 +30,7 @@ export class PostService {
        
         let uploads = new FormData();
         uploads.append("file",fileToUpload);
-        uploads.append("imgname",imagePath);
+        uploads.append("fileName",imagePath);
         uploads.append("name",posts.name);
         uploads.append("description",posts.description);
         uploads.append("tags",divTags);

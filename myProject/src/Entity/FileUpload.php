@@ -31,7 +31,7 @@ class FileUpload
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $name;
+    private $fileName;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Post", mappedBy="postfile")
@@ -82,14 +82,14 @@ class FileUpload
         return $this;
     }
 
-    public function getName(): ?string
+    public function getFilename(): ?string
     {
-        return $this->name;
+        return $this->fileName;
     }
 
-    public function setName(?string $name): self
+    public function setFilename(?string $fileName): self
     {
-        $this->name = $name;
+        $this->fileName = $fileName;
 
         return $this;
     }

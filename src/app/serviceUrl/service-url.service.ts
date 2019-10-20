@@ -19,5 +19,6 @@ export class ServiceUrlService {
   public singlePost = '/api/viewPostByUser';
   public getAuth = '/api/check_login';
   public postsByHomeScreen = '/api/postsByHomeScreen';
-  public isTokenValid = '/api/auth/isTokenValid'
+  public isTokenValid = '/api/auth/isTokenValid';
+  public adminUsers ='/api/users/fetchactiveusers'
 }

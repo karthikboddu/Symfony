@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {AdminService} from '../../services/admin.service';
+import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss']
+  selector: 'app-admin-viewusers',
+  templateUrl: './admin-viewusers.component.html',
+  styleUrls: ['./admin-viewusers.component.scss']
 })
-export class AdminComponent implements OnInit {
+export class AdminViewusersComponent implements OnInit {
+
   allUsers:any;
   allUsersData:any;
 
@@ -28,4 +29,5 @@ export class AdminComponent implements OnInit {
 
 
 }
+
 }

@@ -22,29 +22,33 @@ class RegistrationController extends FOSRestController
      */
     public function postRegisterAction(Request $request): JsonResponse
     {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
+        try {
+            $user = new User();
+            $form = $this->createForm(UserType::class, $user);
+            $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $password = $this->get('security.password_encoder')
-                ->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
-            $user->setRoles(['ROLE_USER']);
-            $user->setCreatedAt(new \DateTime());
-            $user->setActive(true);
-            $em = $this->getDoctrine()->getManager();
+            if ($form->isValid()) {
+                $password = $this->get('security.password_encoder')
+                    ->encodePassword($user, $user->getPassword());
+                $user->setPassword($password);
+                $user->setRoles(['ROLE_USER']);
+                $user->setAccountstatus(['IN_ACTIVE']);
+                $user->setCreatedAt(new \DateTime());
+                $em = $this->getDoctrine()->getManager();
 
-            $event = new EmailRegistrationUserEvent($user);
-            $dispatcher = $this->get('event_dispatcher');
-            $dispatcher->dispatch(EmailRegistrationUserEvent::NAME, $event);
+                $event = new EmailRegistrationUserEvent($user);
+                $dispatcher = $this->get('event_dispatcher');
+                $dispatcher->dispatch(EmailRegistrationUserEvent::NAME, $event);
 
-            $em->persist($user);
-            $em->flush();
-
-            return new JsonResponse(['status' => 'ok']);
+                $em->persist($user);
+                $em->flush();
+            }
+            return new JsonResponse(['status' => '1', 'message' => 'ok']);
+        } catch (\Exception $e) {
+            return new JsonResponse([
+                'status' => $e->getCode(),
+                'message' => 'Invalid Credentials',
+            ]);
         }
-
-        throw new HttpException(400, "Invalid data");
     }
 }
