@@ -25,7 +25,7 @@ export class UserService {
         registeruser.append("surname",user.lastName);
         registeruser.append("username",user.username);
         registeruser.append("email",user.email);
-        registeruser.append("passowrd",user.password);
+        registeruser.append("password",user.password);
         registeruser.append('phonenumber',user.phonenumber);
         return this.http.post(this.serviceUrl.host+this.serviceUrl.register, registeruser);
     }

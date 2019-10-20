@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
       this.authenticationService.logout();
 
       // get return url from route parameters or default to '/'
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+      this.returnUrl = 'home';
   }
 
   // convenience getter for easy access to form fields
@@ -52,10 +52,24 @@ export class LoginComponent implements OnInit {
           .pipe(first())
           .subscribe(
               data => {
-                  this.router.navigate([this.returnUrl]);
+                  debugger 
+                  if(data.status){
+                    this.router.navigate([this.returnUrl]);
+                    this.authenticationService.setLoggedIn(true);
+                    debugger
+                    if(data.isAdmin){
+                        console.log("admin",data.isAdmin);
+                    }
+                    console.log("admin",data.isAdmin);
+                    localStorage.setItem('currentUser', JSON.stringify(data));
+                  }else{
+                    this.alertService.error(data.message);
+                  }
+                  
               },
               error => {
-                  this.alertService.error(error);
+                  console.log("errors",error);
+                  this.alertService.error(error.statusText);
                   this.loading = false;
               });
   }

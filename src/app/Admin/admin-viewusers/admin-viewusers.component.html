@@ -1,0 +1,30 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Registered</th>
+            <th>active</th>
+            <th>PhoneNumber</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let users of allUsersData">
+
+            <td> {{users.id}}</td>
+            <td> {{users.name}}</td>
+            <td> {{users.surname}}</td>
+            <td> {{users.username}}</td>
+            <td> {{users.email}}</td>
+            <td> {{users.roles}}</td>
+            <td> {{users.created_at}}</td>
+            <td> {{users.active}}</td>
+            <td> {{users.phonenumber}}</td>
+
+
+        </tr>
+    </tbody>

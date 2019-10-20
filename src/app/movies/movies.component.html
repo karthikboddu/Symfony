@@ -1,0 +1,45 @@
+<div class="row blog">
+        <div class="col-md-6 offset-md-3">
+            </div>
+            <span style="color:red;" *ngIf="message">{{message}}</span>
+            <img [src]="imgURL" height="200" *ngIf="imgURL">
+    
+            <input placeholder="Input" #file type="file" accept='image/*' (change)="preview($event.target.files)">
+    
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let posts of allPost; let i=index">
+    
+    
+            <mat-card class="blog-content matcard" *ngFor="let postusers of posts.postuser">
+                <div class="blog-image" *ngFor="let img of postusers.postfile">
+                    <img mat-card-image class="img-article" src="assets/{{img.etag}}" alt="...">
+                </div>
+                <mat-card-header>
+                    <mat-card-title class="title">{{postusers.name}}</mat-card-title>
+                    <mat-card-subtitle></mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>
+                        {{postusers.description}}
+                    </p>
+                </mat-card-content>
+                <!--                <mat-card-actions class="action-buttons">
+                          <button mat-button color="primary"><mat-icon>thumb_up_alt</mat-icon> 12 Likes</button>
+                          <button mat-button color="primary"><mat-icon>comment</mat-icon> Comments</button>
+                          <button mat-button color="primary"><mat-icon>share</mat-icon> Share</button>
+                          <a mat-button color="primary" href={{article.url}} target="_blank" ><mat-icon>visibility</mat-icon> More</a>
+                    </mat-card-actions> -->
+                <a [routerLink]="['./']" [queryParams]="{ page: postusers.posttag.name }" (click)="getPostTags()"><span
+                        class="badge badge-dark">{{postusers.posttag.name}}</span></a>
+                <a [routerLink]="['../viewpost']" [queryParams]="{ posturl: postusers.posturl }"
+                    (click)="getSinglePostS()"><span class="badge badge-dark">More</span></a>
+                <a><span class="badge badge-dark">{{posts.username}}</span></a>
+            </mat-card>
+ 
+    
+        <!--     <img mat-card-image class="img-article" src={{article.urlToImage}} alt=""> -->
+    
+    
+    
+    
+    </div>
