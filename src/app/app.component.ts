@@ -3,7 +3,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PostService } from './services/post.service';
-import { JsonPipe } from '@angular/common';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
