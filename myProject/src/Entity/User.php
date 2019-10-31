@@ -73,6 +73,11 @@ class User implements UserInterface
      */
     private $accountstatus = [];
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $active;
+
 
     public function __construct()
     {
@@ -80,85 +85,85 @@ class User implements UserInterface
     }
 
 	public function getId(): int
-                                                                                    	{
-                                                                                    		return $this->id;
-                                                                                    	}
+                                                                                             	{
+                                                                                             		return $this->id;
+                                                                                             	}
 
 	public function setName(string $name): void
-                                                                                    	{
-                                                                                    		$this->name = $name;
-                                                                                    	}
+                                                                                             	{
+                                                                                             		$this->name = $name;
+                                                                                             	}
 
 	public function getName(): ?string
-                                                                                    	{
-                                                                                    		return $this->name;
-                                                                                    	}
+                                                                                             	{
+                                                                                             		return $this->name;
+                                                                                             	}
 
 	public function setSurname(string $surname): void
-                                                                                    	{
-                                                                                    		$this->surname = $surname;
-                                                                                    	}
+                                                                                             	{
+                                                                                             		$this->surname = $surname;
+                                                                                             	}
 
 	public function getSurname(): ?string
-                                                                                    	{
-                                                                                    		return $this->surname;
-                                                                                    	}
+                                                                                             	{
+                                                                                             		return $this->surname;
+                                                                                             	}
 
 	public function setUsername(string $username): void
-                                                                                    	{
-                                                                                    		$this->username = $username;
-                                                                                    	}
+                                                                                             	{
+                                                                                             		$this->username = $username;
+                                                                                             	}
 
 	public function getUsername(): ?string
-                                                                                    	{
-                                                                                    		return $this->username;
-                                                                                    	}
+                                                                                             	{
+                                                                                             		return $this->username;
+                                                                                             	}
 
 	public function setEmail(string $email): void
-                                                                                    	{
-                                                                                    		$this->email = $email;
-                                                                                    	}
+                                                                                             	{
+                                                                                             		$this->email = $email;
+                                                                                             	}
 
 	public function getEmail(): ?string
-                                                                                    	{
-                                                                                    		return $this->email;
-                                                                                    	}
+                                                                                             	{
+                                                                                             		return $this->email;
+                                                                                             	}
 
 	public function setPassword(string $password): void
-                                                                                    	{
-                                                                                    		$this->password = $password;
-                                                                                    	}
+                                                                                             	{
+                                                                                             		$this->password = $password;
+                                                                                             	}
 
 	public function getPassword(): ?string
-                                                                                    	{
-                                                                                    		return $this->password;
-                                                                                    	}
+                                                                                             	{
+                                                                                             		return $this->password;
+                                                                                             	}
 
 	public function getRoles(): array
-                                                                                    	{
-                                                                                    		$roles = $this->roles;
-                                                                                    
-                                                                                    		if (empty($roles)) {
-                                                                                    			$roles[] = ['ROLE_USER','ROLE_ADMIN'];
-                                                                                    		}
-                                                                                    
-                                                                                    		return array_unique($roles);
-                                                                                    	}
+                                                                                             	{
+                                                                                             		$roles = $this->roles;
+                                                                                             
+                                                                                             		if (empty($roles)) {
+                                                                                             			$roles[] = ['ROLE_USER','ROLE_ADMIN'];
+                                                                                             		}
+                                                                                             
+                                                                                             		return array_unique($roles);
+                                                                                             	}
 
 	public function setRoles(array $roles): void
-                                                                                    	{
-                                                                                    		$this->roles = $roles;
-                                                                                    	}
+                                                                                             	{
+                                                                                             		$this->roles = $roles;
+                                                                                             	}
 
 	public function getSalt(): ?string
-                                                                                    	{
-                                                                                    		return null;
-                                                                                    	}
+                                                                                             	{
+                                                                                             		return null;
+                                                                                             	}
 
 	public function eraseCredentials(): void
-                                                                                    	{
-                                                                                    
-                                                                                    	}
+                                                                                             	{
+                                                                                             
+                                                                                             	}
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -229,6 +234,18 @@ class User implements UserInterface
     public function setAccountstatus(array $accountstatus): self
     {
         $this->accountstatus = $accountstatus;
+
+        return $this;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }

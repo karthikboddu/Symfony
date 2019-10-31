@@ -83,7 +83,11 @@ class PostController extends AbstractController
                  
                  $ext = pathinfo($fileEntity->getFile() . "/" .$fileEntity->getFilename() , PATHINFO_EXTENSION);
                  $UploadTypeName = $em->getRepository(UploadMediaType::class)->findOneBy(['mediaType' =>strtolower($ext)]);
-                } else { }
+                } else { 
+                    $fileEntity = new FileUpload();
+                    $UploadTypeName = $em->getRepository(UploadMediaType::class)->findOneBy(['mediaType' =>'mp4']);
+                }
+                
                 $slugify = new Slugify();
                 $slug = $slugify->slugify($post->getName(), '_');
                 $numOfBytes = 5;
@@ -449,4 +453,14 @@ class PostController extends AbstractController
         
         
     }
+
+    /**
+     * @Route(path="/api/admin/totalPostsByActive", name="totalPostsByActive")
+     * @Method("GET")
+     */
+    public function totalPostsByActive(){
+        $userd = $this->getDoctrine()->getRepository(Post::class)->findByTotalActivePosts();
+        return $userd[0]['totalposts'];
+    }
+    
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../services/post.service';
-import { first } from 'rxjs/operators';
+import { first, count } from 'rxjs/operators';
 import { Post } from '../models/post';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
   sub:any;
   page:any;
   pageUrl:any;
+  displayPosts:boolean = false;
   constructor(private postService: PostService,private http: HttpClient,  private route: ActivatedRoute,
     private router: Router) { }
 
@@ -46,7 +47,9 @@ export class HomeComponent implements OnInit {
               });
   
     }
-
+    if(count(this.allPost)){
+      this.displayPosts = true;
+    }
     
     this.postService.getTags()
           .pipe(first())

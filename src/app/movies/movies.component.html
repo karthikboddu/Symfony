@@ -4,7 +4,7 @@
             <span style="color:red;" *ngIf="message">{{message}}</span>
             <img [src]="imgURL" height="200" *ngIf="imgURL">
     
-            <input placeholder="Input" #file type="file" accept='image/*' (change)="preview($event.target.files)">
+            <!-- <input placeholder="Input" #file type="file" accept='image/*' (change)="preview($event.target.files)"> -->
     
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let posts of allPost; let i=index">

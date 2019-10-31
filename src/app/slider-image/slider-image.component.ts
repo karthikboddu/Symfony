@@ -18,7 +18,7 @@ export class SliderImageComponent implements OnInit {
         data => {  
            this.allPost = data
             //this.allImg = data[0]['postfile'];
-            console.log("data",this.allPost);
+            console.log("carouselData",this.allPost);
             //console.log("imgdata",data['postfile']);
         },
         error => {

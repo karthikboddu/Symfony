@@ -37,5 +37,9 @@ export class UserService {
     delete(id: number) {
         return this.http.delete(`/users/` + id);
     }
+
+    getTotalUsers(){
+        return this.http.get(this.serviceUrl.host+this.serviceUrl.adminTotalUsers);
+    }
 }
 

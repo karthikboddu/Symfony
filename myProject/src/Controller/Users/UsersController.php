@@ -39,6 +39,6 @@ class UsersController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $postData = $em->getRepository(User::class)->findByCountUers();
-        return $postData;
+        return $postData[0]['NoOfUsers'];
     }
 }

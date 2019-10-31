@@ -87,4 +87,8 @@ export class PostService {
       return this.http.get(this.serviceUrl.host+this.serviceUrl.postsByHomeScreen);
     }
 
+    getTotalPostsByActive(){
+  
+      return this.http.get(this.serviceUrl.host+this.serviceUrl.adminTotalPostsActive);
+    }
 }
