@@ -22,7 +22,7 @@ export class PostService {
 
         headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
       
-        return this.http.get(this.serviceUrl.host+this.serviceUrl.postid,{headers: headers});
+        return this.http.get<Post[]>(this.serviceUrl.host+this.serviceUrl.postid,{headers: headers});
     }
 
     post(posts,imagePath,fileToUpload,divTags) {
@@ -41,9 +41,9 @@ export class PostService {
         return this.http.post(this.serviceUrl.host+this.serviceUrl.post,uploads,{headers:headers});
     }
 
-    update(post: Post) {
-        return this.http.put(`/users/` + post.id, post);
-    }
+    // update(post: Post) {
+    //     return this.http.put(`/users/` + post.id, post);
+    // }
 
     delete(id: number) {
         return this.http.delete(`/posts/` + id);

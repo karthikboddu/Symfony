@@ -12,7 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { AlertComponent } from './alert/alert.component';
 import { PostComponent } from './post/post.component';
 import { MoviesComponent } from './movies/movies.component';
-import { MatButtonModule,MatInputModule, MatCardModule,MatChipsModule, MatMenuModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatFormFieldModule, MatProgressSpinnerModule, MatProgressBarModule } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource,MatButtonModule,MatInputModule, MatCardModule,MatChipsModule, MatMenuModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatFormFieldModule, MatProgressSpinnerModule, MatProgressBarModule, MatGridListModule } from '@angular/material';
 import { ViewpostComponent } from './viewpost/viewpost.component';
 import { SliderComponent } from './slider/slider.component';
 import { SliderItemDirective } from './slider/slider-item.directive';
@@ -30,6 +30,7 @@ import { UploadComponent } from './upload/upload.component';
 import { UploadDialogComponent } from './upload/upload-dialog/upload-dialog.component';
 import {MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { UploadService } from './services/upload.service';
+import {DataTableModule} from "angular-6-datatable";
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +58,9 @@ import { UploadService } from './services/upload.service';
     HttpClientModule,
     MatButtonModule,
     MatInputModule,
-    MatChipsModule,
+    MatChipsModule,    GalleryModule,
+    LightboxModule,DataTableModule,
+    GallerizeModule,MatGridListModule,MatPaginator, MatSort, MatTableDataSource,
     MatMenuModule,MatIconModule, MatSidenavModule, MatListModule,MatProgressSpinnerModule
     ,MatButtonModule, MatDialogModule, MatListModule, HttpClientModule, BrowserAnimationsModule, MatProgressBarModule
   ],

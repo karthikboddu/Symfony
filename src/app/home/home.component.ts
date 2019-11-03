@@ -4,6 +4,8 @@ import { first, count } from 'rxjs/operators';
 import { Post } from '../models/post';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Gallery, GalleryItem, ImageItem, ThumbnailsPosition, ImageSize } from '@ngx-gallery/core';
+import { Lightbox } from '@ngx-gallery/lightbox';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -11,7 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  allPost : any;
+  allPostDetails : Post[];
+  allPost :any;
   allImg : any;
   allTags : any;
   public imagePath;
@@ -22,10 +25,38 @@ export class HomeComponent implements OnInit {
   page:any;
   pageUrl:any;
   displayPosts:boolean = false;
+  items: GalleryItem[];
+  imageData = data;
   constructor(private postService: PostService,private http: HttpClient,  private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,public gallery: Gallery, public lightbox: Lightbox) { }
 
   ngOnInit() {
+
+
+ /** Basic Gallery Example */
+debugger
+    // Creat gallery items
+    this.items = this.imageData.map(item => new ImageItem({ src: item.srcUrl, thumb: item.previewUrl }));
+    
+
+    /** Lightbox Example */
+
+    // Get a lightbox gallery ref
+    const lightboxRef = this.gallery.ref('lightbox');
+
+    // Add custom gallery config to the lightbox (optional)
+    lightboxRef.setConfig({
+      imageSize: ImageSize.Cover,
+      thumbPosition: ThumbnailsPosition.Top
+    });
+
+    // Load items into the lightbox gallery ref
+    lightboxRef.load(this.items);
+
+
+
+
+
 
     this.page = this.route.snapshot.queryParamMap.get('page');
 
@@ -37,7 +68,7 @@ export class HomeComponent implements OnInit {
           .pipe(first())
           .subscribe(
               data => {  
-                  this.allPost = data;
+                  this.allPostDetails = data;
                   //this.allImg = data[0]['postfile'];
                   console.log("data",data);
                   //console.log("imgdata",data['postfile']);
@@ -47,9 +78,9 @@ export class HomeComponent implements OnInit {
               });
   
     }
-    if(count(this.allPost)){
-      this.displayPosts = true;
-    }
+    // if(count(this.allPost)){
+    //   this.displayPosts = true;
+    // }
     
     this.postService.getTags()
           .pipe(first())
@@ -142,3 +173,23 @@ export class HomeComponent implements OnInit {
   }
 
 }
+
+
+const data = [
+  {
+    srcUrl: 'https://my-blog-19.s3.ap-south-1.amazonaws.com/karthikboddu/jpeg/download.jpeg',
+    previewUrl: 'https://my-blog-19.s3.ap-south-1.amazonaws.com/karthikboddu/jpeg/download.jpeg'
+  },
+  {
+    srcUrl: 'https://my-blog-19.s3.ap-south-1.amazonaws.com/karthikboddu/jpg/259316.jpg',
+    previewUrl: 'https://my-blog-19.s3.ap-south-1.amazonaws.com/karthikboddu/jpg/259316.jpg'
+  },
+  {
+    srcUrl: 'https://preview.ibb.co/mwsA6R/img7.jpg',
+    previewUrl: 'https://preview.ibb.co/mwsA6R/img7.jpg'
+  },
+  {
+    srcUrl: 'https://preview.ibb.co/kZGsLm/img8.jpg',
+    previewUrl: 'https://preview.ibb.co/kZGsLm/img8.jpg'
+  }
+];

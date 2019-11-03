@@ -134,15 +134,36 @@ class PostController extends AbstractController
             $username = $data['username'];
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
+            $userDetails = $em->getRepository(User::class)->findByUsersActive();
+            $postDetails = array();         
             $role = $user->getRoles();
-
+            // foreach ($userDetails as $key => $value) {
+            //    $userDetails[$key] = $value;
+            //    $id = $value['id'];
+            //    $pDetails = $em->getRepository(Post::class)->findByPostsById($id);
+            //    foreach ($pDetails as $pkey => $pvalue) {
+            //     $postDetails[$pkey]['posts'] = $pvalue;    
+            //    }
+            // //    $userDetails[$key]['posts'] = $pvalue; 
+               
+            // }
             // if (in_array('ROLE_USER', $role)) {
             //     $userd = $this->roleUser();
             //     return $userd;
             // } else if ($role == 'ROLE_ADMIN==') { }
             // $userd = $em->getRepository(Post::class)->findBy(['postuser' => $user->getId()]);
             $userd = $this->roleUser();
-            
+            // foreach ($userd as $key => $value) {
+            //     $id = $value['id'];
+            //     $pDetails = $em->getRepository(Post::class)->findByPostsById($id);
+            //     foreach ($pDetails as $pkey => $pvalue) {
+            //         $value['posts'] = $pvalue;
+            //         $a[$pkey] = $value;
+                    
+            //     }
+            //     $new[$key] = $value;
+            //     $new[$key]['posts'] = $pDetails; 
+            //  }
             return $userd;
         }
         return new JsonResponse(['status' => 'f']);

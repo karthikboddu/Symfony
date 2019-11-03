@@ -8,13 +8,13 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" routerLink="/home">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" routerLink="/home" routerLinkActive="active">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" *ngIf="authService.isLoggedIn " routerLink="/post">Top Picks</a>
+        <a class="nav-link" *ngIf="authService.isLoggedIn " routerLinkActive="active" routerLink="/post">Top Picks</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" *ngIf="authService.isLoggedIn" routerLink="/viewpost">Viewpost</a>
+        <a class="nav-link" *ngIf="authService.isLoggedIn" routerLinkActive="active" routerLink="/viewpost">Viewpost</a>
       </li>
       <li class="nav-item">
           <a class="nav-link"
@@ -42,10 +42,24 @@
             <a class="nav-link" *ngIf="authService.isLoggedIn"  routerLink="/login">Logout</a>
           </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
+    <div class="pull-right" *ngIf="authService.isLoggedIn">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown "> 
+        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Welcome
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Profile</a>
+          <a class="dropdown-item" href="#">Logout</a>
+        </div>
+      </li>
+    </ul>
+    </div>
+    <!-- <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    </form> -->
     
   </div>
 </nav>

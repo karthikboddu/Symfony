@@ -34,6 +34,7 @@ class RegistrationController extends FOSRestController
                 $user->setRoles(['ROLE_USER']);
                 $user->setAccountstatus(['IN_ACTIVE']);
                 $user->setCreatedAt(new \DateTime());
+                $user->setActive(true);
                 $em = $this->getDoctrine()->getManager();
 
                 $event = new EmailRegistrationUserEvent($user);

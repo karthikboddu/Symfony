@@ -25,7 +25,7 @@ class UserRepository extends ServiceEntityRepository
     }
 
     public function findByUsersActive(){
-        $query = $this->em->createQuery('SELECT u from App\Entity\User u');
+        $query = $this->em->createQuery("SELECT u from App\Entity\User u where u.active='1' ");
         return $query->getArrayResult();
     }
 

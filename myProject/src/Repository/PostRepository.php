@@ -56,6 +56,18 @@ class PostRepository extends ServiceEntityRepository
 
 
         $query1= $this->em->createQuery("SELECT u,pu,pt,pf FROM App\Entity\User u JOIN u.postuser pu JOIN pu.posttag pt LEFt JOIN pu.postfile pf WHERE  pu.status = '1' AND u.active ='1' ");
+        
+        $users1 = $query1->getScalarResult();
+        return $users1;
+    }
+
+    public function findByPostsById($id){
+        // $query = $this->em->createQuery("SELECT p,pt,pf FROM App\Entity\Post p JOIN p.posttag pt left JOIN p.postfile pf");
+        // $users = $query->getArrayResult();
+
+
+        $query1= $this->em->createQuery("SELECT p FROM App\Entity\Post p  WHERE  p.status = '1' AND p.postuser = :id ");
+        $query1->setParameter('id',$id);
         $users1 = $query1->getScalarResult();
         return $users1;
     }
