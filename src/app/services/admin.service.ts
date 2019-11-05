@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {ServiceUrlService} from '../serviceUrl/service-url.service';
+import { User } from '../models/user';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,6 +11,6 @@ export class AdminService {
 
   getAllUsers()
   {
-   return  this.http.get(this.serviceUrl.host+this.serviceUrl.adminUsers);
+   return  this.http.get<User[]>(this.serviceUrl.host+this.serviceUrl.adminUsers);
   }
 }

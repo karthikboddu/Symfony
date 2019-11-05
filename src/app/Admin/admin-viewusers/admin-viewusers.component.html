@@ -1,55 +1,98 @@
-    <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
-        <thead>
-        <tr>
-            <th style="width: 20%">
-                <mfDefaultSorter by="name">Id</mfDefaultSorter>
-            </th>
-            <th style="width: 50%">
-                <mfDefaultSorter by="email">Name</mfDefaultSorter>
-            </th>
-            <th style="width: 10%">
-                <mfDefaultSorter by="age">Surname</mfDefaultSorter>
-            </th>
-            <th style="width: 20%">
-                <mfDefaultSorter by="city">Username</mfDefaultSorter>
-            </th>
-            <th style="width: 20%">
-                <mfDefaultSorter by="name">Email</mfDefaultSorter>
-            </th>
-            <th style="width: 50%">
-                <mfDefaultSorter by="email">Roles</mfDefaultSorter>
-            </th>
-            <th style="width: 10%">
-                <mfDefaultSorter by="age">Created At</mfDefaultSorter>
-            </th>
-            <th style="width: 20%">
-                <mfDefaultSorter by="city">PhoneNumber</mfDefaultSorter>
-            </th>
-            <th style="width: 20%">
-                <mfDefaultSorter by="city">Active</mfDefaultSorter>
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let users of allUsersData">
-            <td> {{users.id}}</td>
-            <td> {{users.name}}</td>
-            <td> {{users.surname}}</td>
-            <td> {{users.username}}</td>
-            <td> {{users.email}}</td>
-            <td> {{users.roles}}</td>
-            <td> {{users.created_at}}</td>
-            <td> {{users.phonenumber}}</td>
-            <td> {{users.active}}</td>
-           
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr>
-            <td colspan="4">
-                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+    <div class="example-header">
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+      </div>
+      
+      <div class="example-container">
+      
+        <mat-table [dataSource]="dataSource" matSort>
+      
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> name </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+          </ng-container>
+      
+          <!-- Name Column -->
+          <ng-container matColumnDef="surname">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> surname </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.surname}} </mat-cell>
+          </ng-container>
+      
+          <!-- Color Column -->
+          <ng-container matColumnDef="username">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> username </mat-header-cell>
+            <mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.username}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> email </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.email}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="roles">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> roles </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.roles}} </mat-cell>
+          </ng-container>
+      
+          <!-- Name Column -->
+          <ng-container matColumnDef="created_at">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> created_at </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.created_at}} </mat-cell>
+          </ng-container>
+      
+          <!-- Color Column -->
+          <ng-container matColumnDef="password">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> password </mat-header-cell>
+            <mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.password}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="phonenumber">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> phonenumber </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.phonenumber}} </mat-cell>
+          </ng-container>
+      
+          <!-- Color Column -->
+          <ng-container matColumnDef="active">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> active </mat-header-cell>
+            <mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.active}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="details">
+            <th mat-header-cell *matHeaderCellDef> Details </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="primary" (click)="redirectToDetails(element.id)">
+                  <mat-icon class="mat-18">reorder</mat-icon>
+              </button>
             </td>
-        </tr>
-        </tfoot>
-    </table>
-    
+          </ng-container>
+         
+          <ng-container matColumnDef="update">
+              <th mat-header-cell *matHeaderCellDef> Update </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+                    <mat-icon class="mat-18">system_update</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+         
+            <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef> Delete </th>
+                <td mat-cell *matCellDef="let element">
+                  <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+                      <mat-icon class="mat-18">delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+          
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;">
+          </mat-row>
+        </mat-table>
+      
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>

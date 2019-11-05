@@ -12,7 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { AlertComponent } from './alert/alert.component';
 import { PostComponent } from './post/post.component';
 import { MoviesComponent } from './movies/movies.component';
-import { MatPaginator, MatSort, MatTableDataSource,MatButtonModule,MatInputModule, MatCardModule,MatChipsModule, MatMenuModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatFormFieldModule, MatProgressSpinnerModule, MatProgressBarModule, MatGridListModule } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource,MatButtonModule,MatInputModule, MatCardModule,MatChipsModule, MatMenuModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatFormFieldModule, MatProgressSpinnerModule, MatProgressBarModule, MatGridListModule, MatPaginatorModule, MatSortModule, MatTableModule } from '@angular/material';
 import { ViewpostComponent } from './viewpost/viewpost.component';
 import { SliderComponent } from './slider/slider.component';
 import { SliderItemDirective } from './slider/slider-item.directive';
@@ -60,11 +60,11 @@ import {DataTableModule} from "angular-6-datatable";
     MatInputModule,
     MatChipsModule,    GalleryModule,
     LightboxModule,DataTableModule,
-    GallerizeModule,MatGridListModule,MatPaginator, MatSort, MatTableDataSource,
+    GallerizeModule,MatGridListModule,MatPaginatorModule, MatSortModule, MatTableModule,MatIconModule,
     MatMenuModule,MatIconModule, MatSidenavModule, MatListModule,MatProgressSpinnerModule
     ,MatButtonModule, MatDialogModule, MatListModule, HttpClientModule, BrowserAnimationsModule, MatProgressBarModule
   ],
-  entryComponents: [UploadDialogComponent],
+  entryComponents: [UploadDialogComponent,AdminViewusersComponent],
   providers: [{ provide: MatDialogRef, useValue: {} },{ provide: MAT_DIALOG_DATA, useValue: [] },,AuthenticationService,AuthGuard,UploadService],
   bootstrap: [AppComponent]
 })
