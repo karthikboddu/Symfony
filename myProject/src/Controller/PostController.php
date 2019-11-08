@@ -134,7 +134,7 @@ class PostController extends AbstractController
             $username = $data['username'];
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
-            $userDetails = $em->getRepository(User::class)->findByUsersActive();
+            //$userDetails = $em->getRepository(User::class)->findByUsersActive();
             $postDetails = array();         
             $role = $user->getRoles();
             // foreach ($userDetails as $key => $value) {

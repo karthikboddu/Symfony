@@ -36,6 +36,14 @@
           </ng-container>
           <ng-container matColumnDef="roles">
             <mat-header-cell *matHeaderCellDef mat-sort-header> roles </mat-header-cell>
+            <mat-select>
+              <mat-option  [value]="RoleAdmin">
+                Role Admin
+              </mat-option>
+              <mat-option  [value]="RoleUser">
+                Role Admin
+              </mat-option>
+            </mat-select>
             <mat-cell *matCellDef="let row"> {{row.roles}} </mat-cell>
           </ng-container>
       
@@ -83,7 +91,7 @@
             <ng-container matColumnDef="delete">
                 <th mat-header-cell *matHeaderCellDef> Delete </th>
                 <td mat-cell *matCellDef="let element">
-                  <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+                  <button mat-icon-button color="warn" (click)="redirectToDelete(element.id,element.active)">
                       <mat-icon class="mat-18">delete</mat-icon>
                   </button>
                 </td>

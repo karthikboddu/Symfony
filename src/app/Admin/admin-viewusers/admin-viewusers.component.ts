@@ -4,6 +4,7 @@ import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { User } from 'src/app/models/user';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
+import { BlockScrollStrategy } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-admin-viewusers',
@@ -14,18 +15,25 @@ export class AdminViewusersComponent implements OnInit {
 
   allUsers: any;
   allUsersData: User[];
-  displayedColumns = ['id','name','surname','username','email','roles','created_at','password','phonenumber','active','details','update','delete'];
+  userSelected: User[];
+  displayedColumns = ['id', 'name', 'surname', 'username', 'email', 'roles', 'created_at', 'password', 'phonenumber', 'active', 'details', 'update', 'delete'];
   dataSource: MatTableDataSource<User>;
   //datasource = new UserDataSource(this.admin);
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   constructor(private admin: AdminService) {
-    const users: User[] = [];
+
     //  for (let i = 1; i <= 100; i++) { users.push(createNewUser(i)); }
+
+  }
+
+  ngOnInit() {
+
+    const users: User[] = [];
     this.allUsers = this.admin.getAllUsers().subscribe(
       data => {
-        
+        this.allUsersData = data;
         this.dataSource.data = data as User[];
         console.log(this.allUsersData);
       },
@@ -34,14 +42,8 @@ export class AdminViewusersComponent implements OnInit {
       });
 
     // Assign the data to the data source for the table to render
-     this.dataSource = new MatTableDataSource(users);
+    this.dataSource = new MatTableDataSource(users);
     // console.log("datasource", this.dataSource);
-  }
-
-  ngOnInit() {
-
-
-
 
 
   }
@@ -54,7 +56,37 @@ export class AdminViewusersComponent implements OnInit {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
-    console.log("datasss",this.dataSource);
+    console.log("datasss", this.dataSource);
+  }
+  public redirectToDetails = (id: string) => {
+
+  }
+
+  public redirectToUpdate = (id: string) => {
+
+  }
+
+  public redirectToDelete = (id: number) => {
+    if (id) {
+      debugger
+      this.allUsersData.forEach(element => {
+        if (element.id == id) {
+          this.admin.adminDeleteUsers(id).subscribe(res => {
+            console.log("deleteuser", res);
+            if (res.code == '200') {
+              element.active = false;
+            } else {
+
+            }
+          }, error => {
+            console.log(error);
+          });
+
+        }
+      });
+    }
+
+
   }
 }
 
@@ -72,7 +104,7 @@ function createNewUser(ele: User): User {
     email: ele.email,
     roles: ele.roles,
     created_at: ele.created_at,
-     password: ele.password,
+    password: ele.password,
     phonenumber: ele.phonenumber,
     active: ele.active,
 
@@ -85,7 +117,7 @@ export class UserDataSource extends DataSource<User> {
   connect(): Observable<User[]> {
     return this.admind.getAllUsers();
   }
-  disconnect() {}
+  disconnect() { }
 }
 /** Constants used to fill up our data base. */
 const COLORS = ['maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',

@@ -34,10 +34,12 @@ export class UploadDialogComponent implements OnInit {
   }
 
   addFiles() {
+    debugger
     this.file.nativeElement.click();
   }
 
   closeDialog() {
+    debugger
     // if everything was uploaded already, just close the dialog
     if (this.uploadSuccessful) {
       return this.dialogRef.close();

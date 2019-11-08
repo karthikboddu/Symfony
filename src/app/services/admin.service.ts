@@ -11,6 +11,12 @@ export class AdminService {
 
   getAllUsers()
   {
-   return  this.http.get<User[]>(this.serviceUrl.host+this.serviceUrl.adminUsers);
+   return this.http.get<User[]>(this.serviceUrl.host+this.serviceUrl.adminUsers);
+  }
+
+  adminDeleteUsers(u_id){
+    let adminuser = new FormData();
+        adminuser.append("u_id",u_id);
+    return this.http.post<any>(this.serviceUrl.host+this.serviceUrl.adminDeleteUsers,adminuser);
   }
 }

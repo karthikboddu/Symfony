@@ -23,4 +23,5 @@ export class ServiceUrlService {
   public adminUsers ='/api/users/fetchactiveusers';
   public adminTotalPostsActive = '/api/admin/totalPostsByActive';
   public adminTotalUsers = '/api/admin/getNumberUsers';
+  public adminDeleteUsers = '/api/admin/deleteUser';
 }
