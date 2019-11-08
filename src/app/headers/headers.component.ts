@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { PostService } from '../services/post.service';
 import { first } from 'rxjs/operators';
+import { ThemeService } from '../services/theme.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-headers',
@@ -10,10 +12,18 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./headers.component.scss']
 })
 export class HeadersComponent implements OnInit {
-
+  darkTheme =  new FormControl(false);
   constructor(private authService : AuthenticationService,private route: ActivatedRoute,private postService: PostService
-    , private router: Router,
-    ) {}
+    , private router: Router,private themeService:ThemeService
+    ) {
+      this.darkTheme.valueChanges.subscribe(value => {
+        if (value) {
+          this.themeService.toggleDark();
+        } else {
+          this.themeService.toggleLight();
+        }
+      });
+    }
  isAuthenticated : boolean;
  isTokenValid :any;
  allPost : any;

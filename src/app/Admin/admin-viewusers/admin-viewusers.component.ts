@@ -19,7 +19,7 @@ export class AdminViewusersComponent implements OnInit {
   displayedColumns = ['id', 'name', 'surname', 'username', 'email', 'roles', 'created_at', 'password', 'phonenumber', 'active', 'details', 'update', 'delete'];
   dataSource: MatTableDataSource<User>;
   //datasource = new UserDataSource(this.admin);
-
+  roles = ['Role Admin','Role User'];
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   constructor(private admin: AdminService) {
@@ -66,7 +66,7 @@ export class AdminViewusersComponent implements OnInit {
 
   }
 
-  public redirectToDelete = (id: number) => {
+  public redirectToDelete = (id: number,active:boolean) => {
     if (id) {
       debugger
       this.allUsersData.forEach(element => {

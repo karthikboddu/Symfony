@@ -84,5 +84,11 @@ class PostRepository extends ServiceEntityRepository
         $totalPosts = $query->getScalarResult();
         return $totalPosts;
     }
+
+    public function findByAdminAllPosts(){
+        $query = $this->em->createQuery("SELECT p FROM App\Entity\Post p ");
+        $totalPosts = $query->getScalarResult();
+        return $totalPosts;
+    }
     
 }

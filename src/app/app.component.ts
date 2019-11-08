@@ -3,6 +3,8 @@ import { AuthenticationService } from './services/authentication.service';
 import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PostService } from './services/post.service';
+import { FormControl } from '@angular/forms';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +13,13 @@ import { PostService } from './services/post.service';
 })
 export class AppComponent implements OnInit {
   title = 'demoproject';
-
+  darkTheme =  new FormControl(false);
   constructor(private authService : AuthenticationService,private route: ActivatedRoute,private postService: PostService
-   , private router: Router,
-   ) {}
+   , private router: Router,private themeService:ThemeService
+   ) {
+
+
+   }
 isAuthenticated : boolean;
 isTokenValid :any;
 allPost : any;

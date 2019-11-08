@@ -112,14 +112,15 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route(path="/api/posts", name="getposts")
+     * @Route(path="/api/admin/posts", name="getposts")
      * @Method("GET")
      */
-    public function getAllPost(PostRepository $postRepository)
+    public function getAllPost()
     {
-        $data = $postRepository->findAll();
-
-        return new JsonResponse(['status' => 'ok', 'data' => $data]);
+        //$data = $postRepository->findAll();
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository(Post::class)->findByAdminAllPosts();
+        return $user;
     }
 
     /**

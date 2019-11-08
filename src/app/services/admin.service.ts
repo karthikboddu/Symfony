@@ -19,4 +19,9 @@ export class AdminService {
         adminuser.append("u_id",u_id);
     return this.http.post<any>(this.serviceUrl.host+this.serviceUrl.adminDeleteUsers,adminuser);
   }
+
+  getAllPosts()
+  {
+   return this.http.get<User[]>(this.serviceUrl.host+this.serviceUrl.posts);
+  }
 }

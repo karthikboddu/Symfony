@@ -36,15 +36,14 @@
           </ng-container>
           <ng-container matColumnDef="roles">
             <mat-header-cell *matHeaderCellDef mat-sort-header> roles </mat-header-cell>
-            <mat-select>
-              <mat-option  [value]="RoleAdmin">
-                Role Admin
-              </mat-option>
-              <mat-option  [value]="RoleUser">
-                Role Admin
-              </mat-option>
-            </mat-select>
-            <mat-cell *matCellDef="let row"> {{row.roles}} </mat-cell>
+
+            <mat-cell *matCellDef="let row"> {{row.roles}}             
+                <mat-select>
+                    <mat-option *ngFor="let role of roles" [value]="role">
+                      {{role}}
+                    </mat-option>
+                  </mat-select></mat-cell>
+
           </ng-container>
       
           <!-- Name Column -->
@@ -103,4 +102,11 @@
         </mat-table>
       
         <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        <mat-label>Select an option</mat-label>
+        <mat-select [(value)]="selected">
+          <mat-option>None</mat-option>
+          <mat-option value="option1">Option 1</mat-option>
+          <mat-option value="option2">Option 2</mat-option>
+          <mat-option value="option3">Option 3</mat-option>
+        </mat-select>
       </div>
