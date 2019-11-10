@@ -16,6 +16,7 @@ export class HeadersComponent implements OnInit {
   constructor(private authService : AuthenticationService,private route: ActivatedRoute,private postService: PostService
     , private router: Router,private themeService:ThemeService
     ) {
+      console.log("theme",this.darkTheme);``
       this.darkTheme.valueChanges.subscribe(value => {
         if (value) {
           this.themeService.toggleDark();

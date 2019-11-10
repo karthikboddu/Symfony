@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Output } from '@angular/core';
 import { PostService } from '../services/post.service';
 import { first, count } from 'rxjs/operators';
 import { Post } from '../models/post';
@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Gallery, GalleryItem, ImageItem, ThumbnailsPosition, ImageSize } from '@ngx-gallery/core';
 import { Lightbox } from '@ngx-gallery/lightbox';
+import { EventEmitter } from 'events';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -29,7 +30,7 @@ export class HomeComponent implements OnInit {
   imageData = data;
   constructor(private postService: PostService,private http: HttpClient,  private route: ActivatedRoute,
     private router: Router,public gallery: Gallery, public lightbox: Lightbox) { }
-
+    @Output() postsData = new EventEmitter();
   ngOnInit() {
 
 

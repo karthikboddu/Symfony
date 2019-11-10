@@ -35,7 +35,7 @@ export class AdminViewusersComponent implements OnInit {
       data => {
         this.allUsersData = data;
         this.dataSource.data = data as User[];
-        console.log(this.allUsersData);
+        console.log(this.allUsersData,"adminusers");
       },
       error => {
         console.log(error);

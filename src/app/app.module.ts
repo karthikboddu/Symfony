@@ -12,7 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { AlertComponent } from './alert/alert.component';
 import { PostComponent } from './post/post.component';
 import { MoviesComponent } from './movies/movies.component';
-import { MatPaginator, MatSort, MatTableDataSource,MatButtonModule,MatInputModule, MatCardModule,MatChipsModule, MatMenuModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatFormFieldModule, MatProgressSpinnerModule, MatProgressBarModule, MatGridListModule, MatPaginatorModule, MatSortModule, MatTableModule, MatSelectModule } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource,MatButtonModule,MatInputModule, MatCardModule,MatChipsModule, MatMenuModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatFormFieldModule, MatProgressSpinnerModule, MatProgressBarModule, MatGridListModule, MatPaginatorModule, MatSortModule, MatTableModule, MatSelectModule, MatSlideToggleModule, MatTabsModule } from '@angular/material';
 import { ViewpostComponent } from './viewpost/viewpost.component';
 import { SliderComponent } from './slider/slider.component';
 import { SliderItemDirective } from './slider/slider-item.directive';
@@ -31,6 +31,10 @@ import { UploadDialogComponent } from './upload/upload-dialog/upload-dialog.comp
 import {MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { UploadService } from './services/upload.service';
 import {DataTableModule} from "angular-6-datatable";
+import { ThemeService } from './services/theme.service';
+import { UserComponent } from './user/user.component';
+import { UserContentComponent } from './user/user-content/user-content.component';
+import { UserDetailsComponent } from './user/user-details/user-details.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +48,7 @@ import {DataTableModule} from "angular-6-datatable";
     SliderComponent,
     SliderImageComponent,
     SliderItemDirective,
-    AdminComponent,HeadersComponent, AdminViewpostsComponent, AdminViewusersComponent, UploadComponent, UploadDialogComponent
+    AdminComponent,HeadersComponent, AdminViewpostsComponent, AdminViewusersComponent, UploadComponent, UploadDialogComponent, UserComponent, UserContentComponent, UserDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -59,13 +63,14 @@ import {DataTableModule} from "angular-6-datatable";
     MatButtonModule,
     MatInputModule,
     MatChipsModule,    GalleryModule,
-    LightboxModule,DataTableModule,
-    GallerizeModule,MatGridListModule,MatPaginatorModule, MatSortModule, MatTableModule,MatSelectModule,
+    LightboxModule,DataTableModule,MatTabsModule,
+    GallerizeModule,MatGridListModule,MatPaginatorModule, MatSortModule, MatTableModule,MatSelectModule,   MatSlideToggleModule,
     MatMenuModule,MatIconModule, MatSidenavModule, MatListModule,MatProgressSpinnerModule
-    ,MatButtonModule, MatDialogModule, MatListModule, HttpClientModule, BrowserAnimationsModule, MatProgressBarModule
+    ,MatButtonModule, MatDialogModule, MatListModule, HttpClientModule, MatProgressBarModule
   ],
   entryComponents: [UploadDialogComponent,AdminViewusersComponent],
-  providers: [{ provide: MatDialogRef, useValue: {} },{ provide: MAT_DIALOG_DATA, useValue: [] },,AuthenticationService,AuthGuard,UploadService],
+  providers: [{ provide: MatDialogRef, useValue: {} },{ provide: MAT_DIALOG_DATA, useValue: [] },,AuthenticationService,AuthGuard,UploadService
+              ,ThemeService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

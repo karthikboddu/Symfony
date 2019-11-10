@@ -1,0 +1,32 @@
+<div class="row">
+
+        <mat-tab-group dynamicHeight >
+
+                <mat-tab>
+                    <ng-template mat-tab-label>uno</ng-template>
+                    <div>
+                        <h1>Uno</h1>
+                        <p></p>
+                        <app-home (productData)="loadPostDetails($event)"
+                        >
+                      </app-home>
+                    </div>
+                </mat-tab>
+              
+                <mat-tab>
+                    <ng-template mat-tab-label>due</ng-template>
+                    <div>
+                        <h1>Due </h1>
+                       
+                    </div>
+                </mat-tab>
+            
+                <mat-tab>
+                    <ng-template mat-tab-label>tre</ng-template>
+                    <div>
+                        <h1>Tre (3)</h1>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+
+</div>
