@@ -13,42 +13,42 @@ import { ThemeService } from './services/theme.service';
 })
 export class AppComponent implements OnInit {
   title = 'demoproject';
-  darkTheme =  new FormControl(false);
-  constructor(private authService : AuthenticationService,private route: ActivatedRoute,private postService: PostService
-   , private router: Router,private themeService:ThemeService
-   ) {
+  darkTheme = new FormControl(false);
+  constructor(private authService: AuthenticationService, private route: ActivatedRoute, private postService: PostService
+    , private router: Router, private themeService: ThemeService
+  ) {
 
 
-   }
-isAuthenticated : boolean;
-isTokenValid :any;
-allPost : any;
-admin :boolean;
-loggedin : boolean;
-ngOnInit() {
-    
-       console.log("isauth",this.isAuthenticated);
-      //  if(this.isAuthenticated){
-      //   this.router.navigate(['/home']);
-      //  }else{
-      //   this.router.navigate(['/login']);
-      //  }
+  }
+  isAuthenticated: boolean;
+  isTokenValid: any;
+  allPost: any;
+  admin: boolean;
+  loggedin: boolean;
+  ngOnInit() {
 
-      this.postService.getPostsByHomeScreen()
-          .pipe(first())
-          .subscribe(
-              data => {  
-                 this.allPost = data
-                  //this.allImg = data[0]['postfile'];
-                  console.log("data",this.allPost);
-                  //console.log("imgdata",data['postfile']);
-              },
-              error => {
-                  console.log("errors",error);
-              });
-  
-       
-}
+    console.log("isauth", this.isAuthenticated);
+    //  if(this.isAuthenticated){
+    //   this.router.navigate(['/home']);
+    //  }else{
+    //   this.router.navigate(['/login']);
+    //  }
+
+    this.postService.getPostsByHomeScreen()
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.allPost = data
+          //this.allImg = data[0]['postfile'];
+          console.log("data", this.allPost);
+          //console.log("imgdata",data['postfile']);
+        },
+        error => {
+          console.log("errors", error);
+        });
+
+
+  }
 
 
 

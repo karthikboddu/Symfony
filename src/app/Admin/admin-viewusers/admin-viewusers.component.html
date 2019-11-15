@@ -37,12 +37,13 @@
           <ng-container matColumnDef="roles">
             <mat-header-cell *matHeaderCellDef mat-sort-header> roles </mat-header-cell>
 
-            <mat-cell *matCellDef="let row"> {{row.roles}}             
-                <mat-select>
+            <mat-cell *matCellDef="let row"> 
+                <mat-select [(value)]="row.roles" placeholder="Mode" (selectionChange)="filterChanged(role_selected)" [(ngModel)]="role_selected">
                     <mat-option *ngFor="let role of roles" [value]="role">
                       {{role}}
                     </mat-option>
-                  </mat-select></mat-cell>
+                  </mat-select>
+            </mat-cell>
 
           </ng-container>
       

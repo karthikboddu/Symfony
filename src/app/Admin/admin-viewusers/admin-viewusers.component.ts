@@ -20,6 +20,7 @@ export class AdminViewusersComponent implements OnInit {
   dataSource: MatTableDataSource<User>;
   //datasource = new UserDataSource(this.admin);
   roles = ['Role Admin','Role User'];
+
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   constructor(private admin: AdminService) {
@@ -87,6 +88,11 @@ export class AdminViewusersComponent implements OnInit {
     }
 
 
+  }
+
+
+  filterChanged(role){
+  debugger
   }
 }
 

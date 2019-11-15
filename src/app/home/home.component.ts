@@ -15,6 +15,7 @@ import { EventEmitter } from 'events';
 export class HomeComponent implements OnInit {
 
   allPostDetails : Post[];
+  allPostEmit  : any;
   allPost :any;
   allImg : any;
   allTags : any;
@@ -70,6 +71,8 @@ debugger
           .subscribe(
               data => {  
                   this.allPostDetails = data;
+                  this.allPostEmit = data;
+                  this.postsData.emit(this.allPostEmit);
                   //this.allImg = data[0]['postfile'];
                   console.log("data",data);
                   //console.log("imgdata",data['postfile']);

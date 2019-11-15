@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpEventType, HttpResponse, HttpHeaders } from '@angular/common/http';
+import { AuthenticationService } from './authentication.service';
+import { ServiceUrlService } from '../serviceUrl/service-url.service';
 
-const url = 'http://localhost:3000/upload';
 
 @Injectable()
 export class UploadService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private authenticationService: AuthenticationService,private serviceUrl:ServiceUrlService) { }
 
   public upload(
     files: Set<File>
@@ -17,11 +18,16 @@ export class UploadService {
     files.forEach(file => {
       // create a new multipart-form for every file
       const formData: FormData = new FormData();
-      formData.append('file', file, file.name);
+      formData.append('file', 'ttt');
+      let headers = new HttpHeaders();
 
+      headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
+      
+     // const req =  this.http.post<any>(this.serviceUrl.host+this.serviceUrl.upload,formData,{headers:headers});
       // create a http-post request and pass the form
       // tell it to report the upload progress
-      const req = new HttpRequest('POST', url, formData, {
+
+      const req = new HttpRequest('POST', this.serviceUrl.host+this.serviceUrl.upload, file, {
         reportProgress: true
       });
 
@@ -29,7 +35,7 @@ export class UploadService {
       const progress = new Subject<number>();
 
       // send the http-request and subscribe for progress-updates
-
+      
       const startTime = new Date().getTime();
       this.http.request(req).subscribe(event => {
         if (event.type === HttpEventType.UploadProgress) {

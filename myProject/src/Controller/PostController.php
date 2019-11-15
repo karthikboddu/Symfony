@@ -208,8 +208,8 @@ class PostController extends AbstractController
                     throw new CustomUserMessageAuthenticationException('Expired Token');
                 } else {
                     $fileupload = new FileUpload();
-                    $form = $this->createForm(FileUploadType::class, $fileupload);
-                    $form->handleRequest($request);
+                    // $form = $this->createForm(FileUploadType::class, $fileupload);
+                    // $form->handleRequest($request);
                     $filName = $request->files->get('file');
                     //$fileName = $fileupload->getFile();
                     if ($form->isValid()) {

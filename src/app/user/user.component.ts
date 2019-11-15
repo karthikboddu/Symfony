@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Post } from '../models/post';
 
 @Component({
   selector: 'app-user',
@@ -12,7 +13,8 @@ export class UserComponent implements OnInit {
   ngOnInit() {
   }
 
-  loadPostDetails(event){
+  loadPostDetails(event:Post[]){
     this.postDetails = event;
+    console.log(this.postDetails,"eventemitter");
   }
 }
