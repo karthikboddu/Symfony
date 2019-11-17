@@ -16,9 +16,10 @@ export class UploadService {
     const status: { [key: string]: { progress: Observable<number> } } = {};
 
     files.forEach(file => {
+      debugger
       // create a new multipart-form for every file
       const formData: FormData = new FormData();
-      formData.append('file', 'ttt');
+      formData.append('file', file);
       let headers = new HttpHeaders();
 
       headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
@@ -27,8 +28,8 @@ export class UploadService {
       // create a http-post request and pass the form
       // tell it to report the upload progress
 
-      const req = new HttpRequest('POST', this.serviceUrl.host+this.serviceUrl.upload, file, {
-        reportProgress: true
+      const req = new HttpRequest('POST', this.serviceUrl.host+this.serviceUrl.upload, formData, {
+        reportProgress: true,headers
       });
 
       // create a new progress-subject for every file
@@ -60,4 +61,36 @@ export class UploadService {
     // return the map of progress.observables
     return status;
   }
+
+
+  videoUpload(files: Set<File>): { [key: string]: { progress: Observable<number> } }{
+    const status: { [key: string]: { progress: Observable<number> } } = {};
+  files.forEach(file => {
+    debugger
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    let headers = new HttpHeaders();
+
+    headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
+    
+    this.http.post<any>(this.serviceUrl.host+this.serviceUrl.upload,formData,{headers:headers}).subscribe(
+      data => {  
+         
+          //this.allImg = data[0]['postfile'];
+          console.log("data",data);
+          //console.log("imgdata",data['postfile']);
+      },
+      error => {
+          console.log("errors",error);
+      });
+    // create a http-post request and pass the form
+    // tell it to report the upload progress
+
+
+
+
+  });
+  return status;
+}
+
 }

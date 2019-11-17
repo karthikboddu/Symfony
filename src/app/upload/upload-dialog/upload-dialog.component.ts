@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { UploadService } from 'src/app/services/upload.service';
 import { forkJoin } from 'rxjs';
+import { first } from 'rxjs/operators';
 @Component({
   selector: 'app-upload-dialog',
   templateUrl: './upload-dialog.component.html',
@@ -50,6 +51,9 @@ export class UploadDialogComponent implements OnInit {
 
     // start the upload and save the progress map
     this.progress = this.uploadService.upload(this.files);
+     //this.uploadService.videoUpload(this.files);
+
+
     console.log(this.progress);
     for (const key in this.progress) {
       this.progress[key].progress.subscribe(val => console.log(val));
