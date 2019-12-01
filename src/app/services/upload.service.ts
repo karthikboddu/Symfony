@@ -8,7 +8,7 @@ import { ServiceUrlService } from '../serviceUrl/service-url.service';
 @Injectable()
 export class UploadService {
   constructor(private http: HttpClient,private authenticationService: AuthenticationService,private serviceUrl:ServiceUrlService) { }
-
+  fileName;
   public upload(
     files: Set<File>
   ): { [key: string]: { progress: Observable<number> } } {
@@ -17,9 +17,11 @@ export class UploadService {
 
     files.forEach(file => {
       debugger
+      this.fileName = file['name'];
       // create a new multipart-form for every file
       const formData: FormData = new FormData();
       formData.append('file', file);
+      formData.append('fileName',this.fileName);
       let headers = new HttpHeaders();
 
       headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());

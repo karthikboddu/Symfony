@@ -39,6 +39,12 @@ class UploadMediaType
      */
     private $MediaUploadName;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userMediaType")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $uploadMediaTypeUser;
+
 
 
     public function __construct()
@@ -95,6 +101,18 @@ class UploadMediaType
     public function setMediaUploadName(?UploadMedia $MediaUploadName): self
     {
         $this->MediaUploadName = $MediaUploadName;
+
+        return $this;
+    }
+
+    public function getUploadMediaTypeUser(): ?User
+    {
+        return $this->uploadMediaTypeUser;
+    }
+
+    public function setUploadMediaTypeUser(?User $uploadMediaTypeUser): self
+    {
+        $this->uploadMediaTypeUser = $uploadMediaTypeUser;
 
         return $this;
     }

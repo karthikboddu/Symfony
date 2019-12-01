@@ -48,9 +48,15 @@ class FileUpload
      */
     private $imageUrl;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="userMediaData")
+     */
+    private $MediaUserData;
+
     public function __construct()
     {
         $this->filepost = new ArrayCollection();
+        $this->MediaUserData = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -142,6 +148,34 @@ class FileUpload
     public function setImageUrl(string $imageUrl): self
     {
         $this->imageUrl = $imageUrl;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getMediaUserData(): Collection
+    {
+        return $this->MediaUserData;
+    }
+
+    public function addMediaUserData(User $mediaUserData): self
+    {
+        if (!$this->MediaUserData->contains($mediaUserData)) {
+            $this->MediaUserData[] = $mediaUserData;
+            $mediaUserData->addUserMediaData($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMediaUserData(User $mediaUserData): self
+    {
+        if ($this->MediaUserData->contains($mediaUserData)) {
+            $this->MediaUserData->removeElement($mediaUserData);
+            $mediaUserData->removeUserMediaData($this);
+        }
 
         return $this;
     }

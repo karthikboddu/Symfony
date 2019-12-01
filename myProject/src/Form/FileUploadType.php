@@ -14,7 +14,7 @@ class FileUploadType extends AbstractType
     {
         $builder
             ->add('file',FileType::class)
-            ->add('fileName')
+            ->add('fileName');
             
         ;
     }

@@ -208,15 +208,16 @@ class PostController extends AbstractController
                     throw new CustomUserMessageAuthenticationException('Expired Token');
                 } else {
                     $fileupload = new FileUpload();
-                    // $form = $this->createForm(FileUploadType::class, $fileupload);
-                    // $form->handleRequest($request);
+                     $form = $this->createForm(FileUploadType::class, $fileupload);
+                     $form->handleRequest($request);
                     $filName = $request->files->get('file');
-                    //$fileName = $fileupload->getFile();
-                    if ($form->isValid()) {
+                    $fileName = $fileupload->getFile();
+                    // if ($form->isValid()) {
                         $fileName = $fileupload->getFile();
-                        $fff = $fileupload->getName();
+                        $fff = $fileupload->getFilename();
                         $em = $this->getDoctrine()->getManager();
                         $username = $data['username'];
+                        $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
                         $ext = pathinfo($fileName . "/" . $fff, PATHINFO_EXTENSION);
                         //$key =   $request->request->get('file');
 
@@ -227,11 +228,11 @@ class PostController extends AbstractController
                         //     'SourceFile' => '/home/nishith/Downloads/green-circle.png',
                         // ]);    
 
-
+                        $UploadTypeName = $em->getRepository(UploadMediaType::class)->findOneBy(['mediaType' =>strtolower($ext)]);
                         $result = $s3Client->putObject([
                             'Bucket' => $this->getParameter('app.s3.bucket.demo'),
                             'ACL' => 'public-read',
-                            'Key'    => $username . "/" . $fff,
+                            'Key'    => $username . "/".$ext."/".$fff,
                             'Body'   => 'this is the body!',
                             'SourceFile' => $fileName
                         ]);
@@ -252,9 +253,15 @@ class PostController extends AbstractController
                         $fileupload->setImageUrl($result->get('ObjectURL'));
                         $em->persist($fileupload);
                         $em->flush();
+
+                        $user->addUserMediaData($fileupload);
+                        $user->addUserMediaType($UploadTypeName);
+
+                        $em->persist($user);
+                        $em->flush();
                     }
                     return $result;
-                }
+                // }
             }
         } catch (\Exception $exception) {
 
