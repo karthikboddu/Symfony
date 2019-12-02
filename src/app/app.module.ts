@@ -69,7 +69,7 @@ import { UserDetailsComponent } from './user/user-details/user-details.component
     ,MatButtonModule, MatDialogModule, MatListModule, HttpClientModule, MatProgressBarModule
   ],
   entryComponents: [UploadDialogComponent,AdminViewusersComponent],
-  providers: [{ provide: MatDialogRef, useValue: {} },{ provide: MAT_DIALOG_DATA, useValue: [] },,AuthenticationService,AuthGuard,UploadService
+  providers: [{ provide: MatDialogRef, useValue: {} },{ provide: MAT_DIALOG_DATA, useValue: [] },AuthenticationService,AuthGuard,UploadService
               ,ThemeService ],
   bootstrap: [AppComponent]
 })

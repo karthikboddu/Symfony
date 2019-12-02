@@ -13,10 +13,10 @@ import { FormControl } from '@angular/forms';
 })
 export class HeadersComponent implements OnInit {
   darkTheme =  new FormControl(false);
-  constructor(private authService : AuthenticationService,private route: ActivatedRoute,private postService: PostService
+  constructor(public authService : AuthenticationService,private route: ActivatedRoute,private postService: PostService
     , private router: Router,private themeService:ThemeService
     ) {
-      console.log("theme",this.darkTheme);``
+      console.log("theme",this.darkTheme);
       this.darkTheme.valueChanges.subscribe(value => {
         if (value) {
           this.themeService.toggleDark();

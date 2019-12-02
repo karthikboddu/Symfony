@@ -40,10 +40,9 @@ class UploadMediaType
     private $MediaUploadName;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userMediaType")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToOne(targetEntity="App\Entity\FileUpload", mappedBy="fileuplodtype", cascade={"persist", "remove"})
      */
-    private $uploadMediaTypeUser;
+    private $fileuploadid;
 
 
 
@@ -113,6 +112,23 @@ class UploadMediaType
     public function setUploadMediaTypeUser(?User $uploadMediaTypeUser): self
     {
         $this->uploadMediaTypeUser = $uploadMediaTypeUser;
+
+        return $this;
+    }
+
+    public function getFileuploadid(): ?FileUpload
+    {
+        return $this->fileuploadid;
+    }
+
+    public function setFileuploadid(FileUpload $fileuploadid): self
+    {
+        $this->fileuploadid = $fileuploadid;
+
+        // set the owning side of the relation if necessary
+        if ($fileuploadid->getFileuplodtype() !== $this) {
+            $fileuploadid->setFileuplodtype($this);
+        }
 
         return $this;
     }

@@ -83,17 +83,10 @@ class User implements UserInterface
      */
     private $userMediaData;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UploadMediaType", mappedBy="uploadMediaTypeUser", orphanRemoval=true)
-     */
-    private $userMediaType;
-
-
     public function __construct()
     {
         $this->postuser = new ArrayCollection();
         $this->userMediaData = new ArrayCollection();
-        $this->userMediaType = new ArrayCollection();
     }
 
 	public function getId(): int
@@ -283,37 +276,6 @@ class User implements UserInterface
     {
         if ($this->userMediaData->contains($userMediaData)) {
             $this->userMediaData->removeElement($userMediaData);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|UploadMediaType[]
-     */
-    public function getUserMediaType(): Collection
-    {
-        return $this->userMediaType;
-    }
-
-    public function addUserMediaType(UploadMediaType $userMediaType): self
-    {
-        if (!$this->userMediaType->contains($userMediaType)) {
-            $this->userMediaType[] = $userMediaType;
-            $userMediaType->setUploadMediaTypeUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserMediaType(UploadMediaType $userMediaType): self
-    {
-        if ($this->userMediaType->contains($userMediaType)) {
-            $this->userMediaType->removeElement($userMediaType);
-            // set the owning side to null (unless already changed)
-            if ($userMediaType->getUploadMediaTypeUser() === $this) {
-                $userMediaType->setUploadMediaTypeUser(null);
-            }
         }
 
         return $this;

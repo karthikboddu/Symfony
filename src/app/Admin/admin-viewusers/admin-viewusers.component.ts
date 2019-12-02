@@ -14,6 +14,8 @@ import { BlockScrollStrategy } from '@angular/cdk/overlay';
 export class AdminViewusersComponent implements OnInit {
 
   allUsers: any;
+  selected:any;
+  role_selected:any;
   allUsersData: User[];
   userSelected: User[];
   displayedColumns = ['id', 'name', 'surname', 'username', 'email', 'roles', 'created_at', 'password', 'phonenumber', 'active', 'details', 'update', 'delete'];
@@ -91,7 +93,7 @@ export class AdminViewusersComponent implements OnInit {
   }
 
 
-  filterChanged(role){
+  filterChanged(event){
   debugger
   }
 }

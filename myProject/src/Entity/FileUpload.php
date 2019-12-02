@@ -53,6 +53,12 @@ class FileUpload
      */
     private $MediaUserData;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\UploadMediaType", inversedBy="fileuploadid", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $fileuplodtype;
+
     public function __construct()
     {
         $this->filepost = new ArrayCollection();
@@ -176,6 +182,18 @@ class FileUpload
             $this->MediaUserData->removeElement($mediaUserData);
             $mediaUserData->removeUserMediaData($this);
         }
+
+        return $this;
+    }
+
+    public function getFileuplodtype(): ?UploadMediaType
+    {
+        return $this->fileuplodtype;
+    }
+
+    public function setFileuplodtype(UploadMediaType $fileuplodtype): self
+    {
+        $this->fileuplodtype = $fileuplodtype;
 
         return $this;
     }

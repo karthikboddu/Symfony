@@ -251,11 +251,12 @@ class PostController extends AbstractController
                         $etag = str_replace("\"", "", $result->get('ETag'));
                         $fileupload->setEtag($etag . "." . $ext);
                         $fileupload->setImageUrl($result->get('ObjectURL'));
+                        $fileupload->setFileuplodtype($UploadTypeName);
                         $em->persist($fileupload);
                         $em->flush();
 
                         $user->addUserMediaData($fileupload);
-                        $user->addUserMediaType($UploadTypeName);
+                        //$user->addUserMediaType($UploadTypeName);
 
                         $em->persist($user);
                         $em->flush();
@@ -491,5 +492,20 @@ class PostController extends AbstractController
         $userd = $this->getDoctrine()->getRepository(Post::class)->findByTotalActivePosts();
         return $userd[0]['totalposts'];
     }
-    
+
+    /**
+     * @Route(path="/api/deleteObject", name="deleteObject")
+     * @Method("GET")
+     */
+    public function deleteobject(S3Client $s3Client){
+
+        $result = $s3Client->deleteObject([
+            'Bucket' => $this->getParameter('app.s3.bucket.demo'),
+            'Key' => 'karthikboddu/mp4',
+            ]);
+
+        return $result;
+        
+    }
+
 }
