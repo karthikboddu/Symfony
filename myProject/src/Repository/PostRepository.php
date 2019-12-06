@@ -90,5 +90,13 @@ class PostRepository extends ServiceEntityRepository
         $totalPosts = $query->getScalarResult();
         return $totalPosts;
     }
+
+    public function findByFileUpload(){
+
+        $query1= $this->em->createQuery("SELECT u,pu FROM App\Entity\User u JOIN u.userMediaData pu  WHERE  u.active ='1' ");
+        
+        $users1 = $query1->getArrayResult();
+        return $users1;
+    }
     
 }
