@@ -15,8 +15,18 @@ export class UploadComponent implements OnInit {
   public openUploadDialog() {
     let dialogRef = this.dialog.open(UploadDialogComponent, { width: '50%', height: '50%' });
   }
-
+  userfiledata : any;
   ngOnInit() {
+
+  	this.uploadService.getFileUpload().subscribe(
+        data => {
+        	debugger
+        	this.userfiledata = data;
+          console.log("datasssss", data);
+        },
+        error => {
+          console.log("errors", error);
+        });
   }
 
 }

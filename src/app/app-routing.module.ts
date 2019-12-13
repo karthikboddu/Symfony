@@ -13,6 +13,7 @@ import { AdminViewusersComponent } from './Admin/admin-viewusers/admin-viewusers
 import { AlertComponent } from './alert/alert.component';
 import { AdminViewpostsComponent } from './Admin/admin-viewposts/admin-viewposts.component';
 import { UploadDialogComponent } from './upload/upload-dialog/upload-dialog.component';
+import {UploadComponent} from './upload/upload.component';
 import { UserComponent } from './user/user.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { UserContentComponent } from './user/user-content/user-content.component';
@@ -25,7 +26,8 @@ const routes: Routes = [
   { path: 'movies', component: MoviesComponent },
   { path: 'viewpost', component: ViewpostComponent },
   { path: 'viewpost/:id', component: ViewpostComponent },
-  {path :'users',
+  {}
+  { path :'users',
     canActivate:[AuthGuard],
     children:[{
       path : '',
@@ -61,7 +63,7 @@ const routes: Routes = [
       }
     ]
   },
-  { path: 'upload', component: UploadDialogComponent },
+  { path: 'upload', component: UploadComponent },
 ];
 
 @NgModule({

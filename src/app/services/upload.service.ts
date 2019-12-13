@@ -95,4 +95,8 @@ export class UploadService {
   return status;
 }
 
+getFileUpload()
+{
+  return this.http.get(this.serviceUrl.host+this.serviceUrl.userFileUpload);
+}
 }
