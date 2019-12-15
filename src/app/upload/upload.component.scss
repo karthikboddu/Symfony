@@ -3,6 +3,27 @@
   max-height: 3000px;
 }
   .blog-content{
-    max-width: 400px;
+    max-width: 200px;
     max-height: 550px;
   }
+
+  
+
+  /** No CSS for this example */
+mat-card {
+  margin-bottom: 10px;
+  max-height: 175px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.img-responsive{
+  max-height: 200px;
+}
+

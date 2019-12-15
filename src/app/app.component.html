@@ -2,7 +2,7 @@
 <div class="container-fluid">
   <app-slider-image></app-slider-image>
   <alert></alert>
-  
+  <app-upload *ngIf="authService.isLoggedIn && ( !router.url.includes('post') && !router.url.includes('users') && !router.url.includes('admin') && !router.url.includes('home') )" ></app-upload>
   <!-- <app-slider *ngFor="let posts of allPost">
 
     <div appSliderItem *ngFor="let postusers of posts">
@@ -40,5 +40,5 @@
   <!--      <mat-card class="col-md-6 d-block d-lg-none">4</mat-card>
     </div> -->  
 </section>
-<!-- <app-upload></app-upload> -->
+
 <footer></footer>

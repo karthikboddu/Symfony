@@ -54,15 +54,20 @@ class FileUpload
     private $MediaUserData;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\UploadMediaType", inversedBy="fileuploadid", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\UploadMediaType", inversedBy="fileuploadid")
      * @ORM\JoinColumn(nullable=false)
      */
     private $fileuplodtype;
+
+
+
+
 
     public function __construct()
     {
         $this->filepost = new ArrayCollection();
         $this->MediaUserData = new ArrayCollection();
+        $this->fileuplodtype = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -186,15 +191,43 @@ class FileUpload
         return $this;
     }
 
-    public function getFileuplodtype(): ?UploadMediaType
+    /**
+     * @return Collection|UploadMediaType[]
+     */
+    public function getFileuplodtype(): Collection
     {
         return $this->fileuplodtype;
     }
 
-    public function setFileuplodtype(UploadMediaType $fileuplodtype): self
+    public function addFileuplodtype(UploadMediaType $fileuplodtype): self
+    {
+        if (!$this->fileuplodtype->contains($fileuplodtype)) {
+            $this->fileuplodtype[] = $fileuplodtype;
+            $fileuplodtype->setFileuploadid($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFileuplodtype(UploadMediaType $fileuplodtype): self
+    {
+        if ($this->fileuplodtype->contains($fileuplodtype)) {
+            $this->fileuplodtype->removeElement($fileuplodtype);
+            // set the owning side to null (unless already changed)
+            if ($fileuplodtype->getFileuploadid() === $this) {
+                $fileuplodtype->setFileuploadid(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function setFileuplodtype(?UploadMediaType $fileuplodtype): self
     {
         $this->fileuplodtype = $fileuplodtype;
 
         return $this;
     }
+
+ 
 }

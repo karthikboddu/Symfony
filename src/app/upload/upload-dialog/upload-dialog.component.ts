@@ -26,7 +26,9 @@ export class UploadDialogComponent implements OnInit {
   uploadSuccessful = false;
 
   onFilesAdded() {
+    debugger
     const files: { [key: string]: File } = this.file.nativeElement.files;
+    console.log(files,"files");
     for (let key in files) {
       if (!isNaN(parseInt(key))) {
         this.files.add(files[key]);

@@ -17,6 +17,7 @@ import {UploadComponent} from './upload/upload.component';
 import { UserComponent } from './user/user.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { UserContentComponent } from './user/user-content/user-content.component';
+import { AppComponent } from './app.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -26,7 +27,8 @@ const routes: Routes = [
   { path: 'movies', component: MoviesComponent },
   { path: 'viewpost', component: ViewpostComponent },
   { path: 'viewpost/:id', component: ViewpostComponent },
-  {}
+
+
   { path :'users',
     canActivate:[AuthGuard],
     children:[{

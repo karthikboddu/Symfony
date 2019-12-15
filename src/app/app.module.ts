@@ -35,6 +35,9 @@ import { ThemeService } from './services/theme.service';
 import { UserComponent } from './user/user.component';
 import { UserContentComponent } from './user/user-content/user-content.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import { CKEditorModule } from 'ckeditor4-angular';
+import { MatContenteditableModule } from 'mat-contenteditable';
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,7 +69,9 @@ import { UserDetailsComponent } from './user/user-details/user-details.component
     LightboxModule,DataTableModule,MatTabsModule,
     GallerizeModule,MatGridListModule,MatPaginatorModule, MatSortModule, MatTableModule,MatSelectModule,   MatSlideToggleModule,
     MatMenuModule,MatIconModule, MatSidenavModule, MatListModule,MatProgressSpinnerModule
-    ,MatButtonModule, MatDialogModule, MatListModule, HttpClientModule, MatProgressBarModule
+    ,MatButtonModule, MatDialogModule, MatListModule, HttpClientModule, MatProgressBarModule,
+    FlexLayoutModule,CKEditorModule,
+    MatContenteditableModule
   ],
   entryComponents: [UploadDialogComponent,AdminViewusersComponent],
   providers: [{ provide: MatDialogRef, useValue: {} },{ provide: MAT_DIALOG_DATA, useValue: [] },AuthenticationService,AuthGuard,UploadService

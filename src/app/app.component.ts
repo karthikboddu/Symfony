@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
     , private router: Router, private themeService: ThemeService
   ) {
 
-
+    console.log(this.router.url,"router");
   }
   isAuthenticated: boolean;
   isTokenValid: any;
@@ -50,6 +50,10 @@ export class AppComponent implements OnInit {
 
   }
 
+  async ngOnDestroy() {
+ 
 
+    await this.authService.logout();
+  }
 
 }

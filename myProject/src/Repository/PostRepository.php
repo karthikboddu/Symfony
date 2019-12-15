@@ -93,7 +93,7 @@ class PostRepository extends ServiceEntityRepository
 
     public function findByFileUpload(){
 
-        $query1= $this->em->createQuery("SELECT u,pu,pss,pm FROM App\Entity\User u JOIN u.userMediaData pu join u.postuser pss JOIN pu.fileuplodtype pm  WHERE  u.active ='1' ");
+        $query1= $this->em->createQuery("SELECT u,pu,psf,pm FROM App\Entity\User u JOIN u.userMediaData pu LEFT join u.postuser pss JOIN pss.postfile psf  JOIN pu.fileuplodtype pm  WHERE  u.active ='1' ");
         
         $users1 = $query1->getArrayResult();
         return $users1;
