@@ -5,6 +5,7 @@ import { PostService } from '../services/post.service';
 import { first } from 'rxjs/operators';
 import { AlertService } from '../services/alert.service';
 import { Tags } from '../models/tags';
+import { UploadService } from '../services/upload.service';
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
@@ -16,13 +17,13 @@ export class PostComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
-
+  fileUploadId : any;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private postService: PostService,
-    private alertService: AlertService) { }
+    private alertService: AlertService, private uploadService:UploadService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -34,6 +35,8 @@ export class PostComponent implements OnInit {
     // get return url from route parameters or default to '/'
     this.returnUrl = 'home';
     this.imgURL = 'http://cliquecities.com/assets/no-image-e3699ae23f866f6cbdf8ba2443ee5c4e.jpg';
+    this.fileUploadId = this.uploadService.getUserFileUploadId();
+    console.log(this.fileUploadId,"fileid");
   }
   divs: number[] = [];
   divtags: string[] = [];

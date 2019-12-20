@@ -254,7 +254,7 @@ class PostController extends AbstractController
                     $em->persist($user);
                     $em->flush();
                 }
-                return $result;
+                return $fileupload->getId();
                 // }
             }
         } catch (\Exception $exception) {
@@ -503,11 +503,20 @@ class PostController extends AbstractController
      * @Route(path="/api/postfileUpload", name="postfileUpload")
      * @Method("GET")
      */
-    public function postfileUpload(S3Client $s3Client)
+    public function postfileUpload(S3Client $s3Client,Request $request)
     {
-        $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByFileUpload();
-        return $postfileUpload;
+        if ($this->jwtEncoder->supports($request)) {
+        
+            $preAuthToken = $this->jwtEncoder->getCredentials($request);
+            $data = $this->jwtEncoderIn->decode($preAuthToken);
+            if ($data == false) {
+                throw new CustomUserMessageAuthenticationException('Expired Token');
+            } else {
+                $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByFileUpload();
+                return $postfileUpload;
+            }
 
+        }
     }
 
 }
