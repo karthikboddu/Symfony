@@ -74,33 +74,33 @@ class PostController extends AbstractController
             } else {
                 $tag = $em->getRepository(Tags::class)->findOneBy(['name' => 'others']);
             }
-            $imgname = $request->get('fileName');
-            if ($request->get('fileName')) {
-                $fileEntity = $this->uploadForm($request, $s3Client);
+            $imgname = $request->get('file');
+            // if ($request->get('fileName')) { 
+            //     $fileEntity = $this->uploadForm($request, $s3Client);
 
-                $ext = pathinfo($fileEntity->getFile() . "/" . $fileEntity->getFilename(), PATHINFO_EXTENSION);
-                $UploadTypeName = $em->getRepository(UploadMediaType::class)->findOneBy(['mediaType' => strtolower($ext)]);
-            } else {
-                $fileEntity = new FileUpload();
-                $UploadTypeName = $em->getRepository(UploadMediaType::class)->findOneBy(['mediaType' => 'mp4']);
-            }
+            //     $ext = pathinfo($fileEntity->getFile() . "/" . $fileEntity->getFilename(), PATHINFO_EXTENSION);
+            //     $UploadTypeName = $em->getRepository(UploadMediaType::class)->findOneBy(['mediaType' => strtolower($ext)]);
+            // } else {
+            //     $fileEntity = new FileUpload();
+            //     $UploadTypeName = $em->getRepository(UploadMediaType::class)->findOneBy(['mediaType' => 'mp4']);
+            // }
 
-            $slugify = new Slugify();
-            $slug = $slugify->slugify($post->getName(), '_');
-            $numOfBytes = 5;
-            $randomBytes = random_bytes($numOfBytes);
-            $randomString = base64_encode($randomBytes);
+            // $slugify = new Slugify();
+            // $slug = $slugify->slugify($post->getName(), '_');
+            // $numOfBytes = 5;
+            // $randomBytes = random_bytes($numOfBytes);
+            // $randomString = base64_encode($randomBytes);
 
-            $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
-            $post->setCreated(new \DateTime());
-            $post->setPostuser($user);
-            $post->setPosttag($tag);
-            $post->setPosturl($slug . "-" . $randomString);
-            $post->addPostfile($fileEntity);
-            $post->setMediaTypeUpload($UploadTypeName);
-            $post->setStatus(true);
-            $em->persist($post);
-            $em->flush();
+            // $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
+            // $post->setCreated(new \DateTime());
+            // $post->setPostuser($user);
+            // $post->setPosttag($tag);
+            // $post->setPosturl($slug . "-" . $randomString);
+            // $post->addPostfile($fileEntity);
+            // $post->setMediaTypeUpload($UploadTypeName);
+            // $post->setStatus(true);
+            // $em->persist($post);
+            // $em->flush();
 
             return new JsonResponse(['status' => 'ok', 'data' => $imgname]);
             // }
@@ -186,6 +186,90 @@ class PostController extends AbstractController
         }
         return new JsonResponse(['status' => $request->headers->has('Authorization')]);
     }
+
+
+    /**
+     * @Route(path="/api/uploads3", name="uploads3")
+     * @Method("POST")
+     */
+    public function uploadFileToS3(Request $request, S3Client $s3Client)
+    {
+        try {
+            //$h = $request->headers->has('Authorization');
+            if ($this->jwtEncoder->supports($request)) {
+                $preAuthToken = $this->jwtEncoder->getCredentials($request);
+                $data = $this->jwtEncoderIn->decode($preAuthToken);
+                if ($data == false) {
+                    throw new CustomUserMessageAuthenticationException('Expired Token');
+                } else {
+                    $fileupload = new FileUpload();
+                    $form = $this->createForm(FileUploadType::class, $fileupload);
+                    $form->handleRequest($request);
+                    $filName = $request->files->get('file');
+                    $fileName = $fileupload->getFile();
+                    // if ($form->isValid()) {
+                    $fileName = $fileupload->getFile();
+                    $fff = $fileupload->getFilename();
+                    $em = $this->getDoctrine()->getManager();
+                    $username = $data['username'];
+                    $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
+                    $ext = pathinfo($fileName . "/" . $fff, PATHINFO_EXTENSION);
+                    //$key =   $request->request->get('file');
+
+                    // $cmd = $s3Client->getCommand('PutObject', [
+                    //     'Bucket' => $this->getParameter('app.s3.bucket.demo'),
+                    //     'ACL' => 'public-read',
+                    //     'Key' => $request->request->get('name'),
+                    //     'SourceFile' => '/home/nishith/Downloads/green-circle.png',
+                    // ]);
+
+                    $UploadTypeName = $em->getRepository(UploadMediaType::class)->findOneBy(['mediaType' => strtolower($ext)]);
+                    $result = $s3Client->putObject([
+                        'Bucket' => $this->getParameter('app.s3.bucket.demo'),
+                        'ACL' => 'public-read',
+                        'Key' => $username . "/" . $ext . "/" . $fff,
+                        'Body' => 'this is the body!',
+                        'SourceFile' => $fileName,
+                    ]);
+                    // $signedRequest = $s3Client->createPresignedRequest($cmd, '+20 minutes');
+                    // $result = $s3Client->execute($cmd);
+                    // $response = new JsonResponse([
+                    //     'signedUrl' => (string) $signedRequest->getUri(),
+                    //     'imageUrl' => sprintf("https://%s.s3.amazonaws.com/%s",
+                    //         'my-blog-19',
+                    //         $request->request->get('name')
+                    //     )
+                    // ], Response::HTTP_OK);
+
+                    $fileupload->setUploadedAt(new \DateTime());
+                    $etag = str_replace("\"", "", $result->get('ETag'));
+                    $fileupload->setEtag($etag . "." . $ext);
+                    $fileupload->setImageUrl($result->get('ObjectURL'));
+                    $fileupload->setFileuplodtype($UploadTypeName);
+                    $em->persist($fileupload);
+                    $em->flush();
+
+                    $user->addUserMediaData($fileupload);
+                    //$user->addUserMediaType($UploadTypeName);
+
+                    $em->persist($user);
+                    $em->flush();
+                }
+                return $fileupload->getId();
+                // }
+            }
+        } catch (\Exception $exception) {
+
+            return new JsonResponse([
+                'success' => $request->get('name'),
+                'code' => $exception->getCode(),
+                'message' => $exception->getMessage(),
+            ], Response::HTTP_SERVICE_UNAVAILABLE);
+        }
+    }
+
+
+
 
     /**
      * @Route(path="/api/upload", name="upload")

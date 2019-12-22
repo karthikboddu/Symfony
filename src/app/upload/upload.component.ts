@@ -13,7 +13,7 @@ export class UploadComponent implements OnInit {
   constructor(public dialog: MatDialog, public uploadService: UploadService) { }
 
   public openUploadDialog() {
-    let dialogRef = this.dialog.open(UploadDialogComponent, { width: '50%', height: '50%' });
+    let dialogRef = this.dialog.open(UploadDialogComponent, { width: '60%', height: '70%' });
   }
   userfiledata : any;
   ngOnInit() {

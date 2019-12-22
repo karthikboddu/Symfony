@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material';
 import { UploadService } from 'src/app/services/upload.service';
 import { forkJoin } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { User } from 'src/app/models/user';
 @Component({
   selector: 'app-upload-dialog',
   templateUrl: './upload-dialog.component.html',
@@ -13,10 +14,21 @@ export class UploadDialogComponent implements OnInit {
   @ViewChild('file', { static: false }) file;
 
   public files: Set<File> = new Set();
-
+  userFileData : User;
   constructor(public dialogRef: MatDialogRef<UploadDialogComponent>, public uploadService: UploadService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+    this.uploadService.getFileByUserId().subscribe(data => {
+      debugger
+      this.userFileData = data;
+    
+    },
+    error => {
+      console.log("errors", error);
+    });
+
+   }
 
   progress;
   canBeClosed = true;

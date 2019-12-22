@@ -51,5 +51,12 @@ class UserRepository extends ServiceEntityRepository
         $query->setParameter('u_id',$u_id);
         return $query->getArrayResult();
     }
+
+    public function findByFileUserId($u_id){
+        $query1= $this->em->createQuery("SELECT u,pu,psf,pm FROM App\Entity\User u JOIN u.userMediaData pu LEFT join u.postuser pss JOIN pss.postfile psf  JOIN pu.fileuplodtype pm  WHERE  u.active ='1' AND u.id = :u_id  ");
+        $query1->setParameter('u_id',$u_id);
+        $users1 = $query1->getArrayResult();
+        return $users1;
+    }
    // SELECT * FROM `users` WHERE JSON_CONTAINS(roles, '["ROLE_USER"]')
 }

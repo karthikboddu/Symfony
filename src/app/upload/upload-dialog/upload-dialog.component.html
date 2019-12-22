@@ -1,28 +1,78 @@
 <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple />
-<div class="container" fxLayout="column" fxLayoutAlign="space-evenly stretch">
-  <h1 mat-dialog-title>Upload Files</h1>
-  <div>
-    <button [disabled]="uploading || uploadSuccessful" mat-raised-button color="primary" class="add-files-btn" (click)="addFiles()">
-      Add Files
-    </button>
-  </div>
+<div class="row">
 
-  <!-- This is the content of the dialog, containing a list of the files to upload -->
-  <mat-dialog-content fxFlex>
-    <mat-list>
-      <mat-list-item *ngFor="let file of files">
+    <mat-tab-group  mat-align-tabs="center" >
 
-        <h4 mat-line>{{file.name}}</h4>
+            <mat-tab>
+                <ng-template mat-tab-label>Upload Files</ng-template>
+                <div class="container" fxLayout="column" fxLayoutAlign="space-evenly stretch">
+                    <h1 mat-dialog-title>Upload Files</h1>
+                    <div>
+                      <button [disabled]="uploading || uploadSuccessful" mat-raised-button color="primary" class="add-files-btn" (click)="addFiles()">
+                        Add Files
+                      </button>
+                    </div>
+                       <mat-list>
+                        <mat-list-item *ngFor="let file of files">
+                  
+                          <h4 mat-line>{{file.name}}</h4>
+                  
+                          <mat-progress-bar *ngIf="progress" mode="determinate" [value]="progress[file.name].progress | async"></mat-progress-bar>
+                  
+                        </mat-list-item>
+                      </mat-list>                 
+                    <!-- This is the content of the dialog, containing a list of the files to upload -->
+                    <!-- <mat-dialog-content fxFlex>
+                      
+                      <mat-list>
+                        <mat-list-item *ngFor="let file of files">
+                  
+                          <h4 mat-line>{{file.name}}</h4>
+                  
+                          <mat-progress-bar *ngIf="progress" mode="determinate" [value]="progress[file.name].progress | async"></mat-progress-bar>
+                  
+                        </mat-list-item>
+                      </mat-list>
+                    </mat-dialog-content>
+                   -->
+                    <!-- This are the actions of the dialog, containing the primary and the cancel button-->
+                    <mat-dialog-actions class="actions">
+                      <button *ngIf="showCancelButton" mat-button mat-dialog-close>Cancel</button>
+                      <button mat-raised-button color="primary" [disabled]="!canBeClosed" (click)="closeDialog()">{{primaryButtonText}}</button>
+                    </mat-dialog-actions>
+                  </div>
+                              </mat-tab>      
+            <mat-tab>
+                <ng-template mat-tab-label>Uploaded</ng-template>
+                <div>
+                    <div *ngFor="let pf of userFileData">
+                        <div fxLayout.xs="column" fxLayout="row wrap" fxLayoutGap="10px" ngClass.gt-xs="ml-10">
+                    
+                            <mat-card *ngFor="let video of pf.userMediaData" fxFlex.sm="0 1 calc(50%-10px)" fxFlex.md="0 1 calc(33%-10px)"
+                                fxFlex.gt-md="0 1 calc(25%-40px)">
+                                
+                                <img *ngIf='video.fileuplodtype.name === "Image"' mat-card-image src="{{video.imageUrl}}" class="img-responsive">
+                    
+                    
+                                <video *ngIf='video.fileuplodtype.name === "video"' id="my_video_1" class="video-js vjs-default-skin"
+                                    width="auto" height="150px" controls preload="none"
+                                    poster='http://video-js.zencoder.com/oceans-clip.jpg'
+                                    data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
+                                    <source src="{{video.imageUrl}}" type='video/mp4' />
+                                    <source src="" type='video/webm' />
+                                </video>
+                    
+                                <!-- <mat-card-content>Primary card content. Intended for blocks of text</mat-card-content>
+                                <mat-card-actions>Container for buttons at the bottom of the card</mat-card-actions> -->
+                            </mat-card>
+                    
+                    
+                        </div>
+                      </div>
+                   
+                </div>
+            </mat-tab>
+        </mat-tab-group>
 
-        <mat-progress-bar *ngIf="progress" mode="determinate" [value]="progress[file.name].progress | async"></mat-progress-bar>
-
-      </mat-list-item>
-    </mat-list>
-  </mat-dialog-content>
-
-  <!-- This are the actions of the dialog, containing the primary and the cancel button-->
-  <mat-dialog-actions class="actions">
-    <button *ngIf="showCancelButton" mat-button mat-dialog-close>Cancel</button>
-    <button mat-raised-button color="primary" [disabled]="!canBeClosed" (click)="closeDialog()">{{primaryButtonText}}</button>
-  </mat-dialog-actions>
 </div>
+

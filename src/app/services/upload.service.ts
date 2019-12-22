@@ -3,6 +3,7 @@ import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpRequest, HttpEventType, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { AuthenticationService } from './authentication.service';
 import { ServiceUrlService } from '../serviceUrl/service-url.service';
+import { User } from '../models/user';
 
 
 @Injectable()
@@ -13,7 +14,7 @@ export class UploadService {
   userFileData = this.userFileUploadId.asObservable();
   public upload(files: Set<File>): { [key: string]: { progress: Observable<number> } } {
     // this will be the our resulting map
-     let resultId = [];
+    let resultId = [];
     const status: { [key: string]: { progress: Observable<number> } } = {};
     //const res :{ [key:string]: {result: resultId  } } = {};
     files.forEach(file => {
@@ -30,7 +31,7 @@ export class UploadService {
       // const req =  this.http.post<any>(this.serviceUrl.host+this.serviceUrl.upload,formData,{headers:headers});
       // create a http-post request and pass the form
       // tell it to report the upload progress
-
+      debugger
       const req = new HttpRequest('POST', this.serviceUrl.host + this.serviceUrl.upload, formData, {
         reportProgress: true, headers
       });
@@ -42,6 +43,7 @@ export class UploadService {
 
       const startTime = new Date().getTime();
       this.http.request(req).subscribe((event: any) => {
+        console.log("event",event.body);
         resultId.push(event.body);
         this.userFileUploadId.next(resultId);
         // console.log("resultid", resultId);
@@ -108,5 +110,12 @@ export class UploadService {
 
   getUserFileUploadId() {
     return this.userFileUploadId.value;
+  }
+
+  getFileByUserId(){
+    let headers = new HttpHeaders();
+    headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
+
+    return this.http.get<User>(this.serviceUrl.host + this.serviceUrl.getFileByUserId, { headers: headers });
   }
 }

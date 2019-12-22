@@ -15,7 +15,7 @@ export class ServiceUrlService {
   public postid = '/api/postById';
   public tags = '/api/tags';
   public postByTag = '/api/postByTag';
-  public upload = '/api/upload';
+  public upload = '/api/uploads3';
   public singlePost = '/api/viewPostByUser';
   public getAuth = '/api/check_login';
   public postsByHomeScreen = '/api/postsByHomeScreen';
@@ -25,4 +25,5 @@ export class ServiceUrlService {
   public adminTotalUsers = '/api/admin/getNumberUsers';
   public adminDeleteUsers = '/api/admin/deleteUser';
   public userFileUpload = '/api/postfileUpload';
+  public getFileByUserId = '/api/getFileByUserId';
 }

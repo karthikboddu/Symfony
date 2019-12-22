@@ -33,7 +33,7 @@ class UsersController extends AbstractController
         $user->setRoles(['ROLE_USER']);
         $userRole = $user->getRoles();
         //$tag = $em->getRepository(User::class)->findOneBy(['roles' => $userRole]);
-        $postData = $em->getRepository(User::class)->findUsersByRole($userRole[0]);
+        $postData = $em->getRepository(User::class)->findByUsersActive($userRole[0]);
         return $postData;
     }
 
