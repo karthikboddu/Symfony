@@ -25,12 +25,12 @@ export class PostService {
         return this.http.get<Post[]>(this.serviceUrl.host+this.serviceUrl.postid,{headers: headers});
     }
 
-    post(posts,imagePath,fileToUpload,divTags) {
+    post(posts,fileToUpload,divTags) {
         debugger
        
         let uploads = new FormData();
         uploads.append("file",fileToUpload);
-        uploads.append("fileName",imagePath);
+     
         uploads.append("name",posts.name);
         uploads.append("description",posts.description);
         uploads.append("tags",divTags);

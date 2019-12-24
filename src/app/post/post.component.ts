@@ -69,11 +69,12 @@ export class PostComponent implements OnInit {
     }
 
     this.loading = true;
-    this.postService.post(this.loginForm.value, this.imagePath, this.fileToUpload, this.divtags)
+    this.fileUploadId = this.fileUploadId.filter(Boolean);
+    this.postService.post(this.loginForm.value,this.fileUploadId, this.divtags)
       .pipe(first())
       .subscribe(
         data => {
-          console.log("data", data);
+          console.log("postdata", data);
           this.router.navigate([this.returnUrl]);
           this.loading = true;
         },

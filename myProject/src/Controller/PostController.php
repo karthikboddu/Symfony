@@ -58,54 +58,66 @@ class PostController extends AbstractController
      */
     public function postRegisterAction(Request $request, S3Client $s3Client)
     {
-        if ($this->jwtEncoder->supports($request)) {
+        try {
+            if ($this->jwtEncoder->supports($request)) {
 
-            $post = new Post();
-            $form = $this->createForm(PostType::class, $post);
-            $form->handleRequest($request);
-            $em = $this->getDoctrine()->getManager();
-            // if ($form->isValid()) {
-            $preAuthToken = $this->jwtEncoder->getCredentials($request);
-            $data = $this->jwtEncoderIn->decode($preAuthToken);
-            $username = $data['username'];
-            $tagName = $request->get('tags');
-            if (!empty($request->get('tags'))) {
-                $tag = $em->getRepository(Tags::class)->findOneBy(['name' => $tagName]);
-            } else {
-                $tag = $em->getRepository(Tags::class)->findOneBy(['name' => 'others']);
+                $post = new Post();
+                $form = $this->createForm(PostType::class, $post);
+                $form->handleRequest($request);
+                $em = $this->getDoctrine()->getManager();
+                // if ($form->isValid()) {
+                $preAuthToken = $this->jwtEncoder->getCredentials($request);
+                $data = $this->jwtEncoderIn->decode($preAuthToken);
+                $username = $data['username'];
+                $tagName = $request->get('tags');
+                if (!empty($request->get('tags'))) {
+                    $tag = $em->getRepository(Tags::class)->findOneBy(['name' => $tagName]);
+                } else {
+                    $tag = $em->getRepository(Tags::class)->findOneBy(['name' => 'Others']);
+                }
+                $imgname = $request->get('file');
+                $userFileUploadId = explode(",",$imgname);
+                // if ($request->get('fileName')) {
+                //     $fileEntity = $this->uploadForm($request, $s3Client);
+    
+                //     $ext = pathinfo($fileEntity->getFile() . "/" . $fileEntity->getFilename(), PATHINFO_EXTENSION);
+                //     $UploadTypeName = $em->getRepository(UploadMediaType::class)->findOneBy(['mediaType' => strtolower($ext)]);
+                // } else {
+                //     $fileEntity = new FileUpload();
+                //     $UploadTypeName = $em->getRepository(UploadMediaType::class)->findOneBy(['mediaType' => 'mp4']);
+                // }
+    
+                // $slugify = new Slugify();
+                // $slug = $slugify->slugify($post->getName(), '_');
+                // $numOfBytes = 5;
+                // $randomBytes = random_bytes($numOfBytes);
+                // $randomString = base64_encode($randomBytes);
+    
+                // $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
+                // $post->setCreated(new \DateTime());
+                // $post->setPostuser($user);
+                // $post->setPosttag($tag);
+                // $post->setPosturl($slug . "-" . $randomString);
+                // foreach ($userFileUploadId as $key => $value) {
+                //     $eachUserFileId = $em->getRepository(FileUpload::class)->findOneBy(['id' => $value]);
+                //     $post->addPostfile($eachUserFileId);
+                // }
+                
+                // // $post->setMediaTypeUpload($UploadTypeName);
+                // $post->setStatus(true);
+                // $em->persist($post);
+                // $em->flush();
+    
+                return new JsonResponse(['status' => 'ok', 'data' => $userFileUploadId]);
+                // }
             }
-            $imgname = $request->get('fileName');
-            if ($request->get('fileName')) {
-                $fileEntity = $this->uploadForm($request, $s3Client);
-
-                $ext = pathinfo($fileEntity->getFile() . "/" . $fileEntity->getFilename(), PATHINFO_EXTENSION);
-                $UploadTypeName = $em->getRepository(UploadMediaType::class)->findOneBy(['mediaType' => strtolower($ext)]);
-            } else {
-                $fileEntity = new FileUpload();
-                $UploadTypeName = $em->getRepository(UploadMediaType::class)->findOneBy(['mediaType' => 'mp4']);
-            }
-
-            $slugify = new Slugify();
-            $slug = $slugify->slugify($post->getName(), '_');
-            $numOfBytes = 5;
-            $randomBytes = random_bytes($numOfBytes);
-            $randomString = base64_encode($randomBytes);
-
-            $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
-            $post->setCreated(new \DateTime());
-            $post->setPostuser($user);
-            $post->setPosttag($tag);
-            $post->setPosturl($slug . "-" . $randomString);
-            $post->addPostfile($fileEntity);
-            $post->setMediaTypeUpload($UploadTypeName);
-            $post->setStatus(true);
-            $em->persist($post);
-            $em->flush();
-
-            return new JsonResponse(['status' => 'ok', 'data' => $imgname]);
-            // }
+        } catch (\Exception $e) {
+            //throw $th; 'message' => $exception->getMessage(),
+            // throw new HttpException(400, "Invalid data");
+            return new JsonResponse(['status' => '0', 'message' => $e->getMessage()]);
         }
-        throw new HttpException(400, "Invalid data");
+        
+        
     }
 
     /**

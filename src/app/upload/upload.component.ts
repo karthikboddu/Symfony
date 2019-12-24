@@ -29,12 +29,12 @@ export class UploadComponent implements OnInit {
         });
   }
 
-  async ngOnDestroy() {
-    if (this.userfiledata) {
-        this.userfiledata.unsubscribe();
-    }
+  // async ngOnDestroy() {
+  //   if (this.userfiledata) {
+  //       this.userfiledata.unsubscribe();
+  //   }
 
     
-  }
+  // }
 
 }
