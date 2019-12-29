@@ -99,4 +99,20 @@ class PostRepository extends ServiceEntityRepository
         return $users1;
     }
     
+
+    public function findByGroup()
+    {
+
+        // return $this->createQueryBuilder('p')
+   
+        //     ->addSelect("GROUP_CONCAT( p.name SEPARATOR '; ') AS locationNames")
+          
+        //     ->getQuery()
+        //     ->getArrayResult()
+        // ;
+
+        $query = $this->em->createQuery("SELECT p,pfu,GROUP_CONCAT( pfu.id SEPARATOR '; ') AS locationNames FROM App\Entity\Post p JOIN p.postfile pfu");
+        $totalPosts = $query->getArrayResult();
+        return $totalPosts;
+    }
 }

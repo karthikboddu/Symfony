@@ -5,6 +5,7 @@ import { PostService } from '../services/post.service';
 import { first } from 'rxjs/operators';
 import { ThemeService } from '../services/theme.service';
 import { FormControl } from '@angular/forms';
+import { faSearch, faBell, faUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-headers',
@@ -30,7 +31,9 @@ export class HeadersComponent implements OnInit {
  allPost : any;
  admin :boolean;
  loggedin : boolean;
-
+ faSearch = faSearch;
+  faBell = faBell;
+  faUser = faUser;
   ngOnInit() {
     console.log("adminshow",this.authService.isLoggedIn);
     console.log("loginshow", this.authService.isAdmin);

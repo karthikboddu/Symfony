@@ -61,7 +61,7 @@ class Post
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\UploadMediaType", inversedBy="mediaUploadType")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $mediaTypeUpload;
 

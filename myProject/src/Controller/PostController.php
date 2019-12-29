@@ -87,28 +87,28 @@ class PostController extends AbstractController
                 //     $UploadTypeName = $em->getRepository(UploadMediaType::class)->findOneBy(['mediaType' => 'mp4']);
                 // }
     
-                // $slugify = new Slugify();
-                // $slug = $slugify->slugify($post->getName(), '_');
-                // $numOfBytes = 5;
-                // $randomBytes = random_bytes($numOfBytes);
-                // $randomString = base64_encode($randomBytes);
+                $slugify = new Slugify();
+                $slug = $slugify->slugify($post->getName(), '_');
+                $numOfBytes = 5;
+                $randomBytes = random_bytes($numOfBytes);
+                $randomString = base64_encode($randomBytes);
     
-                // $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
-                // $post->setCreated(new \DateTime());
-                // $post->setPostuser($user);
-                // $post->setPosttag($tag);
-                // $post->setPosturl($slug . "-" . $randomString);
-                // foreach ($userFileUploadId as $key => $value) {
-                //     $eachUserFileId = $em->getRepository(FileUpload::class)->findOneBy(['id' => $value]);
-                //     $post->addPostfile($eachUserFileId);
-                // }
+                $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
+                $post->setCreated(new \DateTime());
+                $post->setPostuser($user);
+                $post->setPosttag($tag);
+                $post->setPosturl($slug . "-" . $randomString);
+                foreach ($userFileUploadId as $key => $value) {
+                    $eachUserFileId = $em->getRepository(FileUpload::class)->findOneBy(['id' => $value]);
+                    $post->addPostfile($eachUserFileId);
+                }
                 
-                // // $post->setMediaTypeUpload($UploadTypeName);
-                // $post->setStatus(true);
-                // $em->persist($post);
-                // $em->flush();
+                // $post->setMediaTypeUpload($UploadTypeName);
+                $post->setStatus(true);
+                $em->persist($post);
+                $em->flush();
     
-                return new JsonResponse(['status' => 'ok', 'data' => $userFileUploadId]);
+                return new JsonResponse(['status' => 'ok', 'data' => '1']);
                 // }
             }
         } catch (\Exception $e) {
@@ -530,5 +530,17 @@ class PostController extends AbstractController
 
         }
     }
+
+
+    /**
+     * @Route(path="/api/postGroup", name="postGroup")
+     * @Method("GET")
+     */
+    public function postGroup()
+    {
+        $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByGroup();
+        return $postfileUpload;
+    }
+    
 
 }
