@@ -11,6 +11,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Form\UserType;
 use App\Entity\User;
+use App\Entity\UserTypeMaster;
 use App\Event\EmailRegistrationUserEvent;
 use DateTimeInterface;
 
@@ -28,6 +29,7 @@ class RegistrationController extends FOSRestController
             $form->handleRequest($request);
 
             if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
                 $password = $this->get('security.password_encoder')
                     ->encodePassword($user, $user->getPassword());
                 $user->setPassword($password);
@@ -35,7 +37,8 @@ class RegistrationController extends FOSRestController
                 $user->setAccountstatus(['IN_ACTIVE']);
                 $user->setCreatedAt(new \DateTime());
                 $user->setActive(true);
-                $em = $this->getDoctrine()->getManager();
+                $userType =  $em->getRepository(UserTypeMaster::class)->findOneBy(['name' => 'ROLE_USER']);
+                $user->setFkUserType($userType);
 
                 $event = new EmailRegistrationUserEvent($user);
                 $dispatcher = $this->get('event_dispatcher');
@@ -48,7 +51,7 @@ class RegistrationController extends FOSRestController
         } catch (\Exception $e) {
             return new JsonResponse([
                 'status' => $e->getCode(),
-                'message' => 'Invalid Credentials',
+                'message' => $e->getMessage(),
             ]);
         }
     }

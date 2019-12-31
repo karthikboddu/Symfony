@@ -14,8 +14,8 @@ import { ThemeService } from './services/theme.service';
 export class AppComponent implements OnInit {
   title = 'demoproject';
   darkTheme = new FormControl(false);
-  constructor(private authService: AuthenticationService, private route: ActivatedRoute, private postService: PostService
-    , private router: Router, private themeService: ThemeService
+  constructor(public authService: AuthenticationService, private route: ActivatedRoute, private postService: PostService
+    , public router: Router, private themeService: ThemeService
   ) {
 
     console.log(this.router.url,"router");

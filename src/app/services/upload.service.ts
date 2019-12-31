@@ -109,4 +109,9 @@ export class UploadService {
   getUserFileUploadId() {
     return this.userFileUploadId.value;
   }
+
+  unSubsUserFileUploadId(){
+    this.userFileUploadId.unsubscribe();
+  }
+
 }

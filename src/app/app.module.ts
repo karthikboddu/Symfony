@@ -36,8 +36,10 @@ import { UserComponent } from './user/user.component';
 import { UserContentComponent } from './user/user-content/user-content.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import { CKEditorModule } from 'ckeditor4-angular';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatContenteditableModule } from 'mat-contenteditable';
+//import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { CKEditorModule } from 'ckeditor4-angular';
 @NgModule({
   declarations: [
     AppComponent,
@@ -71,7 +73,7 @@ import { MatContenteditableModule } from 'mat-contenteditable';
     MatMenuModule,MatIconModule, MatSidenavModule, MatListModule,MatProgressSpinnerModule
     ,MatButtonModule, MatDialogModule, MatListModule, HttpClientModule, MatProgressBarModule,
     FlexLayoutModule,CKEditorModule,
-    MatContenteditableModule
+    MatContenteditableModule,FontAwesomeModule
   ],
   entryComponents: [UploadDialogComponent,AdminViewusersComponent],
   providers: [{ provide: MatDialogRef, useValue: {} },{ provide: MAT_DIALOG_DATA, useValue: [] },AuthenticationService,AuthGuard,UploadService

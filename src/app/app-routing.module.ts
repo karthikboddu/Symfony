@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'post', component: PostComponent,canActivate:[AuthGuard] },
-  { path: 'home', component: HomeComponent,canActivate:[AuthGuard] },
+  { path: 'home', component: HomeComponent },
   { path: 'home/:id', component: HomeComponent,canActivate:[AuthGuard] },
   { path: 'movies', component: MoviesComponent,canActivate:[AuthGuard] },
   { path: 'viewpost', component: ViewpostComponent,canActivate:[AuthGuard] },
