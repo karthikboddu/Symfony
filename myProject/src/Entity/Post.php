@@ -35,19 +35,9 @@ class Post
     private $created;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="postuser")
-     */
-    private $postuser;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Tags", inversedBy="tagpost")
      */
     private $posttag;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\FileUpload", inversedBy="filepost")
-     */
-    private $postfile;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -65,9 +55,15 @@ class Post
      */
     private $mediaTypeUpload;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserPostUpload", mappedBy="fk_post_id")
+     */
+    private $fk_post_userpostupload;
+
     public function __construct()
     {
         $this->postfile = new ArrayCollection();
+        $this->fk_post_userpostupload = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,18 +108,6 @@ class Post
         return $this;
     }
 
-    public function getPostuser(): ?User
-    {
-        return $this->postuser;
-    }
-
-    public function setPostuser(?User $postuser): self
-    {
-        $this->postuser = $postuser;
-
-        return $this;
-    }
-
     public function getPosttag(): ?Tags
     {
         return $this->posttag;
@@ -132,32 +116,6 @@ class Post
     public function setPosttag(?Tags $posttag): self
     {
         $this->posttag = $posttag;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|FileUpload[]
-     */
-    public function getPostfile(): Collection
-    {
-        return $this->postfile;
-    }
-
-    public function addPostfile(FileUpload $postfile): self
-    {
-        if (!$this->postfile->contains($postfile)) {
-            $this->postfile[] = $postfile;
-        }
-
-        return $this;
-    }
-
-    public function removePostfile(FileUpload $postfile): self
-    {
-        if ($this->postfile->contains($postfile)) {
-            $this->postfile->removeElement($postfile);
-        }
 
         return $this;
     }
@@ -194,6 +152,37 @@ class Post
     public function setMediaTypeUpload(?UploadMediaType $mediaTypeUpload): self
     {
         $this->mediaTypeUpload = $mediaTypeUpload;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserPostUpload[]
+     */
+    public function getFkPostUserpostupload(): Collection
+    {
+        return $this->fk_post_userpostupload;
+    }
+
+    public function addFkPostUserpostupload(UserPostUpload $fkPostUserpostupload): self
+    {
+        if (!$this->fk_post_userpostupload->contains($fkPostUserpostupload)) {
+            $this->fk_post_userpostupload[] = $fkPostUserpostupload;
+            $fkPostUserpostupload->setFkPostId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFkPostUserpostupload(UserPostUpload $fkPostUserpostupload): self
+    {
+        if ($this->fk_post_userpostupload->contains($fkPostUserpostupload)) {
+            $this->fk_post_userpostupload->removeElement($fkPostUserpostupload);
+            // set the owning side to null (unless already changed)
+            if ($fkPostUserpostupload->getFkPostId() === $this) {
+                $fkPostUserpostupload->setFkPostId(null);
+            }
+        }
 
         return $this;
     }

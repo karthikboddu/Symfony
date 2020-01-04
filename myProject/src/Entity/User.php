@@ -63,11 +63,6 @@ class User implements UserInterface
     private $phonenumber;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="postuser")
-     */
-    private $postuser;
-
-    /**
      * @ORM\Column(type="json")
      */
     private $accountstatus = [];
@@ -78,14 +73,20 @@ class User implements UserInterface
     private $active;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\FileUpload", inversedBy="MediaUserData")
+     * @ORM\OneToMany(targetEntity="App\Entity\UserPostUpload", mappedBy="fk_user_id", orphanRemoval=true)
      */
-    private $userMediaData;
+    private $fk_user_userpostupload;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\UserTypeMaster", inversedBy="fk_userType")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $fk_userType;
 
     public function __construct()
     {
         $this->postuser = new ArrayCollection();
-        $this->userMediaData = new ArrayCollection();
+        $this->fk_user_userpostupload = new ArrayCollection();
     }
 
     public function getId(): int
@@ -254,27 +255,44 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|FileUpload[]
+     * @return Collection|UserPostUpload[]
      */
-    public function getUserMediaData(): Collection
+    public function getFkUserUserpostupload(): Collection
     {
-        return $this->userMediaData;
+        return $this->fk_user_userpostupload;
     }
 
-    public function addUserMediaData(FileUpload $userMediaData): self
+    public function addFkUserUserpostupload(UserPostUpload $fkUserUserpostupload): self
     {
-        if (!$this->userMediaData->contains($userMediaData)) {
-            $this->userMediaData[] = $userMediaData;
+        if (!$this->fk_user_userpostupload->contains($fkUserUserpostupload)) {
+            $this->fk_user_userpostupload[] = $fkUserUserpostupload;
+            $fkUserUserpostupload->setFkUserId($this);
         }
 
         return $this;
     }
 
-    public function removeUserMediaData(FileUpload $userMediaData): self
+    public function removeFkUserUserpostupload(UserPostUpload $fkUserUserpostupload): self
     {
-        if ($this->userMediaData->contains($userMediaData)) {
-            $this->userMediaData->removeElement($userMediaData);
+        if ($this->fk_user_userpostupload->contains($fkUserUserpostupload)) {
+            $this->fk_user_userpostupload->removeElement($fkUserUserpostupload);
+            // set the owning side to null (unless already changed)
+            if ($fkUserUserpostupload->getFkUserId() === $this) {
+                $fkUserUserpostupload->setFkUserId(null);
+            }
         }
+
+        return $this;
+    }
+
+    public function getFkUserType(): ?UserTypeMaster
+    {
+        return $this->fk_userType;
+    }
+
+    public function setFkUserType(?UserTypeMaster $fk_userType): self
+    {
+        $this->fk_userType = $fk_userType;
 
         return $this;
     }

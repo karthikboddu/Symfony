@@ -34,11 +34,6 @@ class FileUpload
     private $fileName;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Post", mappedBy="postfile")
-     */
-    private $filepost;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $etag;
@@ -49,25 +44,21 @@ class FileUpload
     private $imageUrl;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="userMediaData")
-     */
-    private $MediaUserData;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\UploadMediaType", inversedBy="fileuploadid")
      * @ORM\JoinColumn(nullable=false)
      */
     private $fileuplodtype;
 
-
-
-
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserPostUpload", mappedBy="fk_upload_id")
+     */
+    private $fk_upload_userpostupload;
 
     public function __construct()
     {
         $this->filepost = new ArrayCollection();
-        $this->MediaUserData = new ArrayCollection();
         $this->fileuplodtype = new ArrayCollection();
+        $this->fk_upload_userpostupload = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,34 +102,6 @@ class FileUpload
         return $this;
     }
 
-    /**
-     * @return Collection|Post[]
-     */
-    public function getFilepost(): Collection
-    {
-        return $this->filepost;
-    }
-
-    public function addFilepost(Post $filepost): self
-    {
-        if (!$this->filepost->contains($filepost)) {
-            $this->filepost[] = $filepost;
-            $filepost->addPostfile($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFilepost(Post $filepost): self
-    {
-        if ($this->filepost->contains($filepost)) {
-            $this->filepost->removeElement($filepost);
-            $filepost->removePostfile($this);
-        }
-
-        return $this;
-    }
-
     public function getEtag(): ?string
     {
         return $this->etag;
@@ -159,34 +122,6 @@ class FileUpload
     public function setImageUrl(string $imageUrl): self
     {
         $this->imageUrl = $imageUrl;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getMediaUserData(): Collection
-    {
-        return $this->MediaUserData;
-    }
-
-    public function addMediaUserData(User $mediaUserData): self
-    {
-        if (!$this->MediaUserData->contains($mediaUserData)) {
-            $this->MediaUserData[] = $mediaUserData;
-            $mediaUserData->addUserMediaData($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMediaUserData(User $mediaUserData): self
-    {
-        if ($this->MediaUserData->contains($mediaUserData)) {
-            $this->MediaUserData->removeElement($mediaUserData);
-            $mediaUserData->removeUserMediaData($this);
-        }
 
         return $this;
     }
@@ -225,6 +160,37 @@ class FileUpload
     public function setFileuplodtype(?UploadMediaType $fileuplodtype): self
     {
         $this->fileuplodtype = $fileuplodtype;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserPostUpload[]
+     */
+    public function getFkUploadUserpostupload(): Collection
+    {
+        return $this->fk_upload_userpostupload;
+    }
+
+    public function addFkUploadUserpostupload(UserPostUpload $fkUploadUserpostupload): self
+    {
+        if (!$this->fk_upload_userpostupload->contains($fkUploadUserpostupload)) {
+            $this->fk_upload_userpostupload[] = $fkUploadUserpostupload;
+            $fkUploadUserpostupload->setFkUploadId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFkUploadUserpostupload(UserPostUpload $fkUploadUserpostupload): self
+    {
+        if ($this->fk_upload_userpostupload->contains($fkUploadUserpostupload)) {
+            $this->fk_upload_userpostupload->removeElement($fkUploadUserpostupload);
+            // set the owning side to null (unless already changed)
+            if ($fkUploadUserpostupload->getFkUploadId() === $this) {
+                $fkUploadUserpostupload->setFkUploadId(null);
+            }
+        }
 
         return $this;
     }

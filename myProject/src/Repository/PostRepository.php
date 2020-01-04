@@ -111,7 +111,7 @@ class PostRepository extends ServiceEntityRepository
         //     ->getArrayResult()
         // ;
 
-        $query = $this->em->createQuery("SELECT p,pfu,GROUP_CONCAT( pfu.id SEPARATOR '; ') AS locationNames FROM App\Entity\Post p JOIN p.postfile pfu");
+        $query = $this->em->createQuery("SELECT p,pfu,GROUP_CONCAT( pfu.id SEPARATOR '; ') AS locationNames FROM App\Entity\UserPostUpload p JOIN p.fk_upload_id pfu");
         $totalPosts = $query->getArrayResult();
         return $totalPosts;
     }

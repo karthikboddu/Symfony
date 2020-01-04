@@ -38,7 +38,8 @@ import { UserDetailsComponent } from './user/user-details/user-details.component
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatContenteditableModule } from 'mat-contenteditable';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+//import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { CKEditorModule } from 'ckeditor4-angular';
 @NgModule({
   declarations: [
     AppComponent,
