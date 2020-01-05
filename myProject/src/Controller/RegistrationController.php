@@ -2,21 +2,23 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use FOS\RestBundle\Controller\FOSRestController;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use App\Form\UserType;
 use App\Entity\User;
-use App\Entity\UserTypeMaster;
 use App\Event\EmailRegistrationUserEvent;
-use DateTimeInterface;
+use App\Form\UserType;
+use App\Service\UserServices;
+use FOS\RestBundle\Controller\FOSRestController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class RegistrationController extends FOSRestController
 {
+
+    public function __construct(UserServices $userService)
+    {
+        $this->userService = $userService;
+    }
     /**
      * @Route(path="/api/register", name="registration")
      * @Method("POST")
@@ -29,25 +31,23 @@ class RegistrationController extends FOSRestController
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
                 $password = $this->get('security.password_encoder')
                     ->encodePassword($user, $user->getPassword());
-                $user->setPassword($password);
-                $user->setRoles(['ROLE_USER']);
-                $user->setAccountstatus(['IN_ACTIVE']);
-                $user->setCreatedAt(new \DateTime());
-                $user->setActive(true);
-                $userType =  $em->getRepository(UserTypeMaster::class)->findOneBy(['name' => 'ROLE_USER']);
-                $user->setFkUserType($userType);
-
-                $event = new EmailRegistrationUserEvent($user);
-                $dispatcher = $this->get('event_dispatcher');
-                $dispatcher->dispatch(EmailRegistrationUserEvent::NAME, $event);
-
-                $em->persist($user);
-                $em->flush();
+                if (!($this->userService->isUserExists($user))) {
+                    $userId = $this->userService->insertUser($user, $password);
+                    if ($userId) {
+                        $event = new EmailRegistrationUserEvent($user);
+                        $dispatcher = $this->get('event_dispatcher');
+                        $dispatcher->dispatch(EmailRegistrationUserEvent::NAME, $event);
+                        return new JsonResponse(['status' => '1', 'message' => 'OK']);
+                    } else {
+                        return new JsonResponse(['status' => '0', 'message' => 'FALSE']);
+                    }
+                }else{
+                    return new JsonResponse(['status' => '0', 'message' => 'username already exits ']);
+                }
             }
-            return new JsonResponse(['status' => '1', 'message' => 'ok']);
+
         } catch (\Exception $e) {
             return new JsonResponse([
                 'status' => $e->getCode(),

@@ -22,7 +22,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 
@@ -78,25 +77,25 @@ class PostController extends AbstractController
                     $tag = $em->getRepository(Tags::class)->findOneBy(['name' => 'Others']);
                 }
                 $imgId = $request->get('file');
-                if($imgId){
-                    $userFileUploadId = explode(",",$imgId);
+                if ($imgId) {
+                    $userFileUploadId = explode(",", $imgId);
                 }
                 // if ($request->get('fileName')) {
                 //     $fileEntity = $this->uploadForm($request, $s3Client);
-    
+
                 //     $ext = pathinfo($fileEntity->getFile() . "/" . $fileEntity->getFilename(), PATHINFO_EXTENSION);
                 //     $UploadTypeName = $em->getRepository(UploadMediaType::class)->findOneBy(['mediaType' => strtolower($ext)]);
                 // } else {
                 //     $fileEntity = new FileUpload();
                 //     $UploadTypeName = $em->getRepository(UploadMediaType::class)->findOneBy(['mediaType' => 'mp4']);
                 // }
-    
+
                 $slugify = new Slugify();
                 $slug = $slugify->slugify($post->getName(), '_');
                 $numOfBytes = 5;
                 $randomBytes = random_bytes($numOfBytes);
                 $randomString = base64_encode($randomBytes);
-                
+
                 $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
                 $post->setCreated(new \DateTime());
                 // $post->setPostuser($user);
@@ -108,21 +107,20 @@ class PostController extends AbstractController
                 $gg = '';
                 foreach ($userFileUploadId as $key => $value) {
                     $eachUserFileId = $em->getRepository(FileUpload::class)->findOneBy(['id' => $value]);
-                    $gg  = " ".$key." ".$gg;
+                    $gg = " " . $key . " " . $gg;
                     $userTypeMaster->setFkUploadId($eachUserFileId);
                     $userTypeMaster->setFkUserId($user);
                     $userTypeMaster->setFkPostId($post);
                     $em->persist($userTypeMaster);
-                    if ($key === 0) {
-                        $em->flush();
-                         // Detaches all objects from Doctrine!
-                    }
+                    // if (($key + 1) % sizeof($userFileUploadId) === 0) {
+                    //     $em->flush();
+                    //     $em->clear();
+                    //     // Detaches all objects from Doctrine!
+                    // }
                 }
                 $em->flush();
                 $em->clear();
                 //$post->setMediaTypeUpload($UploadTypeName);
-
-
 
                 return new JsonResponse(['status' => 'ok', 'data' => $gg]);
                 // }
@@ -132,8 +130,7 @@ class PostController extends AbstractController
             // throw new HttpException(400, "Invalid data");
             return new JsonResponse(['status' => '0', 'message' => $e->getMessage()]);
         }
-        
-        
+
     }
 
     /**
@@ -277,12 +274,12 @@ class PostController extends AbstractController
                     $em->persist($fileupload);
                     $em->flush();
 
-                    $userPostUpload->setFkUploadId($fileupload);
-                    $userPostUpload->setFkUserId($user);
-                    //$user->addUserMediaType($UploadTypeName);
+                    // $userPostUpload->setFkUploadId($fileupload);
+                    // $userPostUpload->setFkUserId($user);
+                    // //$user->addUserMediaType($UploadTypeName);
 
-                    $em->persist($userPostUpload);
-                    $em->flush();
+                    // $em->persist($userPostUpload);
+                    // $em->flush();
                 }
                 return $fileupload->getId();
                 // }
@@ -533,10 +530,10 @@ class PostController extends AbstractController
      * @Route(path="/api/postfileUpload", name="postfileUpload")
      * @Method("GET")
      */
-    public function postfileUpload(S3Client $s3Client,Request $request)
+    public function postfileUpload(S3Client $s3Client, Request $request)
     {
         if ($this->jwtEncoder->supports($request)) {
-        
+
             $preAuthToken = $this->jwtEncoder->getCredentials($request);
             $data = $this->jwtEncoderIn->decode($preAuthToken);
             if ($data == false) {
@@ -549,7 +546,6 @@ class PostController extends AbstractController
         }
     }
 
-
     /**
      * @Route(path="/api/postGroup", name="postGroup")
      * @Method("GET")
@@ -559,6 +555,5 @@ class PostController extends AbstractController
         $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByGroup();
         return $postfileUpload;
     }
-    
 
 }
