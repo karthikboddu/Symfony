@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\User;
 use App\Entity\Post;
 use App\Entity\UserTypeMaster;
+use App\Entity\UserPostUpload;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
@@ -22,26 +23,25 @@ class PostService extends FOSRestController
 
     }
 
-    public function insertUser(User $user, $password)
+
+    public function flushAllPostUpload($eachUserFileId,$user,$post)
     {
+        //$data = $postRepository->findAll();
+        $userTypeMaster = new UserPostUpload();
+       // $em = $this->getDoctrine()->getManager();
+       // $user = $em->getRepository(Post::class)->findByAdminAllPosts();
+        $userTypeMaster->setFkUploadId($eachUserFileId);
+        $userTypeMaster->setFkUserId($user);
+        $userTypeMaster->setFkPostId($post);
         try {
-            // $em = $em->getDoctrine()->getManager();
-            $user->setPassword($password);
-            $user->setRoles(['ROLE_USER']);
-            $user->setAccountstatus(['IN_ACTIVE']);
-            $user->setCreatedAt(new \DateTime());
-            $user->setActive(true);
-            $userType = $this->em->getRepository(UserTypeMaster::class)->findOneBy(['name' => 'ROLE_USER']);
-            $user->setFkUserType($userType);
-
-            $this->em->persist($user);
+            
+            $this->em->persist($userTypeMaster);
             $this->em->flush();
-
-            return $user->getId();
-        } catch (\Throwable $th) {
-            //throw $th;
+            return $userTypeMaster->getId();
+        } catch (\Doctrine\ORM\ORMException $e) {
+           
         }
-
+        //return $user;
     }
 
     public function newPost(){
