@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit {
                     debugger
                     if(data.isAdmin){
                         console.log("admin",data.isAdmin);
+                        this.authenticationService.setAdmin(true);
                     }
                     console.log("admin",data.isAdmin);
                     localStorage.setItem('currentUser', JSON.stringify(data));

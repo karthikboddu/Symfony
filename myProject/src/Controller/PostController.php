@@ -13,6 +13,7 @@ use App\Form\PostType;
 use App\Repository\PostRepository;
 use App\Repository\TagsRepository;
 use App\Security\JwtAuthenticator;
+use App\Service\PostService;
 use Aws\S3\S3Client;
 use Cocur\Slugify\Slugify;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
@@ -28,11 +29,11 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 class PostController extends AbstractController
 {
 
-    public function __construct(JwtAuthenticator $jwtEncoder, JWTEncoderInterface $jwtEncoderIn)
+    public function __construct(JwtAuthenticator $jwtEncoder, JWTEncoderInterface $jwtEncoderIn, PostService $postService)
     {
         $this->jwtEncoder = $jwtEncoder;
         $this->jwtEncoderIn = $jwtEncoderIn;
-
+        $this->postService = $postService;
     }
 
     public function init(Request $request)
@@ -105,24 +106,35 @@ class PostController extends AbstractController
                 $em->persist($post);
                 $em->flush();
                 $gg = '';
-                foreach ($userFileUploadId as $key => $value) {
-                    $eachUserFileId = $em->getRepository(FileUpload::class)->findOneBy(['id' => $value]);
-                    $gg = " " . $key . " " . $gg;
-                    $userTypeMaster->setFkUploadId($eachUserFileId);
-                    $userTypeMaster->setFkUserId($user);
-                    $userTypeMaster->setFkPostId($post);
-                    $em->persist($userTypeMaster);
-                    // if (($key + 1) % sizeof($userFileUploadId) === 0) {
-                    //     $em->flush();
-                    //     $em->clear();
-                    //     // Detaches all objects from Doctrine!
-                    // }
+                // foreach ($userFileUploadId as $key => $value) {
+                //     $eachUserFileId = $em->getRepository(FileUpload::class)->findOneBy(['id' => $value]);
+                //     $gg = " " . $key . " " . $gg;
+                //     $userTypeMaster->setFkUploadId($eachUserFileId);
+                //     $userTypeMaster->setFkUserId($user);
+                //     $userTypeMaster->setFkPostId($post);
+                //     $em->persist($userTypeMaster);
+                //     if (($key + 1) % sizeof($userFileUploadId) === 0) {
+                //         $em->flush();
+                //         $em->clear();
+                //         // Detaches all objects from Doctrine!
+                //     }
+                // }
+
+                $batchSize = 5;
+                $currentSize = 0;
+
+                foreach ($userFileUploadId as $item) {
+                    $eachUserFileId = $em->getRepository(FileUpload::class)->findOneBy(['id' => $item]);
+                    $s = $this->postService->flushAllPostUpload($eachUserFileId, $user, $post);
+                    $s = " " . $s;
+
                 }
-                $em->flush();
-                $em->clear();
+
+                // $em->flush();
+                // $em->clear();
                 //$post->setMediaTypeUpload($UploadTypeName);
 
-                return new JsonResponse(['status' => 'ok', 'data' => $gg]);
+                return new JsonResponse(['status' => 'ok', 'data' => $s]);
                 // }
             }
         } catch (\Exception $e) {
@@ -132,6 +144,25 @@ class PostController extends AbstractController
         }
 
     }
+
+    // public function flushAllPostUpload($eachUserFileId,$user,$post)
+    // {
+    //     //$data = $postRepository->findAll();
+    //     $em = $this->getDoctrine()->getManager();
+    //    // $user = $em->getRepository(Post::class)->findByAdminAllPosts();
+    //     $userTypeMaster->setFkUploadId($eachUserFileId);
+    //     $userTypeMaster->setFkUserId($user);
+    //     $userTypeMaster->setFkPostId($post);
+    //     try {
+    //         $currentSize++;
+    //         $em->persist($userTypeMaster);
+    //         $em->flush();
+    //         return $userTypeMaster->getId();
+    //     } catch (\Doctrine\ORM\ORMException $e) {
+
+    //     }
+    //     //return $user;
+    // }
 
     /**
      * @Route(path="/api/admin/posts", name="getposts")

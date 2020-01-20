@@ -202,29 +202,6 @@ class User implements UserInterface
         return $this->postuser;
     }
 
-    public function addPostuser(Post $postuser): self
-    {
-        if (!$this->postuser->contains($postuser)) {
-            $this->postuser[] = $postuser;
-            $postuser->setPostuser($this);
-        }
-
-        return $this;
-    }
-
-    public function removePostuser(Post $postuser): self
-    {
-        if ($this->postuser->contains($postuser)) {
-            $this->postuser->removeElement($postuser);
-            // set the owning side to null (unless already changed)
-            if ($postuser->getPostuser() === $this) {
-                $postuser->setPostuser(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getAccountstatus(): ?array
     {
         $accountstatus = $this->accountstatus;
