@@ -72,6 +72,14 @@ class PostRepository extends ServiceEntityRepository
         return $users1;
     }
 
+    public function findByPostsByPostId($id){
+
+        $query1= $this->em->createQuery("SELECT p FROM App\Entity\Post p  WHERE  p.status = '1' AND p.id = :id ");
+        $query1->setParameter('id',$id);
+        $users1 = $query1->getScalarResult();
+        return $users1;
+    }
+
 
     public function findByAllUserHomePosts(){
         $query1= $this->em->createQuery("SELECT u,pu,pt,pf FROM App\Entity\User u JOIN u.postuser pu JOIN pu.posttag pt LEFt JOIN pu.postfile pf WHERE u.active = '1' AND pu.status = '1' ");
@@ -98,9 +106,22 @@ class PostRepository extends ServiceEntityRepository
         $users1 = $query1->getArrayResult();
         return $users1;
     }
+
+    public function findByAllPostsActive(){
+        $query = $this->em->createQuery("SELECT p.id FROM App\Entity\Post p where p.status='1' ");
+        $totalPosts = $query->getArrayResult();
+        return $totalPosts;
+    }
+
+    public function findByAllPostsActiveUploadId($pid){
+        $query = $this->em->createQuery("SELECT fp.id FROM App\Entity\UserPostUpload upu join upu.fk_post_id fp   where upu.fk_post_id IN (:pid)  ");
+        $query->setParameter('pid',$pid);
+        $totalPosts = $query->getScalarResult();
+        return $totalPosts;
+    }
     
 
-    public function findByGroup()
+    public function findByGroup($uid)
     {
 
         // return $this->createQueryBuilder('p')
@@ -111,8 +132,26 @@ class PostRepository extends ServiceEntityRepository
         //     ->getArrayResult()
         // ;
 
-        $query = $this->em->createQuery("SELECT p,GROUP_CONCAT( pfu.id SEPARATOR ', ') AS locationNames FROM App\Entity\UserPostUpload p JOIN p.fk_upload_id pfu group by p.fk_user_id");
-        $totalPosts = $query->getResult();
+        // $query = $this->em->createQuery("SELECT p,pfp,GROUP_CONCAT( pfu.id SEPARATOR ', ') AS locationNames FROM App\Entity\UserPostUpload p JOIN p.fk_upload_id pfu JOIN p.fk_post_id pfp group by p.fk_user_id");
+
+         $query = $this->em->createQuery("SELECT p,pfp.id,GROUP_CONCAT( fu.id SEPARATOR ', ') AS locationNames FROM App\Entity\UserPostUpload p JOIN p.fk_post_id pfp left join p.fk_upload_id fu group by p.fk_post_id");
+
+
+        $query = $this->em->createQuery("SELECT upu,fp,GROUP_CONCAT( fu.id SEPARATOR ', ') AS locationNames  FROM App\Entity\UserPostUpload upu JOIN upu.fk_post_id fp JOIN upu.fk_upload_id fu where fp.id in (:uid) " );
+        $query->setParameter('uid',$uid);
+        $totalPosts = $query->getScalarResult();
+        
         return $totalPosts;
     }
+
+    public function findByGroupAll()
+    {
+
+         $query = $this->em->createQuery("SELECT pfp.id as post_id,users.id AS user_id ,GROUP_CONCAT( fu.id SEPARATOR ', ') AS upload_id FROM App\Entity\UserPostUpload p JOIN p.fk_user_id users JOIN p.fk_post_id pfp left join p.fk_upload_id fu group by p.fk_post_id");
+
+        $totalPosts = $query->getScalarResult();
+        
+        return $totalPosts;
+    }
+
 }

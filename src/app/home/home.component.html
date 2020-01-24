@@ -9,11 +9,19 @@
     <!-- <mat-spinner *ngIf="allPost.length === 0"></mat-spinner> -->
     <div class="col-lg-4 col-md-6 mb-3 card-content" *ngFor="let posts of allPostDetails; let i=index">
 
+<!-- <h6>{{posts.user.username}}</h6>
+<div *ngFor="let users of posts.user">
+    <h6>{{users.username}}</h6>
+</div>
+<div *ngFor="let upload of posts.uploadDetails">
+        <h6>{{upload.fileupload_imageUrl}}</h6>
+    </div> -->
 
         <mat-card class="blog-content matcard">
-            <img mat-card-image class="img-responsive img-article img-fluid z-depth-1" src="{{posts.pf_imageUrl}}"
-                alt="...">
-            <!-- <mat-card-header>
+            <div *ngFor="let fileDetails of posts.uploadDetails">
+                <img mat-card-image class="img-responsive img-article img-fluid z-depth-1"
+                    src="{{fileDetails.fileupload_imageUrl}}" alt="...">
+                <!-- <mat-card-header>
                 <mat-card-title class="title">{{posts.pu_name}}</mat-card-title>
                 <mat-card-subtitle></mat-card-subtitle>
             </mat-card-header>
@@ -22,12 +30,13 @@
                     {{posts.pu_description}}
                 </p>
             </mat-card-content> -->
-
+            </div>
             <a [routerLink]="['./']" [queryParams]="{ page: posts.pt_name }" (click)="getPostTags()"><span
                     class="badge badge-dark">{{posts.pt_name}}</span></a>
             <a [routerLink]="['../viewpost']" [queryParams]="{ posturl: posts.pu_posturl }"
                 (click)="getSinglePostS()"><span class="badge badge-dark">More</span></a>
-            <a><span class="badge badge-dark">{{posts.u_username}}</span></a>
+            <a><span class="badge badge-dark" *ngFor="let users of posts.user">{{users.username}}</span></a>
+
         </mat-card>
     </div>
 

@@ -583,8 +583,44 @@ class PostController extends AbstractController
      */
     public function postGroup()
     {
-        $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByGroup();
+        $allActivePosts = $this->getDoctrine()->getRepository(Post::class)->findByAllPostsActive();
+        //$postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByGroup();
+
+        // foreach ($allActivePosts as $value) {
+        //     $allActivePostsUploadId = $this->getDoctrine()->getRepository(Post::class)->findByAllPostsActiveUploadId($value);
+        // }
+        $allActivePostsUploadId = $this->getDoctrine()->getRepository(Post::class)->findByAllPostsActiveUploadId($allActivePosts);
+
+        $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByGroup($allActivePostsUploadId);
+
         return $postfileUpload;
+    }
+
+    /**
+     * @Route(path="/api/postGroupAll", name="postGroupAll")
+     * @Method("GET")
+     */
+    public function postGroupAll()
+    {
+        
+        $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByGroupAll();
+        foreach ($postfileUpload as $key => $value) {
+            $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByPostsByPostId($value['post_id']);
+            $fileUploadDetails='';
+            if($value['upload_id']){
+                $uploadIds = explode(",", $value['upload_id']);
+                $fileUploadDetails = $this->getDoctrine()->getRepository(FileUpload::class)->findByUploadDetailsById($uploadIds);
+            }
+            if($value['user_id']){
+                $userDetails = $this->getDoctrine()->getRepository(User::class)->findByUsersDetailsById($value['user_id']);
+
+            }
+            $newArrayy[$key] = array('user'=>$userDetails,'userPost'=>$postfileUpload,'uploadDetails'=>$fileUploadDetails,'others'=>'mmmm');
+
+        }
+        
+
+        return $newArrayy;
     }
 
 }

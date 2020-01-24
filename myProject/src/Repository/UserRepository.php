@@ -52,4 +52,10 @@ class UserRepository extends ServiceEntityRepository
         return $query->getArrayResult();
     }
    // SELECT * FROM `users` WHERE JSON_CONTAINS(roles, '["ROLE_USER"]')
+
+    public function findByUsersDetailsById($uid){
+        $query = $this->em->createQuery("SELECT u from App\Entity\User u  WHERE u.id = :uid ");
+        $query->setParameter('uid',$uid);
+        return $query->getArrayResult();
+    }
 }

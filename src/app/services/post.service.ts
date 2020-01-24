@@ -91,4 +91,9 @@ export class PostService {
   
       return this.http.get(this.serviceUrl.host+this.serviceUrl.adminTotalPostsActive);
     }
+    getAllPostsWithFileByActive(){
+  
+      return this.http.get<Post[]>(this.serviceUrl.host+this.serviceUrl.allPostWithFileDetails);
+    }
+    
 }

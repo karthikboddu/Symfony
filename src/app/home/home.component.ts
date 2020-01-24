@@ -65,22 +65,38 @@ debugger
     if(this.page){
       this.getPostTags();
     }
-    else{
-        this.postService.getById()
-          .pipe(first())
-          .subscribe(
-              data => {  
-                  this.allPostDetails = data;
-                  this.allPostEmit = data;
-                  this.postsData.emit(this.allPostEmit);
-                  //this.allImg = data[0]['postfile'];
-                  console.log("data",data);
-                  //console.log("imgdata",data['postfile']);
-              },
-              error => {
-                  console.log("errors",error);
-              });
+    // else{
+    //     this.postService.getById()
+    //       .pipe(first())
+    //       .subscribe(
+    //           data => {  
+    //               this.allPostDetails = data;
+    //               this.allPostEmit = data;
+    //               this.postsData.emit(this.allPostEmit);
+    //               //this.allImg = data[0]['postfile'];
+    //               console.log("data",data);
+    //               //console.log("imgdata",data['postfile']);
+    //           },
+    //           error => {
+    //               console.log("errors",error);
+    //           });
   
+    // }
+    else{
+      this.postService.getAllPostsWithFileByActive()
+      .pipe(first())
+      .subscribe(
+          data => {  
+              this.allPostDetails = data;
+              this.allPostEmit = data;
+              this.postsData.emit(this.allPostEmit);
+              //this.allImg = data[0]['postfile'];
+              console.log("data",data);
+              //console.log("imgdata",data['postfile']);
+          },
+          error => {
+              console.log("errors",error);
+          });
     }
     // if(count(this.allPost)){
     //   this.displayPosts = true;
