@@ -145,25 +145,6 @@ class PostController extends AbstractController
 
     }
 
-    // public function flushAllPostUpload($eachUserFileId,$user,$post)
-    // {
-    //     //$data = $postRepository->findAll();
-    //     $em = $this->getDoctrine()->getManager();
-    //    // $user = $em->getRepository(Post::class)->findByAdminAllPosts();
-    //     $userTypeMaster->setFkUploadId($eachUserFileId);
-    //     $userTypeMaster->setFkUserId($user);
-    //     $userTypeMaster->setFkPostId($post);
-    //     try {
-    //         $currentSize++;
-    //         $em->persist($userTypeMaster);
-    //         $em->flush();
-    //         return $userTypeMaster->getId();
-    //     } catch (\Doctrine\ORM\ORMException $e) {
-
-    //     }
-    //     //return $user;
-    // }
-
     /**
      * @Route(path="/api/admin/posts", name="getposts")
      * @Method("GET")
@@ -607,6 +588,7 @@ class PostController extends AbstractController
         foreach ($postfileUpload as $key => $value) {
             $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByPostsByPostId($value['post_id']);
             $fileUploadDetails='';
+            $userDetails = '';
             if($value['upload_id']){
                 $uploadIds = explode(",", $value['upload_id']);
                 $fileUploadDetails = $this->getDoctrine()->getRepository(FileUpload::class)->findByUploadDetailsById($uploadIds);
@@ -614,13 +596,18 @@ class PostController extends AbstractController
             if($value['user_id']){
                 $userDetails = $this->getDoctrine()->getRepository(User::class)->findByUsersDetailsById($value['user_id']);
 
+            }            
+            if($postfileUpload  ){
+
             }
-            $newArrayy[$key] = array('user'=>$userDetails,'userPost'=>$postfileUpload,'uploadDetails'=>$fileUploadDetails,'others'=>'mmmm');
+                            $newArrayy[$key] = array('user'=>$userDetails,'userPost'=>$postfileUpload,'uploadDetails'=>$fileUploadDetails);
+            
 
         }
-        
+        $totalPosts = sizeof($newArrayy);        
 
-        return $newArrayy;
+        return new JsonResponse(['data' => $newArrayy,'totalPosts'=>$totalPosts]);
+            
     }
 
 }

@@ -26,10 +26,7 @@ class PostService extends FOSRestController
 
     public function flushAllPostUpload($eachUserFileId,$user,$post)
     {
-        //$data = $postRepository->findAll();
         $userTypeMaster = new UserPostUpload();
-       // $em = $this->getDoctrine()->getManager();
-       // $user = $em->getRepository(Post::class)->findByAdminAllPosts();
         $userTypeMaster->setFkUploadId($eachUserFileId);
         $userTypeMaster->setFkUserId($user);
         $userTypeMaster->setFkPostId($post);
@@ -48,5 +45,14 @@ class PostService extends FOSRestController
 
     }
 
+
+    public function findByPostsByPostId(){
+        try {
+            
+        } catch (\Throwable $th) {
+            //throw $th;
+        }           
+    }
+    
 
 }

@@ -7,7 +7,7 @@
 
     </div> -->
     <!-- <mat-spinner *ngIf="allPost.length === 0"></mat-spinner> -->
-    <div class="col-lg-4 col-md-6 mb-3 card-content" *ngFor="let posts of allPostDetails; let i=index">
+    <div class="col-lg-4 col-md-6 mb-3 card-content" *ngFor="let posts of allPostDetails.data; let i=index">
 
 <!-- <h6>{{posts.user.username}}</h6>
 <div *ngFor="let users of posts.user">
@@ -21,15 +21,18 @@
             <div *ngFor="let fileDetails of posts.uploadDetails">
                 <img mat-card-image class="img-responsive img-article img-fluid z-depth-1"
                     src="{{fileDetails.fileupload_imageUrl}}" alt="...">
-                <!-- <mat-card-header>
-                <mat-card-title class="title">{{posts.pu_name}}</mat-card-title>
+
+            </div>
+            <div >
+            <mat-card-header *ngFor="let postDetails of posts.userPost">
+                <mat-card-title class="title">{{postDetails.p_name}}</mat-card-title>
                 <mat-card-subtitle></mat-card-subtitle>
             </mat-card-header>
-            <mat-card-content>
+            <mat-card-content *ngFor="let postDetails of posts.userpost">
                 <p>
-                    {{posts.pu_description}}
+                    {{postDetails.p_description}}
                 </p>
-            </mat-card-content> -->
+            </mat-card-content>
             </div>
             <a [routerLink]="['./']" [queryParams]="{ page: posts.pt_name }" (click)="getPostTags()"><span
                     class="badge badge-dark">{{posts.pt_name}}</span></a>
@@ -38,6 +41,9 @@
             <a><span class="badge badge-dark" *ngFor="let users of posts.user">{{users.username}}</span></a>
 
         </mat-card>
+        <mat-icon >
+            <i class="material-icons md-32">arrow_back</i>
+            </mat-icon>
     </div>
 
     <!--     <img mat-card-image class="img-article" src={{article.urlToImage}} alt=""> -->
