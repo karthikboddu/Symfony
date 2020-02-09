@@ -586,8 +586,15 @@ class PostController extends AbstractController
     {
        $limitId =  $request->get('id');
        $offsetId =  $request->get('offset');
+       if(!$offsetId){
+            $offsetId = '0';
+       }
+       if(!$limitId){
+           $limitId = '5';
+       }
+       
         $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByGroupAll($limitId,$offsetId);
-       // return $postfileUpload;
+        //return $postfileUpload;
         foreach ($postfileUpload as $key => $value) {
             $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByPostsByPostId($value['post_id']);
             $fileUploadDetails='';

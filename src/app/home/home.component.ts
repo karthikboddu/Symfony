@@ -15,7 +15,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class HomeComponent implements OnInit {
 
-  allPostDetails: Post[];
+  allPostDetails: Post[]=[];
   allPostEmit: any;
   allPost: any;
   allImg: any;
@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
 
     // Add custom gallery config to the lightbox (optional)
     lightboxRef.setConfig({
-      imageSize: ImageSize.Cover,
+      imageSize: ImageSize.Contain,
       thumbPosition: ThumbnailsPosition.Top
     });
 
@@ -223,7 +223,7 @@ export class HomeComponent implements OnInit {
     this.http.post(url, dataToSend)
     .subscribe( (data: any) => {
  console.log("newdata",data);
-       const newPost = data[0];
+       const newPost = data;
  
        this.spinner.hide();
  
