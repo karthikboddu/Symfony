@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "aws-deploy":"aws s3 sync dist/demoproject/ s3://my-blog-admin"
+    "aws-deploy": "aws s3 sync dist/demoproject/ s3://my-blog-admin"
   },
   "private": true,
   "dependencies": {
@@ -38,13 +38,15 @@
     "hammerjs": "^2.0.8",
     "jquery": "^3.4.1",
     "mat-contenteditable": "^9.1.0",
+    "ngx-infinite-scroll": "^8.0.1",
+    "ngx-spinner": "^8.1.0",
     "popper.js": "^1.16.0",
     "rxjs": "^6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.803.21",
+    "@angular-devkit/build-angular": "^0.900.1",
     "@angular/cli": "~8.3.21",
     "@angular/compiler-cli": "~8.2.14",
     "@angular/language-service": "~8.2.14",

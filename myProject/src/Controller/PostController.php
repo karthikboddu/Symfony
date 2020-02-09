@@ -283,6 +283,7 @@ class PostController extends AbstractController
                     $fileupload->setEtag($etag . "." . $ext);
                     $fileupload->setImageUrl($result->get('ObjectURL'));
                     $fileupload->setFileuplodtype($UploadTypeName);
+                    $fileupload->setStatus(true);
                     $em->persist($fileupload);
                     $em->flush();
 
@@ -581,10 +582,12 @@ class PostController extends AbstractController
      * @Route(path="/api/postGroupAll", name="postGroupAll")
      * @Method("GET")
      */
-    public function postGroupAll()
+    public function postGroupAll(Request $request)
     {
-        
-        $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByGroupAll();
+       $limitId =  $request->get('id');
+       $offsetId =  $request->get('offset');
+        $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByGroupAll($limitId,$offsetId);
+       // return $postfileUpload;
         foreach ($postfileUpload as $key => $value) {
             $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByPostsByPostId($value['post_id']);
             $fileUploadDetails='';
@@ -606,7 +609,8 @@ class PostController extends AbstractController
         }
         $totalPosts = sizeof($newArrayy);        
 
-        return new JsonResponse(['data' => $newArrayy,'totalPosts'=>$totalPosts]);
+        //return new JsonResponse(['data' => $newArrayy,'totalPosts'=>$totalPosts]);
+        return $newArrayy;
             
     }
 

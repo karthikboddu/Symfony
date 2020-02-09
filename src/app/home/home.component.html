@@ -1,4 +1,4 @@
-<div class="row blog">
+
     <!-- <div class="col-md-6 offset-md-3">
         <span style="color:red;" *ngIf="message">{{message}}</span>
         <img [src]="imgURL" height="200" *ngIf="imgURL">
@@ -7,44 +7,52 @@
 
     </div> -->
     <!-- <mat-spinner *ngIf="allPost.length === 0"></mat-spinner> -->
-    <div class="col-lg-4 col-md-6 mb-3 card-content" *ngFor="let posts of allPostDetails.data; let i=index">
 
-<!-- <h6>{{posts.user.username}}</h6>
-<div *ngFor="let users of posts.user">
-    <h6>{{users.username}}</h6>
-</div>
-<div *ngFor="let upload of posts.uploadDetails">
-        <h6>{{upload.fileupload_imageUrl}}</h6>
-    </div> -->
 
-        <mat-card class="blog-content matcard">
-            <div *ngFor="let fileDetails of posts.uploadDetails">
-                <img mat-card-image class="img-responsive img-article img-fluid z-depth-1"
-                    src="{{fileDetails.fileupload_imageUrl}}" alt="...">
 
-            </div>
-            <div >
-            <mat-card-header *ngFor="let postDetails of posts.userPost">
-                <mat-card-title class="title">{{postDetails.p_name}}</mat-card-title>
-                <mat-card-subtitle></mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content *ngFor="let postDetails of posts.userpost">
-                <p>
-                    {{postDetails.p_description}}
-                </p>
-            </mat-card-content>
-            </div>
-            <a [routerLink]="['./']" [queryParams]="{ page: posts.pt_name }" (click)="getPostTags()"><span
-                    class="badge badge-dark">{{posts.pt_name}}</span></a>
-            <a [routerLink]="['../viewpost']" [queryParams]="{ posturl: posts.pu_posturl }"
-                (click)="getSinglePostS()"><span class="badge badge-dark">More</span></a>
-            <a><span class="badge badge-dark" *ngFor="let users of posts.user">{{users.username}}</span></a>
+    <h1 fxHide fxShow.xs>XS</h1>
+    <h1 fxHide fxShow.sm>SM</h1>
+    <h1 fxHide fxShow.md>MD</h1>
+    <h1 fxHide fxShow.lg>LG</h1>
+    <h1 fxHide fxShow.xl>XL</h1>
+    <div
+    class="search-results"
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="50"
+    (scrolled)="onScroll()"
+    >
+    <div  fxLayout.xs="column" fxLayout="row wrap" fxLayoutGap="10px" ngClass.gt-xs="ml-10">
+      <mat-card *ngFor="let posts of allPostDetails;" fxFlex.sm="0 1 calc(50%-10px)" fxFlex.md="0 1 calc(33%-10px)" fxFlex.gt-md="0 1 calc(35%-10px)">
+        
+        <div *ngFor="let fileDetails of posts.uploadDetails">
+            <img mat-card-image src="{{fileDetails.fileupload_imageUrl}}" class="image">
+        </div>
+      </mat-card>
+      
+     
 
-        </mat-card>
-        <mat-icon >
-            <i class="material-icons md-32">arrow_back</i>
-            </mat-icon>
+
+
+      
     </div>
+    
+</div>
+
+
+<div class="row pb-5">
+    <div class="col-md-12 p-5">
+     <ngx-spinner
+     bdOpacity = 0.9
+     bdColor = ""
+     size = "default"
+     color = "#581f87"
+     type = "ball-pulse-sync"
+     [fullScreen] = "false"
+     >
+     </ngx-spinner>
+   </div>
+ </div>
 
     <!--     <img mat-card-image class="img-article" src={{article.urlToImage}} alt=""> -->
 
@@ -56,5 +64,3 @@
         </p>
     </div> -->
 
-
-</div>

@@ -74,10 +74,17 @@ class PostRepository extends ServiceEntityRepository
 
     public function findByPostsByPostId($id){
 
-        $query1= $this->em->createQuery("SELECT p FROM App\Entity\Post p  WHERE  p.status = '1' AND p.id = :id ");
-        $query1->setParameter('id',$id);
-        $users1 = $query1->getScalarResult();
-        return $users1;
+        // $query1= $this->em->createQuery("SELECT p FROM App\Entity\Post p  WHERE  p.status = '1' AND p.id = :id ");
+        // $query1->setParameter('id',$id);
+        // $users1 = $query1->getScalarResult();
+        // return $users1;
+
+        return $this->getEntityManager()
+        ->createQuery("SELECT p FROM App\Entity\Post p  WHERE  p.status = '1' AND p.id = :id")
+        ->setParameter('id',$id)
+        ->setMaxResults(5)
+        // ->setFirstResult(10)
+        ->getScalarResult();
     }
 
 
@@ -144,14 +151,20 @@ class PostRepository extends ServiceEntityRepository
         return $totalPosts;
     }
 
-    public function findByGroupAll()
+    public function findByGroupAll($limitId,$offsetId)
     {
 
-         $query = $this->em->createQuery("SELECT pfp.id as post_id,users.id AS user_id ,GROUP_CONCAT( fu.id SEPARATOR ', ') AS upload_id FROM App\Entity\UserPostUpload p JOIN p.fk_user_id users JOIN p.fk_post_id pfp left join p.fk_upload_id fu group by p.fk_post_id");
-
-        $totalPosts = $query->getScalarResult();
+        // $query = $this->em->createQuery("SELECT pfp.id as post_id,users.id AS user_id ,GROUP_CONCAT( fu.id SEPARATOR ', ') AS upload_id FROM App\Entity\UserPostUpload p JOIN p.fk_user_id users JOIN p.fk_post_id pfp left join p.fk_upload_id fu group by p.fk_post_id");
+        // $totalPosts = $query->getScalarResult();
         
-        return $totalPosts;
+        // return $totalPosts;
+
+
+        return $this->getEntityManager()
+        ->createQuery("SELECT pfp.id as post_id,users.id AS user_id ,GROUP_CONCAT( fu.id SEPARATOR ', ') AS upload_id FROM App\Entity\UserPostUpload p JOIN p.fk_user_id users JOIN p.fk_post_id pfp left join p.fk_upload_id fu group by p.fk_post_id")
+        ->setMaxResults($limitId)
+         ->setFirstResult($offsetId)
+        ->getScalarResult();
     }
 
 }

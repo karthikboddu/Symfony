@@ -40,6 +40,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatContenteditableModule } from 'mat-contenteditable';
 //import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { CKEditorModule } from 'ckeditor4-angular';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { NgxSpinnerModule } from "ngx-spinner";
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,7 +75,7 @@ import { CKEditorModule } from 'ckeditor4-angular';
     MatMenuModule,MatIconModule, MatSidenavModule, MatListModule,MatProgressSpinnerModule
     ,MatButtonModule, MatDialogModule, MatListModule, HttpClientModule, MatProgressBarModule,
     FlexLayoutModule,CKEditorModule,
-    MatContenteditableModule,FontAwesomeModule
+    MatContenteditableModule,FontAwesomeModule,InfiniteScrollModule,NgxSpinnerModule
   ],
   entryComponents: [UploadDialogComponent,AdminViewusersComponent],
   providers: [{ provide: MatDialogRef, useValue: {} },{ provide: MAT_DIALOG_DATA, useValue: [] },AuthenticationService,AuthGuard,UploadService
