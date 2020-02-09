@@ -25,7 +25,7 @@ export class UploadService {
       formData.append('fileName', this.fileName);
       let headers = new HttpHeaders();
 
-      headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
+      headers = headers.append('X-Custom-Auth', 'Bearer ' + this.authenticationService.getToken());
 
       // const req =  this.http.post<any>(this.serviceUrl.host+this.serviceUrl.upload,formData,{headers:headers});
       // create a http-post request and pass the form
@@ -77,7 +77,7 @@ export class UploadService {
       formData.append('file', file);
       let headers = new HttpHeaders();
 
-      headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
+      headers = headers.append('X-Custom-Auth', 'Bearer ' + this.authenticationService.getToken());
 
       this.http.post<any>(this.serviceUrl.host + this.serviceUrl.upload, formData, { headers: headers }).subscribe(
         data => {
@@ -101,7 +101,7 @@ export class UploadService {
 
   getFileUpload() {
     let headers = new HttpHeaders();
-    headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
+    headers = headers.append('X-Custom-Auth', 'Bearer ' + this.authenticationService.getToken());
 
     return this.http.get(this.serviceUrl.host + this.serviceUrl.userFileUpload, { headers: headers });
   }

@@ -20,7 +20,7 @@ export class PostService {
       debugger
         let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-        headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
+        headers = headers.append('X-Custom-Auth', 'Bearer ' + this.authenticationService.getToken());
       
         return this.http.get<Post[]>(this.serviceUrl.host+this.serviceUrl.postid,{headers: headers});
     }
@@ -36,7 +36,7 @@ export class PostService {
         uploads.append("tags",divTags);
         let headers = new HttpHeaders();
   
-        headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
+        headers = headers.append('X-Custom-Auth', 'Bearer ' + this.authenticationService.getToken());
         
         return this.http.post(this.serviceUrl.host+this.serviceUrl.post,uploads,{headers:headers});
     }
@@ -60,7 +60,7 @@ export class PostService {
       uploads.append("name",name);
       let headers = new HttpHeaders();
 
-      headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
+      headers = headers.append('X-Custom-Auth', 'Bearer ' + this.authenticationService.getToken());
       
       return this.http.post(this.serviceUrl.host+this.serviceUrl.upload,uploads,{headers:headers});
     }
@@ -69,7 +69,7 @@ export class PostService {
       debugger
       let headers = new HttpHeaders();
        
-      headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
+      headers = headers.append('X-Custom-Auth', 'Bearer ' + this.authenticationService.getToken());
       
       return this.http.get(this.serviceUrl.host+this.serviceUrl.postByTag+"/"+tag,{headers:headers});
     }
@@ -77,7 +77,7 @@ export class PostService {
     getSinglePostByUrl(postUrl){
       let headers = new HttpHeaders();
 
-      headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
+      headers = headers.append('X-Custom-Auth', 'Bearer ' + this.authenticationService.getToken());
       
       return this.http.post(this.serviceUrl.host+this.serviceUrl.singlePost+"/"+postUrl,{headers:headers});
     }
