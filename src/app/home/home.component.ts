@@ -15,7 +15,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class HomeComponent implements OnInit {
 
-  allPostDetails: Post[]=[];
+  allPostDetails: Post;
   allPostEmit: any;
   allPost: any;
   allImg: any;
@@ -32,6 +32,8 @@ export class HomeComponent implements OnInit {
   imageData = data;
   notscrolly = true;
   notEmptyPost = true;
+  lastPostId = '';
+  offset = '5';
   constructor(private postService: PostService, private http: HttpClient, private route: ActivatedRoute,
     private router: Router, public gallery: Gallery, public lightbox: Lightbox, private spinner: NgxSpinnerService) { }
   @Output() postsData = new EventEmitter();
@@ -86,7 +88,7 @@ export class HomeComponent implements OnInit {
 
     // }
     else {
-      this.postService.getAllPostsWithFileByActive()
+      this.postService.getAllPostsWithFileByActive(this.lastPostId,this.offset)
         .pipe(first())
         .subscribe(
           data => {
@@ -209,32 +211,38 @@ export class HomeComponent implements OnInit {
 
 
   loadNextPost() {
-    const url = 'http://127.0.0.1:8000/api/postGroupAll';
-    const lastPost = this.allPostDetails[this.allPostDetails.length - 1];
+    const lastPost = this.allPostDetails[this.allPostDetails.userPost.length - 1];
     // get id of last post
     //  backend of this app use this id to get next 6 post
-    const lastPostId = '5';
+    const lastPostId = lastPost.id;
     const offset = '5';
     // sent this id as key value pare using formdata()
-    const dataToSend = new FormData();
-    dataToSend.append('id', lastPostId);
-    dataToSend.append('offset', offset);
+    // const dataToSend = new FormData();
+    // dataToSend.append('id', lastPostId);
+    // dataToSend.append('offset', offset);
     // call http request
-    this.http.post(url, dataToSend)
-    .subscribe( (data: any) => {
- console.log("newdata",data);
-       const newPost = data;
- 
-       this.spinner.hide();
- 
-       if (newPost.length === 0 ) {
-         this.notEmptyPost =  false;
-       }
-       // add newly fetched posts to the existing post
-       this.allPostDetails = this.allPostDetails.concat(newPost);
- 
-       this.notscrolly = true;
-     });
+
+
+    this.postService.getAllPostsWithFileByActive(lastPostId,offset)
+    .pipe(first())
+    .subscribe(
+      data => {
+        console.log("newdata",data);
+        const newPost = data.userPost;
+  
+        this.spinner.hide();
+  
+        if (newPost.length === 0 ) {
+          this.notEmptyPost =  false;
+        }
+        // add newly fetched posts to the existing post
+        this.allPostDetails.userPost = this.allPostDetails.userPost.concat(newPost);
+  
+        this.notscrolly = true;
+      },
+      error => {
+        console.log("errors", error);
+      });
   }
 
 }

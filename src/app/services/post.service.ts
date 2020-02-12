@@ -91,9 +91,11 @@ export class PostService {
   
       return this.http.get(this.serviceUrl.host+this.serviceUrl.adminTotalPostsActive);
     }
-    getAllPostsWithFileByActive(){
-  
-      return this.http.get<Post[]>(this.serviceUrl.host+this.serviceUrl.allPostWithFileDetails);
+    getAllPostsWithFileByActive(limit,offset){
+      let scrollData = new FormData();
+      scrollData.append("file",limit);
+      scrollData.append("name",offset);
+      return this.http.get<Post>(this.serviceUrl.host+this.serviceUrl.allPostWithFileDetails);
     }
     
 }
