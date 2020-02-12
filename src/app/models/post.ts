@@ -12,6 +12,12 @@ export class userpost{
     status : boolean
 }
 
+export class Response{
+    data : Array<Post>
+    status : any;
+    message : any;
+}
+
 export class fileUpload{
     id : number
     file : string

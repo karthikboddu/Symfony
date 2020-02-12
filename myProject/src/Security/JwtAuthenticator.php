@@ -31,7 +31,7 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
 
     public function supports(Request $request)
     {
-        return $request->headers->has('Authorization');
+        return $request->headers->has('X-Custom-Auth');
     }
 
     public function start(Request $request, AuthenticationException $authException = null)

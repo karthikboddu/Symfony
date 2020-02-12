@@ -616,7 +616,7 @@ class PostController extends AbstractController
         }
         $totalPosts = sizeof($newArrayy);        
 
-        //return new JsonResponse(['data' => $newArrayy,'totalPosts'=>$totalPosts]);
+        return new JsonResponse(['data' => $newArrayy,'totalPosts'=>$totalPosts]);
         return $newArrayy;
             
     }

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {ServiceUrlService} from '../serviceUrl/service-url.service';
-import { Post } from '../models/post';
 import { AuthenticationService } from './authentication.service';
-import { post } from 'selenium-webdriver/http';
-
+import { Post, Response } from '../models/post';
 @Injectable({
   providedIn: 'root'
 })
@@ -95,7 +93,7 @@ export class PostService {
       let scrollData = new FormData();
       scrollData.append("file",limit);
       scrollData.append("name",offset);
-      return this.http.get<Post>(this.serviceUrl.host+this.serviceUrl.allPostWithFileDetails);
+      return this.http.get<Response>(this.serviceUrl.host+this.serviceUrl.allPostWithFileDetails);
     }
     
 }

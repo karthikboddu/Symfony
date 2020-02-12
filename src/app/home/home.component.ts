@@ -1,7 +1,7 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { PostService } from '../services/post.service';
 import { first, count } from 'rxjs/operators';
-import { Post } from '../models/post';
+import { Post, Response } from '../models/post';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Gallery, GalleryItem, ImageItem, ThumbnailsPosition, ImageSize } from '@ngx-gallery/core';
@@ -15,7 +15,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class HomeComponent implements OnInit {
 
-  allPostDetails: Post;
+  allPostDetails: Post[];
+  postResponse : Response;
   allPostEmit: any;
   allPost: any;
   allImg: any;
@@ -92,7 +93,8 @@ export class HomeComponent implements OnInit {
         .pipe(first())
         .subscribe(
           data => {
-            this.allPostDetails = data;
+            this.postResponse = data;
+            this.allPostDetails = this.postResponse.data;
             this.allPostEmit = data;
             this.postsData.emit(this.allPostEmit);
             //this.allImg = data[0]['postfile'];
@@ -211,10 +213,11 @@ export class HomeComponent implements OnInit {
 
 
   loadNextPost() {
-    const lastPost = this.allPostDetails[this.allPostDetails.userPost.length - 1];
+    debugger
+    const lastPost = this.allPostDetails[this.allPostDetails.length - 1];
     // get id of last post
     //  backend of this app use this id to get next 6 post
-    const lastPostId = lastPost.id;
+    const lastPostId = lastPost.userPost[0]['p_id'];
     const offset = '5';
     // sent this id as key value pare using formdata()
     // const dataToSend = new FormData();
@@ -227,8 +230,9 @@ export class HomeComponent implements OnInit {
     .pipe(first())
     .subscribe(
       data => {
+        debugger
         console.log("newdata",data);
-        const newPost = data.userPost;
+        const newPost = data.data;
   
         this.spinner.hide();
   
@@ -236,7 +240,7 @@ export class HomeComponent implements OnInit {
           this.notEmptyPost =  false;
         }
         // add newly fetched posts to the existing post
-        this.allPostDetails.userPost = this.allPostDetails.userPost.concat(newPost);
+        this.allPostDetails = this.allPostDetails.concat(newPost);
   
         this.notscrolly = true;
       },
