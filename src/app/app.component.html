@@ -39,6 +39,17 @@
   <!--will be hidden on large screens -->
   <!--      <mat-card class="col-md-6 d-block d-lg-none">4</mat-card>
     </div> -->  
-</section>
 
+
+
+
+</section>
+<div style="padding: 100px; height: 100%; box-sizing: border-box;">
+  <mat-card style="height: 100%; box-sizing: border-box; padding:0">
+    <file-explorer [fileElements]="fileElements | async" [path]="currentPath" [canNavigateUp]="canNavigateUp" (folderAdded)="addFolder($event)"
+      (elementRemoved)="removeElement($event)" (navigatedDown)="navigateToFolder($event)" (navigatedUp)="navigateUp()" (elementRenamed)="renameElement($event)"
+      (elementMoved)="moveElement($event)">
+    </file-explorer>
+  </mat-card>
+</div>
 <footer></footer>

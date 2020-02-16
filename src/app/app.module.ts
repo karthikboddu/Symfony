@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -42,6 +41,9 @@ import { MatContenteditableModule } from 'mat-contenteditable';
 import { CKEditorModule } from 'ckeditor4-angular';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxSpinnerModule } from "ngx-spinner";
+
+import { FileService } from './services/file.service';
+import { FileExplorerModule } from './file-explorer/file-explorer.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,11 +77,12 @@ import { NgxSpinnerModule } from "ngx-spinner";
     MatMenuModule,MatIconModule, MatSidenavModule, MatListModule,MatProgressSpinnerModule
     ,MatButtonModule, MatDialogModule, MatListModule, HttpClientModule, MatProgressBarModule,
     FlexLayoutModule,CKEditorModule,
-    MatContenteditableModule,FontAwesomeModule,InfiniteScrollModule,NgxSpinnerModule
+    MatContenteditableModule,FontAwesomeModule,InfiniteScrollModule,NgxSpinnerModule,FileExplorerModule
   ],
   entryComponents: [UploadDialogComponent,AdminViewusersComponent],
   providers: [{ provide: MatDialogRef, useValue: {} },{ provide: MAT_DIALOG_DATA, useValue: [] },AuthenticationService,AuthGuard,UploadService
-              ,ThemeService ],
-  bootstrap: [AppComponent]
+              ,ThemeService ,FileService],
+  bootstrap: [AppComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule { }

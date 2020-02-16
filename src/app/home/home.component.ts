@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
   pageUrl: any;
   displayPosts: boolean = false;
   items: GalleryItem[];
-  imageData = data;
+  imageData :any;
   notscrolly = true;
   notEmptyPost = true;
   lastPostId = '';
@@ -41,25 +41,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
 
-    /** Basic Gallery Example */
-    debugger
-    // Creat gallery items
-    this.items = this.imageData.map(item => new ImageItem({ src: item.srcUrl, thumb: item.previewUrl }));
 
-
-    /** Lightbox Example */
-
-    // Get a lightbox gallery ref
-    const lightboxRef = this.gallery.ref('lightbox');
-
-    // Add custom gallery config to the lightbox (optional)
-    lightboxRef.setConfig({
-      imageSize: ImageSize.Contain,
-      thumbPosition: ThumbnailsPosition.Top
-    });
-
-    // Load items into the lightbox gallery ref
-    lightboxRef.load(this.items);
 
 
 
@@ -100,6 +82,56 @@ export class HomeComponent implements OnInit {
             //this.allImg = data[0]['postfile'];
             console.log("data", data);
             //console.log("imgdata",data['postfile']);
+
+    /** Basic Gallery Example */
+    debugger
+    // Creat gallery items
+
+this.allPostDetails.forEach(eachPost => {
+
+  // const data = [
+  //   {
+  //     srcUrl: ,
+  //     previewUrl: 
+  //   }
+  // ];
+
+
+
+
+
+
+
+
+
+  this.items = this.imageData.map(item => new ImageItem({ src: eachPost.uploadDetails['0']['fileupload_imageUrl'], thumb:  eachPost.uploadDetails['0']['fileupload_imageUrl'] }));
+
+
+  /** Lightbox Example */
+
+  // Get a lightbox gallery ref
+  const lightboxRef = this.gallery.ref('lightbox');
+
+  // Add custom gallery config to the lightbox (optional)
+  lightboxRef.setConfig({
+    imageSize: ImageSize.Contain,
+    thumbPosition: ThumbnailsPosition.Top
+  });
+
+  // Load items into the lightbox gallery ref
+  lightboxRef.load(this.items);
+});
+
+   
+
+
+
+
+
+
+
+
+
           },
           error => {
             console.log("errors", error);
