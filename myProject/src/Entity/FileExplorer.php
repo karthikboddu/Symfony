@@ -24,7 +24,7 @@ class FileExplorer
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isFolder;
+    private $isfolder;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -55,12 +55,12 @@ class FileExplorer
 
     public function getIsFolder(): ?bool
     {
-        return $this->isFolder;
+        return $this->isfolder;
     }
 
-    public function setIsFolder(bool $isFolder): self
+    public function setIsFolder(bool $isfolder): self
     {
-        $this->isFolder = $isFolder;
+        $this->isfolder = $isfolder;
 
         return $this;
     }

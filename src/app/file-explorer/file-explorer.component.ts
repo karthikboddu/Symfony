@@ -30,7 +30,7 @@ export class FileExplorerComponent {
   }
 
   navigate(element: FileElement) {
-    if (element.isFolder) {
+    if (element.isfolder) {
       this.navigatedDown.emit(element);
     }
   }

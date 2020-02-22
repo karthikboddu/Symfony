@@ -1,6 +1,6 @@
 export class FileElement {
     id?: string;
-    isFolder: boolean;
+    isfolder: boolean;
     name: string;
     parent: string;
   }

@@ -24,13 +24,20 @@ class FileExplorerController extends AbstractController
     }
 
     /**
-     * @Route("/api/file/addfile", name="file_add_file")
+     * @Route("/api/File/addFileExp", name="file_add_file")
      */
     public function addFile(Request $request)
     {
         $name = $request->get('name');
-        $isFolder = $request->get('isfolder');
-
+        $isFolder = $request->get('isFolder');
+        $parent = $request->get('parent');
+        $fileExplorer = new FileExplorer();
+        $fileExplorer->setName($name);
+        $fileExplorer->setIsFolder($isFolder);
+        $fileExplorer->setParent($parent);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($fileExplorer);
+        $em->flush();
     }
 
     /**

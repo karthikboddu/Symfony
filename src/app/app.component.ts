@@ -55,30 +55,36 @@ export class AppComponent implements OnInit {
           console.log("errors", error);
         });
         
-        const folderA = this.fileService.add({ name: 'Folder A', isFolder: true, parent: 'root' });
-        this.fileService.add({ name: 'Folder B', isFolder: true, parent: 'root' });
-        this.fileService.add({ name: 'Folder C', isFolder: true, parent: folderA.id });
-        this.fileService.add({ name: 'File A', isFolder: false, parent: 'root' });
-        this.fileService.add({ name: 'File B', isFolder: false, parent: 'root' });
+        // const folderA = this.fileService.add({ name: 'Folder A', isFolder: true, parent: 'root' });
+        // this.fileService.add({ name: 'Folder B', isFolder: true, parent: 'root' });
+        // this.fileService.add({ name: 'Folder C', isFolder: true, parent: folderA.id });
+        // this.fileService.add({ name: 'File A', isFolder: false, parent: 'root' });
+        // this.fileService.add({ name: 'File B', isFolder: false, parent: 'root' });
     
-        this.updateFileElementQuery();
+        // this.updateFileElementQuery();
 
 
         this.fileService.getFilesAndFolders()
         .pipe(first())
         .subscribe(data=>{
             this.fEle = data;
+            const folderA =   this.fileService.add(this.fEle['0']);
+            this.fileService.add(this.fEle['1']);
+            this.fileService.add(this.fEle['2']);
+            this.updateFileElementQuery();
+            console.log("filedata",data);
           },
           error =>{
             console.log("errors", error);
           });
-
+          this.updateFileElementQuery();
   }
 
 
   addFolder(folder: { name: string }) {
     console.log("SD",this.currentRoot);
-    this.fileService.add({ isFolder: true, name: folder.name, parent: this.currentRoot ? this.currentRoot.id : 'root' });
+    this.fileService.add({ isfolder: true, name: folder.name, parent: this.currentRoot ? this.currentRoot.id : 'root' });
+    this.fileService.addFilesAndFolders(name,'true',this.currentRoot);
     this.updateFileElementQuery();
   }
 

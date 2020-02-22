@@ -21,6 +21,7 @@ export class FileService implements IFileService {
   constructor(private http: HttpClient,private serviceUrl:ServiceUrlService,private authenticationService: AuthenticationService) {}
 
   add(fileElement: FileElement) {
+    debugger
     fileElement.id = v4();
     this.map.set(fileElement.id, this.clone(fileElement));
     return fileElement;
@@ -32,6 +33,14 @@ export class FileService implements IFileService {
 
   getFilesAndFolders(){
     return this.http.get<FileElement[]>(this.serviceUrl.host+this.serviceUrl.getFilesAndFolders);
+  }
+
+  addFilesAndFolders(name,isFolder,parent){
+    let fileFolderData = new FormData();
+    fileFolderData.append("name",name);
+    fileFolderData.append("isFolder",isFolder);
+    fileFolderData.append("parent",parent);
+    return this.http.post<Response>(this.serviceUrl.host+this.serviceUrl.addFileAndFolders,fileFolderData);
   }
 
   update(id: string, update: Partial<FileElement>) {
