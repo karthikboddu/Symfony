@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { v4 } from 'uuid';
 import { FileElement } from '../models/file-explorer';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ServiceUrlService} from '../serviceUrl/service-url.service';
+import { AuthenticationService } from './authentication.service';
 export interface IFileService {
   add(fileElement: FileElement);
   delete(id: string);
@@ -15,7 +18,7 @@ export interface IFileService {
 export class FileService implements IFileService {
   private map = new Map<string, FileElement>();
 
-  constructor() {}
+  constructor(private http: HttpClient,private serviceUrl:ServiceUrlService,private authenticationService: AuthenticationService) {}
 
   add(fileElement: FileElement) {
     fileElement.id = v4();
@@ -25,6 +28,10 @@ export class FileService implements IFileService {
 
   delete(id: string) {
     this.map.delete(id);
+  }
+
+  getFilesAndFolders(){
+    return this.http.get<FileElement[]>(this.serviceUrl.host+this.serviceUrl.getFilesAndFolders);
   }
 
   update(id: string, update: Partial<FileElement>) {

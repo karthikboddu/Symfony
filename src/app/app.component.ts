@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
   loggedin: boolean;
 
   currentRoot: FileElement;
+  fEle : FileElement[];
   currentPath: string;
   canNavigateUp = false;
   ngOnInit() {
@@ -62,10 +63,21 @@ export class AppComponent implements OnInit {
     
         this.updateFileElementQuery();
 
+
+        this.fileService.getFilesAndFolders()
+        .pipe(first())
+        .subscribe(data=>{
+            this.fEle = data;
+          },
+          error =>{
+            console.log("errors", error);
+          });
+
   }
 
 
   addFolder(folder: { name: string }) {
+    console.log("SD",this.currentRoot);
     this.fileService.add({ isFolder: true, name: folder.name, parent: this.currentRoot ? this.currentRoot.id : 'root' });
     this.updateFileElementQuery();
   }

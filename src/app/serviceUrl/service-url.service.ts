@@ -26,4 +26,5 @@ export class ServiceUrlService {
   public adminDeleteUsers = '/api/admin/deleteUser';
   public userFileUpload = '/api/postfileUpload';
   public allPostWithFileDetails = '/api/postGroupAll';
+  public getFilesAndFolders = '/api/file/getFileExp';
 }
