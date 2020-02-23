@@ -22,8 +22,14 @@ export class FileService implements IFileService {
 
   add(fileElement: FileElement) {
     debugger
-    fileElement.id = v4();
-    this.map.set(fileElement.id, this.clone(fileElement));
+    fileElement.fid = v4();
+    this.map.set(fileElement.fid, this.clone(fileElement));
+    return fileElement;
+  }
+
+  addSubscribe(fileElement: FileElement){
+    debugger
+    this.map.set(fileElement.fid, this.clone(fileElement));
     return fileElement;
   }
 
@@ -35,8 +41,10 @@ export class FileService implements IFileService {
     return this.http.get<FileElement[]>(this.serviceUrl.host+this.serviceUrl.getFilesAndFolders);
   }
 
-  addFilesAndFolders(name,isFolder,parent){
+  addFilesAndFolders(fid,name,isFolder,parent){
+    debugger
     let fileFolderData = new FormData();
+    fileFolderData.append("fid",fid);
     fileFolderData.append("name",name);
     fileFolderData.append("isFolder",isFolder);
     fileFolderData.append("parent",parent);
@@ -46,11 +54,12 @@ export class FileService implements IFileService {
   update(id: string, update: Partial<FileElement>) {
     let element = this.map.get(id);
     element = Object.assign(element, update);
-    this.map.set(element.id, element);
+    this.map.set(element.fid, element);
   }
 
   private querySubject: BehaviorSubject<FileElement[]>;
   queryInFolder(folderId: string) {
+    debugger
     const result: FileElement[] = [];
     this.map.forEach(element => {
       if (element.parent === folderId) {

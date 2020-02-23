@@ -5,6 +5,8 @@ import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { NewfolderdiaologComponent } from './newfolderdiaolog/newfolderdiaolog.component';
 import { RenamefolderdiaologComponent } from './renamefolderdiaolog/renamefolderdiaolog.component';
+import { AuthenticationService } from '../services/authentication.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'file-explorer',
   templateUrl: './file-explorer.component.html',
@@ -12,7 +14,7 @@ import { RenamefolderdiaologComponent } from './renamefolderdiaolog/renamefolder
 })
 export class FileExplorerComponent {
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog,public authService: AuthenticationService,public router: Router) {}
 
   @Input() fileElements: FileElement[];
   @Input() canNavigateUp: string;

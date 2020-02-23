@@ -25,7 +25,6 @@ import { SliderImageComponent } from './slider-image/slider-image.component';
 import { GalleryModule } from '@ngx-gallery/core';
 import { LightboxModule } from '@ngx-gallery/lightbox';
 import { GallerizeModule } from '@ngx-gallery/gallerize';
-import { UploadComponent } from './upload/upload.component';
 import { UploadDialogComponent } from './upload/upload-dialog/upload-dialog.component';
 import {MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { UploadService } from './services/upload.service';
@@ -57,7 +56,7 @@ import { FileExplorerModule } from './file-explorer/file-explorer.module';
     SliderComponent,
     SliderImageComponent,
     SliderItemDirective,
-    AdminComponent,HeadersComponent, AdminViewpostsComponent, AdminViewusersComponent, UploadComponent, UploadDialogComponent, UserComponent, UserContentComponent, UserDetailsComponent
+    AdminComponent,HeadersComponent, AdminViewpostsComponent, AdminViewusersComponent, UploadDialogComponent, UserComponent, UserContentComponent, UserDetailsComponent
   ],
   imports: [
     BrowserModule,

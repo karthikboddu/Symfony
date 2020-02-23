@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { RenamefolderdiaologComponent } from './renamefolderdiaolog/renamefolderdiaolog.component';
 import { FileExplorerComponent } from './file-explorer.component';
-
+import { UploadComponent } from '../upload/upload.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -28,7 +28,7 @@ import { FileExplorerComponent } from './file-explorer.component';
     FormsModule,
     MatButtonModule
   ],
-  declarations: [FileExplorerComponent, NewfolderdiaologComponent, RenamefolderdiaologComponent],
+  declarations: [FileExplorerComponent, NewfolderdiaologComponent, RenamefolderdiaologComponent,UploadComponent],
   exports: [FileExplorerComponent],
   entryComponents: [NewfolderdiaologComponent, RenamefolderdiaologComponent]
 })

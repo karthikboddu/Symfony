@@ -33,6 +33,7 @@ export class AppComponent implements OnInit {
   fEle : FileElement[];
   currentPath: string;
   canNavigateUp = false;
+  newid:any;
   ngOnInit() {
 
     console.log("isauth", this.isAuthenticated);
@@ -67,10 +68,19 @@ export class AppComponent implements OnInit {
         this.fileService.getFilesAndFolders()
         .pipe(first())
         .subscribe(data=>{
+          debugger
             this.fEle = data;
-            const folderA =   this.fileService.add(this.fEle['0']);
-            this.fileService.add(this.fEle['1']);
-            this.fileService.add(this.fEle['2']);
+            console.log("filedata",this.fEle);
+            for (let i = 0; i < this.fEle.length; i++) {
+              const folderA =   this.fileService.addSubscribe(this.fEle[i]);
+            }
+            this.fEle.forEach(element => {
+              this.newid = 0;
+              
+              this.newid++;
+            });
+
+            //this.fileService.add(this.fEle['2']);
             this.updateFileElementQuery();
             console.log("filedata",data);
           },
@@ -80,16 +90,26 @@ export class AppComponent implements OnInit {
           this.updateFileElementQuery();
   }
 
-
+  newfileElement: FileElement;
   addFolder(folder: { name: string }) {
     console.log("SD",this.currentRoot);
-    this.fileService.add({ isfolder: true, name: folder.name, parent: this.currentRoot ? this.currentRoot.id : 'root' });
-    this.fileService.addFilesAndFolders(name,'true',this.currentRoot);
+    this.newfileElement = this.fileService.add({ isfolder: true, name: folder.name, parent: this.currentRoot ? this.currentRoot.fid : 'root' });
+    this.fileService.addFilesAndFolders(this.newfileElement.fid,folder.name,'true',this.currentRoot ? this.currentRoot.fid : 'root')
+    .pipe(first())
+    .subscribe(data=>{
+        console.log("addData",data);
+      },
+      error =>{
+        console.log("errors", error);
+      });
+
+
+
     this.updateFileElementQuery();
   }
 
   removeElement(element: FileElement) {
-    this.fileService.delete(element.id);
+    this.fileService.delete(element.fid);
     this.updateFileElementQuery();
   }
 
@@ -113,17 +133,17 @@ export class AppComponent implements OnInit {
   }
 
   moveElement(event: { element: FileElement; moveTo: FileElement }) {
-    this.fileService.update(event.element.id, { parent: event.moveTo.id });
+    this.fileService.update(event.element.fid, { parent: event.moveTo.fid });
     this.updateFileElementQuery();
   }
 
   renameElement(element: FileElement) {
-    this.fileService.update(element.id, { name: element.name });
+    this.fileService.update(element.fid, { name: element.name });
     this.updateFileElementQuery();
   }
 
   updateFileElementQuery() {
-    this.fileElements = this.fileService.queryInFolder(this.currentRoot ? this.currentRoot.id : 'root');
+    this.fileElements = this.fileService.queryInFolder(this.currentRoot ? this.currentRoot.fid : 'root');
     console.log(this.fileElements,"Sdsd");
   }
 

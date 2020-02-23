@@ -19,26 +19,43 @@ class FileExplorer
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private $fid;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $name;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="string", length=255)
      */
     private $isfolder;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $parent;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $created_at;
+    private $createdat;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getFid(): ?string
+    {
+        return $this->fid;
+    }
+
+    public function setFid(string $fid): self
+    {
+        $this->fid = $fid;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -53,12 +70,12 @@ class FileExplorer
         return $this;
     }
 
-    public function getIsFolder(): ?bool
+    public function getIsfolder(): ?string
     {
         return $this->isfolder;
     }
 
-    public function setIsFolder(bool $isfolder): self
+    public function setIsfolder(string $isfolder): self
     {
         $this->isfolder = $isfolder;
 
@@ -70,21 +87,21 @@ class FileExplorer
         return $this->parent;
     }
 
-    public function setParent(?string $parent): self
+    public function setParent(string $parent): self
     {
         $this->parent = $parent;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedat(): ?\DateTimeInterface
     {
-        return $this->created_at;
+        return $this->createdat;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedat(\DateTimeInterface $createdat): self
     {
-        $this->created_at = $created_at;
+        $this->createdat = $createdat;
 
         return $this;
     }

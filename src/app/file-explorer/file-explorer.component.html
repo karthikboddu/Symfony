@@ -2,6 +2,7 @@
     <mat-icon *ngIf="canNavigateUp" class="pointer" (click)="navigateUp()">arrow_back</mat-icon>
     <span style="margin-left: 8px">{{path || 'Files'}}</span>
     <span class="spacer"></span>
+    <app-upload *ngIf="authService.isLoggedIn && ( !router.url.includes('post') && !router.url.includes('users') && !router.url.includes('admin') && !router.url.includes('home') )" ></app-upload>
     <mat-icon class="pointer" (click)="openNewFolderDialog()">create_new_folder</mat-icon>
   </mat-toolbar>
   

@@ -1,5 +1,5 @@
 export class FileElement {
-    id?: string;
+    fid?: string;
     isfolder: boolean;
     name: string;
     parent: string;

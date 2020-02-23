@@ -586,9 +586,6 @@ class PostController extends AbstractController
     {
        $limitId =  $request->get('id');
        $offsetId =  $request->get('offset');
-       if(!$offsetId){
-            $offsetId = '0';
-       }
        if(!$limitId){
            $limitId = '5';
        }

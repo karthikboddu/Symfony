@@ -271,10 +271,14 @@ this.allPostDetails.forEach(eachPost => {
         if (newPost.length === 0 ) {
           this.notEmptyPost =  false;
         }
-        // add newly fetched posts to the existing post
-        this.allPostDetails = this.allPostDetails.concat(newPost);
+        if(newPost.length>0){
+           // add newly fetched posts to the existing post
+          this.allPostDetails = this.allPostDetails.concat(newPost);
   
-        this.notscrolly = true;
+          this.notscrolly = true;
+        }
+       
+        
       },
       error => {
         console.log("errors", error);

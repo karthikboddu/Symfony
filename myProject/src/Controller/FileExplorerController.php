@@ -28,16 +28,21 @@ class FileExplorerController extends AbstractController
      */
     public function addFile(Request $request)
     {
+        $id = $request->get('fid');
         $name = $request->get('name');
         $isFolder = $request->get('isFolder');
         $parent = $request->get('parent');
         $fileExplorer = new FileExplorer();
+        $fileExplorer->setFid($id);
         $fileExplorer->setName($name);
         $fileExplorer->setIsFolder($isFolder);
         $fileExplorer->setParent($parent);
+        $fileExplorer->setCreatedAt(new \DateTime());
         $em = $this->getDoctrine()->getManager();
         $em->persist($fileExplorer);
         $em->flush();
+
+        return new JsonResponse(['data' => 'true','status'=>'','message'=>'']);
     }
 
     /**
