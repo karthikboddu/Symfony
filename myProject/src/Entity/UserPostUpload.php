@@ -32,6 +32,11 @@ class UserPostUpload
      */
     private $fk_upload_id;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\FileExplorer", inversedBy="fk_user_folder")
+     */
+    private $fk_user_folder;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class UserPostUpload
     public function setFkUploadId(?FileUpload $fk_upload_id): self
     {
         $this->fk_upload_id = $fk_upload_id;
+
+        return $this;
+    }
+
+    public function getFkUserFolder(): ?FileExplorer
+    {
+        return $this->fk_user_folder;
+    }
+
+    public function setFkUserFolder(?FileExplorer $fk_user_folder): self
+    {
+        $this->fk_user_folder = $fk_user_folder;
 
         return $this;
     }

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,6 +42,16 @@ class FileExplorer
      * @ORM\Column(type="datetime")
      */
     private $createdat;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserPostUpload", mappedBy="fk_user_folder")
+     */
+    private $fk_user_folder;
+
+    public function __construct()
+    {
+        $this->fk_user_folder = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -102,6 +114,37 @@ class FileExplorer
     public function setCreatedat(\DateTimeInterface $createdat): self
     {
         $this->createdat = $createdat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserPostUpload[]
+     */
+    public function getFkUserFolder(): Collection
+    {
+        return $this->fk_user_folder;
+    }
+
+    public function addFkUserFolder(UserPostUpload $fkUserFolder): self
+    {
+        if (!$this->fk_user_folder->contains($fkUserFolder)) {
+            $this->fk_user_folder[] = $fkUserFolder;
+            $fkUserFolder->setFkUserFolder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFkUserFolder(UserPostUpload $fkUserFolder): self
+    {
+        if ($this->fk_user_folder->contains($fkUserFolder)) {
+            $this->fk_user_folder->removeElement($fkUserFolder);
+            // set the owning side to null (unless already changed)
+            if ($fkUserFolder->getFkUserFolder() === $this) {
+                $fkUserFolder->setFkUserFolder(null);
+            }
+        }
 
         return $this;
     }
