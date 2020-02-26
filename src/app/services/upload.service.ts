@@ -3,13 +3,19 @@ import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpRequest, HttpEventType, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { AuthenticationService } from './authentication.service';
 import { ServiceUrlService } from '../serviceUrl/service-url.service';
+import { UploadElement } from '../models/upload-element';
+import { v4 } from 'uuid';
+import { FileElement } from '../models/file-explorer';
 
 
 @Injectable()
 export class UploadService {
   constructor(private http: HttpClient, private authenticationService: AuthenticationService, private serviceUrl: ServiceUrlService) { }
   fileName;
+  private map = new Map<string, FileElement>();
+  private filemap = new Map<string, File>();
   userFileUploadId: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
+  currentRoot: FileElement;
   userFileData = this.userFileUploadId.asObservable();
   public upload(files: Set<File>): { [key: string]: { progress: Observable<number> } } {
     // this will be the our resulting map
@@ -44,6 +50,7 @@ export class UploadService {
       this.http.request(req).subscribe((event: any) => {
         resultId.push(event.body);
         this.userFileUploadId.next(resultId);
+        this.add(file,this.currentRoot ? this.currentRoot.fid : 'root');
         // console.log("resultid", resultId);
         if (event.type === HttpEventType.UploadProgress) {
           // calculate the progress percentage
@@ -112,6 +119,36 @@ export class UploadService {
 
   unSubsUserFileUploadId(){
     this.userFileUploadId.unsubscribe();
+  }
+
+  add(uploadElement: File,currentRoot) {
+    debugger
+    // uploadElement.
+    this.filemap.set(currentRoot,uploadElement);
+    console.log(this.filemap,"filemap");
+    return uploadElement;
+  }
+
+  clone(element: UploadElement) {
+    return JSON.parse(JSON.stringify(element));
+  }
+
+
+  private querySubject: BehaviorSubject<File[]>;
+  queryInFolder() {
+    debugger
+    const result: File[] = [];
+    this.filemap.forEach(element => {
+
+        result.push(element);
+
+    });
+    if (!this.querySubject) {
+      this.querySubject = new BehaviorSubject(result);
+    } else {
+      this.querySubject.next(result);
+    }
+    return this.querySubject.value;
   }
 
 }

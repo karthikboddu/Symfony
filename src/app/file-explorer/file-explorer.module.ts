@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -13,7 +13,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { RenamefolderdiaologComponent } from './renamefolderdiaolog/renamefolderdiaolog.component';
 import { FileExplorerComponent } from './file-explorer.component';
-import { UploadComponent } from '../upload/upload.component';
+import { FileExplorerDashboardComponent } from './file-explorer-dashboard/file-explorer-dashboard.component';
+import { CustomMaterial } from '../material.module';
+import { UploadModule } from '../upload/upload.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -26,10 +28,12 @@ import { UploadComponent } from '../upload/upload.component';
     MatDialogModule,
     MatInputModule,
     FormsModule,
-    MatButtonModule
+    MatButtonModule,
+    CustomMaterial,UploadModule
   ],
-  declarations: [FileExplorerComponent, NewfolderdiaologComponent, RenamefolderdiaologComponent,UploadComponent],
-  exports: [FileExplorerComponent],
-  entryComponents: [NewfolderdiaologComponent, RenamefolderdiaologComponent]
+  declarations: [FileExplorerComponent, NewfolderdiaologComponent, RenamefolderdiaologComponent,FileExplorerDashboardComponent],
+  exports: [FileExplorerComponent,FileExplorerDashboardComponent],
+  entryComponents: [NewfolderdiaologComponent, RenamefolderdiaologComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ,NO_ERRORS_SCHEMA]
 })
 export class FileExplorerModule {}

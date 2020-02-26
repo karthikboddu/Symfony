@@ -27,5 +27,7 @@ export class ServiceUrlService {
   public userFileUpload = '/api/postfileUpload';
   public allPostWithFileDetails = '/api/postGroupAll';
   public getFilesAndFolders = '/api/file/getFileExp';
+  public getFilesAndFoldersByid = '/api/folderGroupAll';
+  
   public addFileAndFolders = '/api/File/addFileExp';
 }

@@ -59,7 +59,7 @@ class FileExplorerController extends AbstractController
     }
 
 
-        /**
+    /**
      * @Route(path="/api/folderGroupAll", name="folderGroupAll")
      * @Method("GET")
      */
@@ -74,7 +74,7 @@ class FileExplorerController extends AbstractController
         $postfileUpload = $this->getDoctrine()->getRepository(FileExplorer::class)->findByFolderAll($limitId='',$offsetId='');
         //return $postfileUpload;
         foreach ($postfileUpload as $key => $value) {
-            $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByPostsByPostId($value['post_id']);
+            //$postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByPostsByPostId($value['post_id']);
             $fileUploadDetails='';
             $userDetails = '';
             if($value['upload_id']){
@@ -90,10 +90,10 @@ class FileExplorerController extends AbstractController
 
             }              
 
-            if($postfileUpload  ){
+            // if($postfileUpload  ){
 
-            }
-                            $newArrayy[$key] = array('user'=>$userDetails,'userPost'=>$postfileUpload,'uploadDetails'=>$fileUploadDetails,'folderDetails'=>$folderDetails);
+            // }
+                            $newArrayy[$key] = array('user'=>$userDetails,'uploadDetails'=>$fileUploadDetails,'folderDetails'=>$folderDetails);
             
 
         }
@@ -103,4 +103,51 @@ class FileExplorerController extends AbstractController
         return $newArrayy;
             
     }
+
+
+   /**
+     * @Route(path="/api/folderGroupAll/{fid}", name="folderGroupAll")
+     * @Method("GET")
+     */
+    public function postGroupByfId(Request $request,$fid)
+    {
+       // $limitId =  $request->get('id');
+       // $offsetId =  $request->get('offset');
+       // if(!$limitId){
+       //     $limitId = '5';
+       // }
+       
+        $postfileUpload = $this->getDoctrine()->getRepository(FileExplorer::class)->findByFolderByfId($limitId='',$offsetId='',$fid);
+        //return $postfileUpload;
+        foreach ($postfileUpload as $key => $value) {
+            //$postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByPostsByPostId($value['post_id']);
+            $fileUploadDetails='';
+            $userDetails = '';
+            if($value['upload_id']){
+                $uploadIds = explode(",", $value['upload_id']);
+                $fileUploadDetails = $this->getDoctrine()->getRepository(FileUpload::class)->findByUploadDetailsById($uploadIds);
+            }
+            if($value['user_id']){
+                $userDetails = $this->getDoctrine()->getRepository(User::class)->findByUsersDetailsById($value['user_id']);
+
+            }
+            if($value['folder_id']){
+                $folderDetails = $this->getDoctrine()->getRepository(FileExplorer::class)->findByFoldersById($value['folder_id']);
+
+            }              
+
+            // if($postfileUpload  ){
+
+            // }
+                            $newArrayy[$key] = array('user'=>$userDetails,'uploadDetails'=>$fileUploadDetails,'folderDetails'=>$folderDetails);
+            
+
+        }
+        $totalPosts = sizeof($newArrayy);        
+
+        // return new JsonResponse(['data' => $newArrayy,'totalPosts'=>$totalPosts]);
+        return $newArrayy;
+            
+    }    
+
 }

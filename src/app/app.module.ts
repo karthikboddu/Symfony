@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -43,6 +43,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 
 import { FileService } from './services/file.service';
 import { FileExplorerModule } from './file-explorer/file-explorer.module';
+import { UploadModule } from './upload/upload.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +57,7 @@ import { FileExplorerModule } from './file-explorer/file-explorer.module';
     SliderComponent,
     SliderImageComponent,
     SliderItemDirective,
-    AdminComponent,HeadersComponent, AdminViewpostsComponent, AdminViewusersComponent, UploadDialogComponent, UserComponent, UserContentComponent, UserDetailsComponent
+    AdminComponent,HeadersComponent, AdminViewpostsComponent, AdminViewusersComponent, UserComponent, UserContentComponent, UserDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -78,10 +79,10 @@ import { FileExplorerModule } from './file-explorer/file-explorer.module';
     FlexLayoutModule,CKEditorModule,
     MatContenteditableModule,FontAwesomeModule,InfiniteScrollModule,NgxSpinnerModule,FileExplorerModule
   ],
-  entryComponents: [UploadDialogComponent,AdminViewusersComponent],
+  entryComponents: [AdminViewusersComponent],
   providers: [{ provide: MatDialogRef, useValue: {} },{ provide: MAT_DIALOG_DATA, useValue: [] },AuthenticationService,AuthGuard,UploadService
               ,ThemeService ,FileService],
   bootstrap: [AppComponent],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ,NO_ERRORS_SCHEMA]
 })
 export class AppModule { }

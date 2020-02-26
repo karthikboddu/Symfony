@@ -81,4 +81,8 @@ export class FileService implements IFileService {
   clone(element: FileElement) {
     return JSON.parse(JSON.stringify(element));
   }
+
+  getFilesAndFoldersById(fid){
+    return this.http.get(this.serviceUrl.host+this.serviceUrl.getFilesAndFoldersByid+"/"+fid);
+  }
 }

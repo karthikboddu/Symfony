@@ -8,6 +8,7 @@ import { ThemeService } from './services/theme.service';
 import { FileService } from './services/file.service';
 import { FileElement } from './models/file-explorer';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { UploadService } from './services/upload.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,7 +19,7 @@ export class AppComponent implements OnInit {
   darkTheme = new FormControl(false);
   public fileElements: Observable<FileElement[]>;
   constructor(public authService: AuthenticationService, private route: ActivatedRoute, private postService: PostService
-    , public router: Router, private themeService: ThemeService,public fileService: FileService
+    , public router: Router, private themeService: ThemeService,public fileService: FileService,public uploadService:UploadService
   ) {
 
     console.log(this.router.url,"router");
@@ -65,35 +66,14 @@ export class AppComponent implements OnInit {
         // this.updateFileElementQuery();
 
 
-        this.fileService.getFilesAndFolders()
-        .pipe(first())
-        .subscribe(data=>{
-          debugger
-            this.fEle = data;
-            console.log("filedata",this.fEle);
-            for (let i = 0; i < this.fEle.length; i++) {
-              const folderA =   this.fileService.addSubscribe(this.fEle[i]);
-            }
-            this.fEle.forEach(element => {
-              this.newid = 0;
-              
-              this.newid++;
-            });
-
-            //this.fileService.add(this.fEle['2']);
-            this.updateFileElementQuery();
-            console.log("filedata",data);
-          },
-          error =>{
-            console.log("errors", error);
-          });
-          this.updateFileElementQuery();
+     
   }
 
   newfileElement: FileElement;
   addFolder(folder: { name: string }) {
+    console.log(this.uploadService.queryInFolder(),"querinfolder");
     console.log("SD",this.currentRoot);
-    this.newfileElement = this.fileService.add({ isfolder: true, name: folder.name, parent: this.currentRoot ? this.currentRoot.fid : 'root' });
+    this.newfileElement = this.fileService.add({ isfolder: true, name: folder.name, parent: this.currentRoot ? this.currentRoot.fid : 'root',id:'' });
     this.fileService.addFilesAndFolders(this.newfileElement.fid,folder.name,'true',this.currentRoot ? this.currentRoot.fid : 'root')
     .pipe(first())
     .subscribe(data=>{
@@ -108,14 +88,36 @@ export class AppComponent implements OnInit {
     this.updateFileElementQuery();
   }
 
+   addFiles(folder: string) {
+     debugger
+    console.log("hhSD",folder);
+    //this.newfileElement = this.fileService.add({ isfolder: true, name: folder.name, parent: this.currentRoot ? this.currentRoot.fid : 'root' });
+    // this.fileService.addFilesAndFolders(this.newfileElement.fid,folder.name,'true',this.currentRoot ? this.currentRoot.fid : 'root')
+    // .pipe(first())
+    // .subscribe(data=>{
+    //     console.log("addData",data);
+    //   },
+    //   error =>{
+    //     console.log("errors", error);
+    //   });
+
+
+
+    // this.updateFileElementQuery();
+  }
+
   removeElement(element: FileElement) {
     this.fileService.delete(element.fid);
     this.updateFileElementQuery();
   }
 
   navigateToFolder(element: FileElement) {
+    debugger
     this.currentRoot = element;
     this.updateFileElementQuery();
+    this.fileService.getFilesAndFoldersById(element.id).subscribe((res:any)=>{
+      console.log(res,"folderbyid");
+    });
     this.currentPath = this.pushToPath(this.currentPath, element.name);
     this.canNavigateUp = true;
   }
