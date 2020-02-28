@@ -13,7 +13,7 @@ export class UploadService {
   constructor(private http: HttpClient, private authenticationService: AuthenticationService, private serviceUrl: ServiceUrlService) { }
   fileName;
   private map = new Map<string, FileElement>();
-  private filemap = new Map<string, File>();
+  private filemap = new Map<string,File>();
   userFileUploadId: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   currentRoot: FileElement;
   userFileData = this.userFileUploadId.asObservable();
@@ -50,7 +50,7 @@ export class UploadService {
       this.http.request(req).subscribe((event: any) => {
         resultId.push(event.body);
         this.userFileUploadId.next(resultId);
-        this.add(file,this.currentRoot ? this.currentRoot.fid : 'root');
+        this.add(file);
         // console.log("resultid", resultId);
         if (event.type === HttpEventType.UploadProgress) {
           // calculate the progress percentage
@@ -121,10 +121,10 @@ export class UploadService {
     this.userFileUploadId.unsubscribe();
   }
 
-  add(uploadElement: File,currentRoot) {
+  add(uploadElement: File) {
     debugger
     // uploadElement.
-    this.filemap.set(currentRoot,uploadElement);
+    this.filemap.set(uploadElement.name,uploadElement);
     console.log(this.filemap,"filemap");
     return uploadElement;
   }
