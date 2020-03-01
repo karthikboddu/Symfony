@@ -13,25 +13,8 @@ export class UploadComponent implements OnInit {
   constructor(public dialog: MatDialog, public uploadService: UploadService) { }
 
 
-  public openUploadDialog() {
-    let dialogRef = this.dialog.open(UploadDialogComponent, { width: '50%', height: '50%' });
-        dialogRef.afterClosed().subscribe(res => {
-         
-        console.log(res,"****88");
-    });
-  }
   userfiledata : any;
   ngOnInit() {
-
-  	this.uploadService.getFileUpload().subscribe(
-        data => {
-        	debugger
-        	this.userfiledata = data;
-          console.log("datasssss", data);
-        },
-        error => {
-          console.log("errors", error);
-        });
   }
 
   // async ngOnDestroy() {
@@ -41,5 +24,23 @@ export class UploadComponent implements OnInit {
 
     
   // }
+
+  addFiles(folder: string) {
+    debugger
+   console.log("hhSD",folder);
+   //this.newfileElement = this.fileService.add({ isfolder: true, name: folder.name, parent: this.currentRoot ? this.currentRoot.fid : 'root' });
+   // this.fileService.addFilesAndFolders(this.newfileElement.fid,folder.name,'true',this.currentRoot ? this.currentRoot.fid : 'root')
+   // .pipe(first())
+   // .subscribe(data=>{
+   //     console.log("addData",data);
+   //   },
+   //   error =>{
+   //     console.log("errors", error);
+   //   });
+
+
+
+   // this.updateFileElementQuery();
+ }
 
 }

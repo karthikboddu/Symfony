@@ -14,7 +14,7 @@ export class UploadDialogComponent implements OnInit {
   @ViewChild('file', { static: false }) file;
 
   public files: Set<File> = new Set();
-  @Output() fileAdded = new EventEmitter<Set<File>>();
+  @Output() fileAdded = new EventEmitter<{ name: string }>();
   constructor(public dialogRef: MatDialogRef<UploadDialogComponent>, public uploadService: UploadService) { }
 
   ngOnInit() { }
@@ -48,12 +48,12 @@ export class UploadDialogComponent implements OnInit {
     if (this.uploadSuccessful) {
       return this.dialogRef.close();
     }
-    this.fileAdded.emit(this.files);
+    this.fileAdded.emit({name:'karthik'});
     // set the component state to "uploading"
     this.uploading = true;
 
     // start the upload and save the progress map
-    this.progress = this.uploadService.upload(this.files);
+    //this.progress = this.uploadService.upload(this.files);
      //this.uploadService.videoUpload(this.files);
 
 

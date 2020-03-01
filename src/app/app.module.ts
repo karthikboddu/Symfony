@@ -25,7 +25,7 @@ import { SliderImageComponent } from './slider-image/slider-image.component';
 import { GalleryModule } from '@ngx-gallery/core';
 import { LightboxModule } from '@ngx-gallery/lightbox';
 import { GallerizeModule } from '@ngx-gallery/gallerize';
-import { UploadDialogComponent } from './upload/upload-dialog/upload-dialog.component';
+
 import {MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { UploadService } from './services/upload.service';
 import {DataTableModule} from "angular-6-datatable";

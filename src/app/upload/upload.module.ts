@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { RenamefolderdiaologComponent } from '../file-explorer/renamefolderdiaolog/renamefolderdiaolog.component';
 import { FileExplorerComponent } from '../file-explorer/file-explorer.component';
 import { MatProgressBarModule, MatListModule } from '@angular/material';
+import { UploadDashboardComponent } from './upload-dashboard/upload-dashboard.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -29,8 +30,8 @@ import { MatProgressBarModule, MatListModule } from '@angular/material';
     FormsModule,
     MatButtonModule,MatProgressBarModule,MatListModule
   ],
-  declarations: [UploadDialogComponent,UploadComponent],
-  exports: [UploadComponent],
+  declarations: [UploadDialogComponent,UploadComponent, UploadDashboardComponent],
+  exports: [UploadComponent,UploadDashboardComponent],
   entryComponents: [UploadDialogComponent]
 })
 export class UploadModule {}
