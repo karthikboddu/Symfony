@@ -233,7 +233,7 @@ this.allPostDetails.forEach(eachPost => {
 
 
 
-  onScroll(e) {
+  onScroll() {
     console.log("scroll");
     this.spinner.show();
     if (this.notscrolly && this.notEmptyPost) {
