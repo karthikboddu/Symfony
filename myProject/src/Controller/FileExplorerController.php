@@ -60,7 +60,7 @@ class FileExplorerController extends AbstractController
 
 
     /**
-     * @Route(path="/api/folderGroupAll", name="folderGroupAll")
+     * @Route(path="/api/file/folderGroupAll", name="folderGroupAlls")
      * @Method("GET")
      */
     public function postGroupAll(Request $request)
@@ -70,7 +70,7 @@ class FileExplorerController extends AbstractController
        // if(!$limitId){
        //     $limitId = '5';
        // }
-       
+
         $postfileUpload = $this->getDoctrine()->getRepository(FileExplorer::class)->findByFolderAll($limitId='',$offsetId='');
         //return $postfileUpload;
         foreach ($postfileUpload as $key => $value) {

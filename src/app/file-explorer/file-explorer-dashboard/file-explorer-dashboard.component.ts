@@ -13,10 +13,12 @@ import { Router } from '@angular/router';
   templateUrl: './file-explorer-dashboard.component.html',
   styleUrls: ['./file-explorer-dashboard.component.scss']
 })
-export class FileExplorerDashboardComponent{
+export class FileExplorerDashboardComponent implements OnInit{
 
   constructor(public dialog: MatDialog,public authService: AuthenticationService,public router: Router) {}
-
+  ngOnInit() {
+    
+  }
   @Input() fileElements: FileElement[];
   @Input() canNavigateUp: string;
   @Input() path: string;
