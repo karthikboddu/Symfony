@@ -14,6 +14,7 @@ use App\Repository\PostRepository;
 use App\Repository\TagsRepository;
 use App\Security\JwtAuthenticator;
 use App\Service\PostService;
+use App\Service\UploadService;
 use Aws\S3\S3Client;
 use Cocur\Slugify\Slugify;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
@@ -29,11 +30,12 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 class PostController extends AbstractController
 {
 
-    public function __construct(JwtAuthenticator $jwtEncoder, JWTEncoderInterface $jwtEncoderIn, PostService $postService)
+    public function __construct(JwtAuthenticator $jwtEncoder, JWTEncoderInterface $jwtEncoderIn, PostService $postService,UploadService $uploadService)
     {
         $this->jwtEncoder = $jwtEncoder;
         $this->jwtEncoderIn = $jwtEncoderIn;
         $this->postService = $postService;
+        $this->uploadService = $uploadService;
     }
 
     public function init(Request $request)
@@ -232,6 +234,7 @@ class PostController extends AbstractController
     {
         try {
             //$h = $request->headers->has('Authorization');
+           
             if ($this->jwtEncoder->supports($request)) {
                 $preAuthToken = $this->jwtEncoder->getCredentials($request);
                 $data = $this->jwtEncoderIn->decode($preAuthToken);
@@ -250,6 +253,7 @@ class PostController extends AbstractController
                     $em = $this->getDoctrine()->getManager();
                     $username = $data['username'];
                     $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
+                    $this->uploadService->uploadser($request,$s3Client,$user);
                     $ext = pathinfo($fileName . "/" . $fff, PATHINFO_EXTENSION);
                     //$key =   $request->request->get('file');
 
