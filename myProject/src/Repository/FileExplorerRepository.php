@@ -79,6 +79,21 @@ class FileExplorerRepository extends ServiceEntityRepository
         ->getScalarResult();
     }
 
+    public function findByFoldersByfId($fid){
+
+        // $query1= $this->em->createQuery("SELECT p FROM App\Entity\Post p  WHERE  p.status = '1' AND p.id = :id ");
+        // $query1->setParameter('id',$id);
+        // $users1 = $query1->getScalarResult();
+        // return $users1;
+
+        return $this->getEntityManager()
+        ->createQuery("SELECT f FROM App\Entity\FileExplorer f WHERE f.fid = :id")
+        ->setParameter('id',$fid)
+        ->setMaxResults(5)
+        // ->setFirstResult(10)
+        ->getScalarResult();
+    }
+
     
 
     public function findByFolderByfId($limitId ,$offsetId,$fid)

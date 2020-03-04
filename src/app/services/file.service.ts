@@ -6,6 +6,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ServiceUrlService} from '../serviceUrl/service-url.service';
 import { AuthenticationService } from './authentication.service';
+import { Response } from '../models/post';
 export interface IFileService {
   add(fileElement: FileElement);
   delete(id: string);

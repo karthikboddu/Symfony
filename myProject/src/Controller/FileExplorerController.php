@@ -44,8 +44,10 @@ class FileExplorerController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($fileExplorer);
         $em->flush();
-
-        return new JsonResponse(['data' => 'true','status'=>'','message'=>'']);
+        $fid = $fileExplorer->getFid();
+        $postfileUpload = $this->getDoctrine()->getRepository(FileExplorer::class)->findByFoldersByfId($fid);
+        //$fileElement = $postfileUpload['0']['uploadDetails'];
+        return new JsonResponse(['data' => $postfileUpload['0'],'status'=>'','message'=>'']);
     }
 
     /**

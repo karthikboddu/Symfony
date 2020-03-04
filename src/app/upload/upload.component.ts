@@ -5,6 +5,8 @@ import { UploadDialogComponent } from './upload-dialog/upload-dialog.component';
 import { FileElement } from '../models/file-explorer';
 import { FileService } from '../services/file.service';
 import { first } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { Response, FileResponse } from '../models/post';
 
 @Component({
   selector: 'app-upload',
@@ -17,6 +19,9 @@ export class UploadComponent implements OnInit {
 
   currentRoot: FileElement;
   userfiledata : any;
+  fe :FileElement[];
+  public fileElements: Observable<FileElement[]>;
+  fileReponse : FileResponse;
   ngOnInit() {
   }
 
@@ -36,14 +41,21 @@ export class UploadComponent implements OnInit {
    .pipe(first())
    .subscribe(data=>{
        console.log("addData",data);
+       this.fileReponse = data;
      },
      error =>{
        console.log("errors", error);
      });
+     this.currentRoot = this.fileReponse.data;
 
-
-
-   // this.updateFileElementQuery();
+    this.updateFileElementQuery();
  }
+
+
+ updateFileElementQuery() {
+   debugger
+  this.fileElements = this.fileService.queryInFolder(this.currentRoot ? this.currentRoot.fid : 'root');
+  console.log(this.fileElements,"Sdsd");
+}
 
 }
