@@ -13,6 +13,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use App\Security\JwtAuthenticator;
+use App\Service\PostService;
+use App\Service\UploadService;
+
 
 class FileExplorerController extends AbstractController
 {
@@ -26,28 +30,58 @@ class FileExplorerController extends AbstractController
         ]);
     }
 
+    public function __construct(JwtAuthenticator $jwtEncoder, JWTEncoderInterface $jwtEncoderIn, PostService $postService,UploadService $uploadService)
+    {
+        $this->jwtEncoder = $jwtEncoder;
+        $this->jwtEncoderIn = $jwtEncoderIn;
+        $this->postService = $postService;
+        $this->uploadService = $uploadService;
+    }
+    
     /**
      * @Route("/api/File/addFileExp", name="file_add_file")
      */
     public function addFile(Request $request)
     {
-        $id = $request->get('fid');
-        $name = $request->get('name');
-        $isFolder = $request->get('isFolder');
-        $parent = $request->get('parent');
-        $fileExplorer = new FileExplorer();
-        $fileExplorer->setFid($id);
-        $fileExplorer->setName($name);
-        $fileExplorer->setIsFolder($isFolder);
-        $fileExplorer->setParent($parent);
-        $fileExplorer->setCreatedAt(new \DateTime());
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($fileExplorer);
-        $em->flush();
-        $fid = $fileExplorer->getFid();
-        $postfileUpload = $this->getDoctrine()->getRepository(FileExplorer::class)->findByFoldersByfId($fid);
-        //$fileElement = $postfileUpload['0']['uploadDetails'];
-        return new JsonResponse(['data' => $postfileUpload['0'],'status'=>'','message'=>'']);
+        try {
+            if ($this->jwtEncoder->supports($request)) {
+                $preAuthToken = $this->jwtEncoder->getCredentials($request);
+                $data = $this->jwtEncoderIn->decode($preAuthToken);
+                $em = $this->getDoctrine()->getManager();
+                $username = $data['username'];
+                $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
+                $id = $request->get('fid');
+                $name = $request->get('name');
+                $isFolder = $request->get('isFolder');
+                $parent = $request->get('parent');
+                $uploadIds = $request->get('ufId');
+                $fileExplorer = new FileExplorer();
+                $fileExplorer->setFid($id);
+                $fileExplorer->setName($name);
+                $fileExplorer->setIsFolder($isFolder);
+                $fileExplorer->setParent($parent);
+                $fileExplorer->setCreatedAt(new \DateTime());
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($fileExplorer);
+                $em->flush();
+                $folderId = $fileExplorer->getFid();
+                if(!empty($uploadIds)){
+                    $folderDetails = $em->getRepository(FileExplorer::class)->findOneBy(['fid' => $folderId]);
+                    $userFileUploadId = explode(",", $uploadIds);
+                    foreach ($userFileUploadId as $item) {
+                        $eachUserFileId = $em->getRepository(FileUpload::class)->findOneBy(['id' => $item]);
+                        $s = $this->uploadService->flushAllFileUploadToFolder($eachUserFileId, $user, $folderDetails);
+        
+                    }
+        
+                }
+                return new JsonResponse(['status' => 'ok', 'data' => $s]);
+            }
+    }catch (\Exception $e) {
+        //throw $th; 'message' => $exception->getMessage(),
+        // throw new HttpException(400, "Invalid data");
+        return new JsonResponse(['status' => '0', 'message' => $e->getMessage()]);
+    }
     }
 
     /**

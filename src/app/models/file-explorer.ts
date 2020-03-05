@@ -15,6 +15,11 @@ export class folderDetail {
     name: string;
     parent: string;
 }  
+export class FileResponse{
+    data : FileElement;
+    status : any;
+    message : any;
+}
 
 export class fileUploadDetails {
     userDetails : Array<user>

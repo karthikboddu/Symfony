@@ -70,23 +70,23 @@ export class AppComponent implements OnInit {
   }
 
   newfileElement: FileElement;
-  addFolder(folder: { name: string }) {
-    console.log(this.uploadService.queryInFolder(),"querinfolder");
-    console.log("SD",this.currentRoot);
-    this.newfileElement = this.fileService.add({ isfolder: true, name: folder.name, parent: this.currentRoot ? this.currentRoot.fid : 'root',id:'' });
-    this.fileService.addFilesAndFolders(this.newfileElement.fid,folder.name,'true',this.currentRoot ? this.currentRoot.fid : 'root')
-    .pipe(first())
-    .subscribe(data=>{
-        console.log("addData",data);
-      },
-      error =>{
-        console.log("errors", error);
-      });
+  // addFolder(folder: { name: string }) {
+  //   console.log(this.uploadService.queryInFolder(),"querinfolder");
+  //   console.log("SD",this.currentRoot);
+  //   this.newfileElement = this.fileService.add({ isfolder: true, name: folder.name, parent: this.currentRoot ? this.currentRoot.fid : 'root',id:'' });
+  //   this.fileService.addFilesAndFolders(this.newfileElement.fid,folder.name,'true',this.currentRoot ? this.currentRoot.fid : 'root',)
+  //   .pipe(first())
+  //   .subscribe(data=>{
+  //       console.log("addData",data);
+  //     },
+  //     error =>{
+  //       console.log("errors", error);
+  //     });
 
 
 
-    this.updateFileElementQuery();
-  }
+  //   this.updateFileElementQuery();
+  // }
 
    addFiles(folder: string) {
      debugger

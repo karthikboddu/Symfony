@@ -53,7 +53,7 @@ export class UploadDialogComponent implements OnInit {
     this.uploading = true;
 
     // start the upload and save the progress map
-    //this.progress = this.uploadService.upload(this.files);
+   this.progress = this.uploadService.upload(this.files);
      //this.uploadService.videoUpload(this.files);
      this.dialogRef.close({name:this.fileName[0].name});
 

@@ -1,3 +1,5 @@
+
+
 export class Post {
     userDetails : Array<user>
     userPost : Array<userpost>
@@ -17,6 +19,7 @@ export class Response{
     status : any;
     message : any;
 }
+
 
 export class fileUpload{
     id : number

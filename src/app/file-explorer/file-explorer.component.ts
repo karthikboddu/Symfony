@@ -59,11 +59,12 @@ export class FileExplorerComponent implements OnInit{
 
 
   newfileElement: FileElement;
+  fuId ;
   addFolder(folder: { name: string }) {
     console.log(this.uploadService.queryInFolder(),"querinfolder");
     console.log("SD",this.currentRoot);
     this.newfileElement = this.fileService.add({ isfolder: true, name: folder.name, parent: this.currentRoot ? this.currentRoot.fid : 'root',id:'' });
-    this.fileService.addFilesAndFolders(this.newfileElement.fid,folder.name,'true',this.currentRoot ? this.currentRoot.fid : 'root')
+    this.fileService.addFilesAndFolders(this.newfileElement.fid,folder.name,'true',this.currentRoot ? this.currentRoot.fid : 'root',this.fuId)
     .pipe(first())
     .subscribe(data=>{
         console.log("addData",data);
@@ -104,6 +105,7 @@ export class FileExplorerComponent implements OnInit{
     debugger
     this.currentRoot = element;
     this.updateFileElementQuery();
+    this.fileService.setFileEle(element);
     this.fileService.getFilesAndFoldersById(element.id).subscribe((res:any)=>{
       console.log(res,"folderbyid");
     });

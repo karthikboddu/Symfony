@@ -6,8 +6,8 @@ import { FileElement } from '../models/file-explorer';
 import { FileService } from '../services/file.service';
 import { first } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { Response, FileResponse } from '../models/post';
-
+import { Response } from '../models/post';
+import {FileResponse} from '../models/file-explorer';
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
@@ -23,6 +23,7 @@ export class UploadComponent implements OnInit {
   public fileElements: Observable<FileElement[]>;
   fileReponse : FileResponse;
   ngOnInit() {
+   
   }
 
   // async ngOnDestroy() {
@@ -33,20 +34,27 @@ export class UploadComponent implements OnInit {
     
   // }
   newfileElement: FileElement;
+  fileUploadId ;
   addFiles(folder: { name: string }) {
     debugger
    console.log("hhSD",folder.name);
+   this.currentRoot = this.fileService.getFileEle();
+   console.log(this.currentRoot,"feee");
+   this.fileUploadId = this.uploadService.getUserFileUploadId();
+   console.log(this.fileUploadId,"file111111111");
+   console.log(this.fileUploadId,"file222222222");
+   console.log(this.fileUploadId,"fileuploadId");
    this.newfileElement = this.fileService.add({ isfolder: false, name: folder.name, parent: this.currentRoot ? this.currentRoot.fid : 'root' ,id:''});
-   this.fileService.addFilesAndFolders(this.newfileElement.fid,folder.name,'false',this.currentRoot ? this.currentRoot.fid : 'root')
+   this.fileService.addFilesAndFolders(this.newfileElement.fid,folder.name,'false',this.currentRoot ? this.currentRoot.fid : 'root',this.fileUploadId)
    .pipe(first())
    .subscribe(data=>{
        console.log("addData",data);
-       this.fileReponse = data;
+
      },
      error =>{
        console.log("errors", error);
      });
-     this.currentRoot = this.fileReponse.data;
+
 
     this.updateFileElementQuery();
  }

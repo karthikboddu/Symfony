@@ -1,23 +1,38 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, AfterContentInit } from '@angular/core';
 import { FileElement} from "../../models/file-explorer";
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
-
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { MatDialog } from '@angular/material/dialog';
 import { NewfolderdiaologComponent } from '../newfolderdiaolog/newfolderdiaolog.component';
 import { RenamefolderdiaologComponent } from '../renamefolderdiaolog/renamefolderdiaolog.component';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
+import { MatGridList } from '@angular/material';
 
 @Component({
   selector: 'app-file-explorer-dashboard',
   templateUrl: './file-explorer-dashboard.component.html',
   styleUrls: ['./file-explorer-dashboard.component.scss']
 })
-export class FileExplorerDashboardComponent implements OnInit{
+export class FileExplorerDashboardComponent implements AfterContentInit{
 
-  constructor(public dialog: MatDialog,public authService: AuthenticationService,public router: Router) {}
-  ngOnInit() {
-    
+  constructor(public dialog: MatDialog,public authService: AuthenticationService,public router: Router,private observableMedia: MediaObserver) {}
+
+
+  @ViewChild('grid', {static: false}) grid: MatGridList;
+  gridByBreakpoint = {
+    xl: 12,
+    lg: 10,
+    md: 4,
+    sm: 2,
+    xs: 3
+  }
+  ngAfterContentInit() {
+    this.observableMedia.asObservable().subscribe((change: MediaChange[]) => {
+      this.grid.cols= this.gridByBreakpoint[change[0].mqAlias];
+      //console.log(this.gridByBreakpoint[change[0].mqAlias]);
+      
+    });
   }
   @Input() fileElements: FileElement[];
   @Input() canNavigateUp: string;

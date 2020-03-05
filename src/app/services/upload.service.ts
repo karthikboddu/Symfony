@@ -112,9 +112,10 @@ export class UploadService {
 
     return this.http.get(this.serviceUrl.host + this.serviceUrl.userFileUpload, { headers: headers });
   }
-
+  ufuId;
   getUserFileUploadId() {
-    return this.userFileUploadId.value;
+     this.ufuId = this.userFileUploadId.value;
+     this.ufuId = this.ufuId.filter(Boolean);
   }
 
   unSubsUserFileUploadId(){

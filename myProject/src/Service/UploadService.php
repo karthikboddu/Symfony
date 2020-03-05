@@ -126,4 +126,22 @@ class UploadService extends FOSRestController
     }
 
 
+    public function flushAllFileUploadToFolder($eachUserFileId,$user,$folderId)
+    {
+        $userTypeMaster = new UserPostUpload();
+        $userTypeMaster->setFkUploadId($eachUserFileId);
+        $userTypeMaster->setFkUserId($user);
+        $userTypeMaster->setFkUserFolder($folderId);
+        try {
+            
+            $this->em->persist($userTypeMaster);
+            $this->em->flush();
+            return $userTypeMaster->getId();
+        } catch (\Doctrine\ORM\ORMException $e) {
+           
+        }
+        //return $user;
+    }
+
+
 }

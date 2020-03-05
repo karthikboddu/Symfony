@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { v4 } from 'uuid';
-import { FileElement } from '../models/file-explorer';
+import { FileElement, FileResponse } from '../models/file-explorer';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ServiceUrlService} from '../serviceUrl/service-url.service';
@@ -42,14 +42,18 @@ export class FileService implements IFileService {
     return this.http.get<FileElement[]>(this.serviceUrl.host+this.serviceUrl.getFilesAndFolders);
   }
 
-  addFilesAndFolders(fid,name,isFolder,parent){
+  addFilesAndFolders(fid,name,isFolder,parent,fileUploadId){
     debugger
+    let headers = new HttpHeaders();
+       
+    headers = headers.append('X-Custom-Auth', 'Bearer ' + this.authenticationService.getToken(),);
     let fileFolderData = new FormData();
     fileFolderData.append("fid",fid);
     fileFolderData.append("name",name);
     fileFolderData.append("isFolder",isFolder);
     fileFolderData.append("parent",parent);
-    return this.http.post<Response>(this.serviceUrl.host+this.serviceUrl.addFileAndFolders,fileFolderData);
+    fileFolderData.append("ufId",fileUploadId);
+    return this.http.post<FileResponse>(this.serviceUrl.host+this.serviceUrl.addFileAndFolders,fileFolderData,{headers:headers});
   }
 
   update(id: string, update: Partial<FileElement>) {
@@ -77,6 +81,18 @@ export class FileService implements IFileService {
 
   get(id: string) {
     return this.map.get(id);
+  }
+  private querySubjectFile: BehaviorSubject<FileElement>;
+  setFileEle(element){
+
+
+      this.querySubjectFile = new BehaviorSubject(element);
+
+    this.querySubjectFile.asObservable();
+  }
+
+  getFileEle(){
+    return this.querySubjectFile.value;
   }
 
   clone(element: FileElement) {
