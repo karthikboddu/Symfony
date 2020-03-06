@@ -13,6 +13,7 @@ export class UploadDashboardComponent implements OnInit {
   constructor(public dialog: MatDialog, public uploadService: UploadService){
 
   }
+  fileUploadId ;
   @Output() fileAdded = new EventEmitter<{ name: string }>();
   public openUploadDialog() {
     let dialogRef = this.dialog.open(UploadDialogComponent, { width: '50%', height: '50%' });
@@ -20,6 +21,7 @@ export class UploadDashboardComponent implements OnInit {
          
         console.log(res,"****88");
         this.fileAdded.emit(res);
+
     });
   }
   userfiledata : any;

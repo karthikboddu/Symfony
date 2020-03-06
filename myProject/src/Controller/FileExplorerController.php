@@ -55,6 +55,7 @@ class FileExplorerController extends AbstractController
                 $isFolder = $request->get('isFolder');
                 $parent = $request->get('parent');
                 $uploadIds = $request->get('ufId');
+                $uIds = json_decode($uploadIds,true);
                 $fileExplorer = new FileExplorer();
                 $fileExplorer->setFid($id);
                 $fileExplorer->setName($name);
@@ -65,17 +66,17 @@ class FileExplorerController extends AbstractController
                 $em->persist($fileExplorer);
                 $em->flush();
                 $folderId = $fileExplorer->getFid();
-                if(!empty($uploadIds)){
+                if(!empty($uIds)){
                     $folderDetails = $em->getRepository(FileExplorer::class)->findOneBy(['fid' => $folderId]);
-                    $userFileUploadId = explode(",", $uploadIds);
-                    foreach ($userFileUploadId as $item) {
+                    
+                    foreach ($uIds as $item) {
                         $eachUserFileId = $em->getRepository(FileUpload::class)->findOneBy(['id' => $item]);
                         $s = $this->uploadService->flushAllFileUploadToFolder($eachUserFileId, $user, $folderDetails);
         
                     }
         
                 }
-                return new JsonResponse(['status' => 'ok', 'data' => $s]);
+                return new JsonResponse(['status' => 'ok', 'data' => '']);
             }
     }catch (\Exception $e) {
         //throw $th; 'message' => $exception->getMessage(),
@@ -106,7 +107,7 @@ class FileExplorerController extends AbstractController
        // if(!$limitId){
        //     $limitId = '5';
        // }
-
+        $newArrayy = array();
         $postfileUpload = $this->getDoctrine()->getRepository(FileExplorer::class)->findByFolderAll($limitId='',$offsetId='');
         //return $postfileUpload;
         foreach ($postfileUpload as $key => $value) {
@@ -152,7 +153,7 @@ class FileExplorerController extends AbstractController
        // if(!$limitId){
        //     $limitId = '5';
        // }
-       
+       $newArrayy = array();
         $postfileUpload = $this->getDoctrine()->getRepository(FileExplorer::class)->findByFolderByfId($limitId='',$offsetId='',$fid);
         //return $postfileUpload;
         foreach ($postfileUpload as $key => $value) {

@@ -46,7 +46,7 @@ export class UploadDialogComponent implements OnInit {
     debugger
     // if everything was uploaded already, just close the dialog
     if (this.uploadSuccessful) {
-      return this.dialogRef.close();
+      return this.dialogRef.close({name:this.fileName});
     }
     this.fileName = this.file.nativeElement.files;
     // set the component state to "uploading"
@@ -55,7 +55,6 @@ export class UploadDialogComponent implements OnInit {
     // start the upload and save the progress map
    this.progress = this.uploadService.upload(this.files);
      //this.uploadService.videoUpload(this.files);
-     this.dialogRef.close({name:this.fileName[0].name});
 
     console.log(this.progress);
     for (const key in this.progress) {

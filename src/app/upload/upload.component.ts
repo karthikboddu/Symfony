@@ -35,17 +35,17 @@ export class UploadComponent implements OnInit {
   // }
   newfileElement: FileElement;
   fileUploadId ;
-  addFiles(folder: { name: string }) {
+  addFiles(folder) {
     debugger
-   console.log("hhSD",folder.name);
-   this.currentRoot = this.fileService.getFileEle();
-   console.log(this.currentRoot,"feee");
-   this.fileUploadId = this.uploadService.getUserFileUploadId();
-   console.log(this.fileUploadId,"file111111111");
-   console.log(this.fileUploadId,"file222222222");
-   console.log(this.fileUploadId,"fileuploadId");
-   this.newfileElement = this.fileService.add({ isfolder: false, name: folder.name, parent: this.currentRoot ? this.currentRoot.fid : 'root' ,id:''});
-   this.fileService.addFilesAndFolders(this.newfileElement.fid,folder.name,'false',this.currentRoot ? this.currentRoot.fid : 'root',this.fileUploadId)
+    if(this.fileService.getFileEle()){
+      this.currentRoot = this.fileService.getFileEle();
+    }
+   
+   for (let i = 0; i < folder.name.length; i++) {
+     console.log(folder.name[i].name,"fname");
+    this.newfileElement = this.fileService.add({ isfolder: false, name: folder.name[i].name, parent: this.currentRoot ? this.currentRoot.fid : 'root' ,id:''});
+  }
+   this.fileService.addFilesAndFolders(this.newfileElement.fid,folder.name,'false',this.currentRoot ? this.currentRoot.fid : 'root')
    .pipe(first())
    .subscribe(data=>{
        console.log("addData",data);

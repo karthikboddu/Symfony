@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ServiceUrlService} from '../serviceUrl/service-url.service';
 import { AuthenticationService } from './authentication.service';
 import { Response } from '../models/post';
+import { UploadService } from './upload.service';
 export interface IFileService {
   add(fileElement: FileElement);
   delete(id: string);
@@ -19,7 +20,7 @@ export interface IFileService {
 export class FileService implements IFileService {
   private map = new Map<string, FileElement>();
 
-  constructor(private http: HttpClient,private serviceUrl:ServiceUrlService,private authenticationService: AuthenticationService) {}
+  constructor(private http: HttpClient,private serviceUrl:ServiceUrlService,private authenticationService: AuthenticationService,private uploadService:UploadService) {}
 
   add(fileElement: FileElement) {
     debugger
@@ -41,9 +42,15 @@ export class FileService implements IFileService {
   getFilesAndFolders(){
     return this.http.get<FileElement[]>(this.serviceUrl.host+this.serviceUrl.getFilesAndFolders);
   }
-
-  addFilesAndFolders(fid,name,isFolder,parent,fileUploadId){
+  fileUploadfu;
+  addFilesAndFolders(fid,name,isFolder,parent){
     debugger
+    
+    this.fileUploadfu = this.uploadService.getUserFileUploadId();
+    console.log(JSON.stringify(this.fileUploadfu),"file333333");
+    console.log(this.fileUploadfu);
+    console.log(JSON.stringify(this.fileUploadfu),"file4444");
+    console.log(localStorage.getItem('uploadId'),"local1111");
     let headers = new HttpHeaders();
        
     headers = headers.append('X-Custom-Auth', 'Bearer ' + this.authenticationService.getToken(),);
@@ -52,7 +59,7 @@ export class FileService implements IFileService {
     fileFolderData.append("name",name);
     fileFolderData.append("isFolder",isFolder);
     fileFolderData.append("parent",parent);
-    fileFolderData.append("ufId",fileUploadId);
+    fileFolderData.append("ufId",JSON.stringify(this.fileUploadfu));
     return this.http.post<FileResponse>(this.serviceUrl.host+this.serviceUrl.addFileAndFolders,fileFolderData,{headers:headers});
   }
 
@@ -92,7 +99,9 @@ export class FileService implements IFileService {
   }
 
   getFileEle(){
-    return this.querySubjectFile.value;
+    if(this.querySubjectFile.value){
+      return this.querySubjectFile.value;
+    }
   }
 
   clone(element: FileElement) {

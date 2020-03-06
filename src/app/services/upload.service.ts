@@ -5,7 +5,7 @@ import { AuthenticationService } from './authentication.service';
 import { ServiceUrlService } from '../serviceUrl/service-url.service';
 import { UploadElement } from '../models/upload-element';
 import { v4 } from 'uuid';
-import { FileElement } from '../models/file-explorer';
+import { FileElement, FileResponse } from '../models/file-explorer';
 
 
 @Injectable()
@@ -23,7 +23,6 @@ export class UploadService {
     const status: { [key: string]: { progress: Observable<number> } } = {};
     //const res :{ [key:string]: {result: resultId  } } = {};
     files.forEach(file => {
-      debugger
       this.fileName = file['name'];
       // create a new multipart-form for every file
       const formData: FormData = new FormData();
@@ -48,7 +47,14 @@ export class UploadService {
 
       const startTime = new Date().getTime();
       this.http.request(req).subscribe((event: any) => {
-        resultId.push(event.body);
+        if(isNaN(event.body)){
+        
+        }else{
+          resultId.push(event.body);
+          console.log(event.body,"event");  
+        }
+        
+
         this.userFileUploadId.next(resultId);
         this.add(file);
         // console.log("resultid", resultId);
@@ -114,8 +120,7 @@ export class UploadService {
   }
   ufuId;
   getUserFileUploadId() {
-     this.ufuId = this.userFileUploadId.value;
-     this.ufuId = this.ufuId.filter(Boolean);
+     return this.userFileUploadId.value;
   }
 
   unSubsUserFileUploadId(){
@@ -123,7 +128,6 @@ export class UploadService {
   }
 
   add(uploadElement: File) {
-    debugger
     // uploadElement.
     this.filemap.set(uploadElement.name,uploadElement);
     console.log(this.filemap,"filemap");
@@ -137,7 +141,7 @@ export class UploadService {
 
   private querySubject: BehaviorSubject<File[]>;
   queryInFolder() {
-    debugger
+
     const result: File[] = [];
     this.filemap.forEach(element => {
 
