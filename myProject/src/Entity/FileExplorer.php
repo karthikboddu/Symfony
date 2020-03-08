@@ -29,7 +29,7 @@ class FileExplorer
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="boolean")
      */
     private $isfolder;
 
@@ -82,12 +82,12 @@ class FileExplorer
         return $this;
     }
 
-    public function getIsfolder(): ?string
+    public function getIsfolder():  ?bool
     {
         return $this->isfolder;
     }
 
-    public function setIsfolder(string $isfolder): self
+    public function setIsfolder(bool $isfolder): self
     {
         $this->isfolder = $isfolder;
 

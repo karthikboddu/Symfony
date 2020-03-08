@@ -588,12 +588,12 @@ class PostController extends AbstractController
      */
     public function postGroupAll(Request $request)
     {
-       $limitId =  $request->get('id');
+       $limitId =  $request->get('limit');
        $offsetId =  $request->get('offset');
        if(!$limitId){
            $limitId = '5';
        }
-       
+       $newArrayy = array();
         $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByGroupAll($limitId,$offsetId);
         //return $postfileUpload;
         foreach ($postfileUpload as $key => $value) {

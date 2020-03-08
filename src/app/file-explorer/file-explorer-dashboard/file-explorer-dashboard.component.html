@@ -16,7 +16,7 @@
             <!-- <mat-icon color="primary" class="file-or-folder-icon pointer" >insert_drive_file</mat-icon> -->
 
 
-            <mat-card *ngIf='element.isfolder == "false"' fxFlex.sm="0 1 calc(50%-10px)" fxFlex.md="0 1 calc(33%-10px)" fxFlex.gt-md="0 1 calc(35%-10px)">
+            <mat-card *ngIf='!element.isfolder' fxFlex.sm="0 1 calc(50%-10px)" fxFlex.md="0 1 calc(33%-10px)" fxFlex.gt-md="0 1 calc(35%-10px)">
               <div *ngFor="let uploadDetails of element.fk_user_folder;">
                   <img mat-card-image src="{{uploadDetails.fk_upload_id.image_url}}" class="image">
               </div>

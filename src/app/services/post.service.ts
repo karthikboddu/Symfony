@@ -89,11 +89,11 @@ export class PostService {
   
       return this.http.get(this.serviceUrl.host+this.serviceUrl.adminTotalPostsActive);
     }
-    getAllPostsWithFileByActive(limit,offset){
+    getAllPostsWithFileByActive(offset,limit){
       let scrollData = new FormData();
-      scrollData.append("file",limit);
-      scrollData.append("name",offset);
-      return this.http.get<Response>(this.serviceUrl.host+this.serviceUrl.allPostWithFileDetails);
+      scrollData.append("limit",limit);
+      scrollData.append("offset",offset);
+      return this.http.post<Response>(this.serviceUrl.host+this.serviceUrl.allPostWithFileDetails,scrollData);
     }
     
 }

@@ -39,11 +39,31 @@ export class HomeComponent implements OnInit {
     private router: Router, public gallery: Gallery, public lightbox: Lightbox, private spinner: NgxSpinnerService) { }
   @Output() postsData = new EventEmitter();
   ngOnInit() {
+``
 
 
 
 
 
+
+
+this.items = dataImg.map(item => new ImageItem({ src: item.srcUrl, thumb: item.previewUrl
+}));
+
+
+/** Lightbox Example */
+
+// Get a lightbox gallery ref
+const lightboxRef = this.gallery.ref('lightbox');
+
+// Add custom gallery config to the lightbox (optional)
+lightboxRef.setConfig({
+ imageSize: ImageSize.Cover,
+ thumbPosition: ThumbnailsPosition.Top
+});
+
+// Load items into the lightbox gallery ref
+lightboxRef.load(this.items);
 
 
 
@@ -76,51 +96,18 @@ export class HomeComponent implements OnInit {
         .subscribe(
           data => {
             this.postResponse = data;
+            console.log("tdata", this.postResponse);
             this.allPostDetails = this.postResponse.data;
             this.allPostEmit = data;
             this.postsData.emit(this.allPostEmit);
             //this.allImg = data[0]['postfile'];
-            console.log("data", data);
+            console.log("postdata", this.allPostDetails);
             //console.log("imgdata",data['postfile']);
 
     /** Basic Gallery Example */
     debugger
     // Creat gallery items
 
-this.allPostDetails.forEach(eachPost => {
-
-  // const data = [
-  //   {
-  //     srcUrl: ,
-  //     previewUrl: 
-  //   }
-  // ];
-
-
-
-
-
-
-
-
-
-  this.items = this.imageData.map(item => new ImageItem({ src: eachPost.uploadDetails['0']['fileupload_imageUrl'], thumb:  eachPost.uploadDetails['0']['fileupload_imageUrl'] }));
-
-
-  /** Lightbox Example */
-
-  // Get a lightbox gallery ref
-  const lightboxRef = this.gallery.ref('lightbox');
-
-  // Add custom gallery config to the lightbox (optional)
-  lightboxRef.setConfig({
-    imageSize: ImageSize.Contain,
-    thumbPosition: ThumbnailsPosition.Top
-  });
-
-  // Load items into the lightbox gallery ref
-  lightboxRef.load(this.items);
-});
 
    
 
@@ -235,7 +222,6 @@ this.allPostDetails.forEach(eachPost => {
 
   onScroll(e) {
     console.log("scroll");
-    this.spinner.show();
     if (this.notscrolly && this.notEmptyPost) {
       this.spinner.show();
       this.notscrolly = false;
@@ -246,11 +232,12 @@ this.allPostDetails.forEach(eachPost => {
 
   loadNextPost() {
     debugger
-    const lastPost = this.allPostDetails[this.allPostDetails.length - 1];
+    const lastPost = this.allPostDetails.length-1;
     // get id of last post
     //  backend of this app use this id to get next 6 post
-    const lastPostId = lastPost.userPost[0]['p_id'];
-    const offset = '5';
+    //const lastPostId = lastPost.userPost[0]['p_id'];
+    console.log(lastPost,"userpost");
+    const limit = '5';
     // sent this id as key value pare using formdata()
     // const dataToSend = new FormData();
     // dataToSend.append('id', lastPostId);
@@ -258,7 +245,7 @@ this.allPostDetails.forEach(eachPost => {
     // call http request
 
 
-    this.postService.getAllPostsWithFileByActive(lastPostId,offset)
+    this.postService.getAllPostsWithFileByActive(lastPost,limit)
     .pipe(first())
     .subscribe(
       data => {
@@ -270,6 +257,7 @@ this.allPostDetails.forEach(eachPost => {
   
         if (newPost.length === 0 ) {
           this.notEmptyPost =  false;
+          console.log("end!!!!!!!");
         }
         if(newPost.length>0){
            // add newly fetched posts to the existing post
@@ -288,15 +276,7 @@ this.allPostDetails.forEach(eachPost => {
 }
 
 
-const data = [
-  {
-    srcUrl: 'https://my-blog-19.s3.ap-south-1.amazonaws.com/karthikboddu/jpeg/download.jpeg',
-    previewUrl: 'https://my-blog-19.s3.ap-south-1.amazonaws.com/karthikboddu/jpeg/download.jpeg'
-  },
-  {
-    srcUrl: 'https://my-blog-19.s3.ap-south-1.amazonaws.com/karthikboddu/jpg/259316.jpg',
-    previewUrl: 'https://my-blog-19.s3.ap-south-1.amazonaws.com/karthikboddu/jpg/259316.jpg'
-  },
+const dataImg = [
   {
     srcUrl: 'https://preview.ibb.co/mwsA6R/img7.jpg',
     previewUrl: 'https://preview.ibb.co/mwsA6R/img7.jpg'

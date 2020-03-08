@@ -60,7 +60,7 @@
     <div class="gallerize-example">
         <h2>Gallerize Example</h2>
         <p class="container" gallerize>
-            <img *ngFor="let img of imageData" [src]="img.srcUrl">
+            <img *ngFor="let img of items" [gallery]="'lightbox'" [src]="img.srcUrl">
         </p>
     </div>
 

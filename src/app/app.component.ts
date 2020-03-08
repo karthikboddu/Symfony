@@ -44,18 +44,18 @@ export class AppComponent implements OnInit {
     //   this.router.navigate(['/login']);
     //  }
 
-    this.postService.getPostsByHomeScreen()
-      .pipe(first())
-      .subscribe(
-        data => {
-          this.allPost = data
-          //this.allImg = data[0]['postfile'];
-          console.log("data", this.allPost);
-          //console.log("imgdata",data['postfile']);
-        },
-        error => {
-          console.log("errors", error);
-        });
+    // this.postService.getPostsByHomeScreen()
+    //   .pipe(first())
+    //   .subscribe(
+    //     data => {
+    //       this.allPost = data
+    //       //this.allImg = data[0]['postfile'];
+    //       console.log("data", this.allPost);
+    //       //console.log("imgdata",data['postfile']);
+    //     },
+    //     error => {
+    //       console.log("errors", error);
+    //     });
         
         // const folderA = this.fileService.add({ name: 'Folder A', isFolder: true, parent: 'root' });
         // this.fileService.add({ name: 'Folder B', isFolder: true, parent: 'root' });

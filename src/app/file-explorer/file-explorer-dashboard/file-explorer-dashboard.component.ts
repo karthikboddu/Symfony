@@ -25,13 +25,13 @@ export class FileExplorerDashboardComponent implements AfterContentInit{
     lg: 10,
     md: 4,
     sm: 2,
-    xs: 3
+    xs: 5
   }
   ngAfterContentInit() {
     this.observableMedia.asObservable().subscribe((change: MediaChange[]) => {
       this.grid.cols= this.gridByBreakpoint[change[0].mqAlias];
       //console.log(this.gridByBreakpoint[change[0].mqAlias]);
-      
+      console.log(this.fileElements,"fileele");
     });
   }
   @Input() fileElements: FileElement[];
