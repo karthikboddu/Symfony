@@ -44,6 +44,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { FileService } from './services/file.service';
 import { FileExplorerModule } from './file-explorer/file-explorer.module';
 import { UploadModule } from './upload/upload.module';
+
+import { ModalWindowComponent } from './modal-window/modal-window.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +59,7 @@ import { UploadModule } from './upload/upload.module';
     SliderComponent,
     SliderImageComponent,
     SliderItemDirective,
-    AdminComponent,HeadersComponent, AdminViewpostsComponent, AdminViewusersComponent, UserComponent, UserContentComponent, UserDetailsComponent
+    AdminComponent,HeadersComponent, AdminViewpostsComponent, AdminViewusersComponent, UserComponent, UserContentComponent, UserDetailsComponent, ModalWindowComponent
   ],
   imports: [
     BrowserModule,

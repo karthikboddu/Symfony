@@ -53,4 +53,9 @@ export class HeadersComponent implements OnInit {
        });
   }
 
+  onLogIn() {
+    debugger
+    this.router.navigate([{ outlets: { modal: ['login'] } }]);
+  }
+
 }

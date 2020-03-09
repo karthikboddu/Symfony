@@ -8,6 +8,7 @@
   
   <!-- <div class="container-fluid" fxFlex fxLayout="row" fxLayoutAlign="space-between stretch"> -->
     <div class="content" fxFlex fxLayout="row">
+      <mat-spinner *ngIf="fileElements.length === 0"></mat-spinner>
       <mat-grid-list #grid cols="8" rowHeight="180px" fxFlex>
         <mat-grid-tile *ngFor="let element of fileElements" class=file-or-folder>
           <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}" #menuTrigger="matMenuTrigger"></span>

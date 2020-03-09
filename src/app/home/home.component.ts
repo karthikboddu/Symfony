@@ -39,11 +39,10 @@ export class HomeComponent implements OnInit {
     private router: Router, public gallery: Gallery, public lightbox: Lightbox, private spinner: NgxSpinnerService) { }
   @Output() postsData = new EventEmitter();
   ngOnInit() {
-``
 
 
 
-
+debugger
 
 
 
@@ -54,16 +53,16 @@ this.items = dataImg.map(item => new ImageItem({ src: item.srcUrl, thumb: item.p
 /** Lightbox Example */
 
 // Get a lightbox gallery ref
-const lightboxRef = this.gallery.ref('lightbox');
-
+//const lightboxRef = this.gallery.ref('lightbox');
+this.gallery.ref('lightbox').load(this.items);
 // Add custom gallery config to the lightbox (optional)
-lightboxRef.setConfig({
- imageSize: ImageSize.Cover,
- thumbPosition: ThumbnailsPosition.Top
-});
+// lightboxRef.setConfig({
+//  imageSize: ImageSize.Cover,
+//  thumbPosition: ThumbnailsPosition.Top
+// });
 
 // Load items into the lightbox gallery ref
-lightboxRef.load(this.items);
+//lightboxRef.load(this.items);
 
 
 

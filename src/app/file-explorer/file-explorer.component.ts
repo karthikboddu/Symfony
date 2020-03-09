@@ -38,13 +38,6 @@ export class FileExplorerComponent implements OnInit{
         for (let i = 0; i < this.fEle.length; i++) {
           const folderA =   this.fileService.addSubscribe(this.fEle[i]);
         }
-        this.fEle.forEach(element => {
-          this.newid = 0;
-          
-          this.newid++;
-        });
-
-        //this.fileService.add(this.fEle['2']);
         this.updateFileElementQuery();
         console.log("filedata",data);
       },
@@ -154,10 +147,10 @@ export class FileExplorerComponent implements OnInit{
     return p;
   }
 
-  async ngOnDestroy() {
+  // async ngOnDestroy() {
  
 
-    await this.authService.logout();
-  }
+  //   await this.authService.logout();
+  // }
 
 }

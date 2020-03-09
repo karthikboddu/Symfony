@@ -57,10 +57,19 @@
     <!--     <img mat-card-image class="img-article" src={{article.urlToImage}} alt=""> -->
 
 
-    <div class="gallerize-example">
+    <!-- <div class="gallerize-example">
         <h2>Gallerize Example</h2>
         <p class="container" gallerize>
-            <img *ngFor="let img of items" [gallery]="'lightbox'" [src]="img.srcUrl">
+            <img *ngFor="let img of items" [gallery]="'lightbox'" [src]="img.data.srcUrl">
         </p>
-    </div>
+    </div> -->
+    <div class="basic-container">
+        <h2>Basic Example</h2>
+          <gallery id="basic-test" [items]="items"></gallery>
+      </div>
+
+    <div class="lightbox-example">
+        <h2>Lightbox Example</h2>
+        <button mat-button (click)="lightbox.open(0, 'lightbox')">Open Lightbox</button>
+      </div>
 

@@ -1,0 +1,11 @@
+<div class="popup-wrapper">
+        <div class="popup-box" (scroll)="onScrollForPopOver($event)">
+          <div class="popup-header">
+            <a href="javascript:;" id="popupClose" role="button" class="popup-close" aria-label="Close" (click)="closeModal()">
+              <span translate *ngIf="!hideCloseText">Close</span>
+              <span class="close-icon"></span>
+            </a>
+          </div>
+          <router-outlet (activate)="onActivate($event)"></router-outlet> 
+        </div>
+      </div>
