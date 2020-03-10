@@ -31,7 +31,7 @@ export class ModalWindowComponent implements OnInit {
   }
 
   closeModal() {
-    this.enableBodyScroll();
+    // this.enableBodyScroll();
 
     this.router.navigate([{ outlets: { modal: null } }]);
 

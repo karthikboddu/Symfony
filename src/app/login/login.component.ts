@@ -28,12 +28,14 @@ export class LoginComponent implements OnInit {
           username: ['', Validators.required],
           password: ['', Validators.required]
       });
-
+    //   if(this.authenticationService.isLoggedIn){
+    //       this.closeModal();
+    //   }
       // reset login status
-      this.authenticationService.logout();
+      //this.authenticationService.logout();
 
       // get return url from route parameters or default to '/'
-      this.returnUrl = 'home';
+      //this.returnUrl = 'home';
   }
 
   // convenience getter for easy access to form fields
@@ -74,5 +76,10 @@ export class LoginComponent implements OnInit {
                   this.alertService.error(error.statusText);
                   this.loading = false;
               });
+  }
+
+  closeModal() {
+    //this.enableBodyScroll();
+    this.router.navigate([{ outlets: { modal: null } }]);
   }
 }

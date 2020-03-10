@@ -46,6 +46,8 @@ import { FileExplorerModule } from './file-explorer/file-explorer.module';
 import { UploadModule } from './upload/upload.module';
 
 import { ModalWindowComponent } from './modal-window/modal-window.component';
+import { LogoComponent } from './headers/header-gadgets/logo/logo.component';
+import { AccountComponent } from './headers/header-gadgets/account/account.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +61,7 @@ import { ModalWindowComponent } from './modal-window/modal-window.component';
     SliderComponent,
     SliderImageComponent,
     SliderItemDirective,
-    AdminComponent,HeadersComponent, AdminViewpostsComponent, AdminViewusersComponent, UserComponent, UserContentComponent, UserDetailsComponent, ModalWindowComponent
+    AdminComponent,HeadersComponent, AdminViewpostsComponent, AdminViewusersComponent, UserComponent, UserContentComponent, UserDetailsComponent, ModalWindowComponent, LogoComponent, AccountComponent
   ],
   imports: [
     BrowserModule,

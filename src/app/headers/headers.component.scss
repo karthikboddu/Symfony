@@ -27,3 +27,46 @@
 
 	margin-top: 8px;
 }
+
+.header-right {
+	display: flex;
+	align-items: center;
+  }
+  .header-right > * {
+	padding: 0 0 0 40px;
+  }
+  .header-icons {
+	display: flex;
+	align-items: center;
+  }
+  .header-icons > .account-icon {
+	margin: 0 10px 0 20px;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+	padding-top: 5px;
+  }
+  .header-icons > .cart-icon,
+  .header-icons > .download-icon {
+	position: relative;
+	height: 40px;
+	width: 40px;
+	text-align: center;
+	padding-top: 5px;
+	margin-left: 20px;
+	cursor: pointer;
+  }
+  .header-icons > .cart-icon {
+	img {
+	  height: 25px;
+	}  
+  }
+  .header-icons > .download-icon {
+	margin-left: 0px;
+  }
+
+
+
+
+
+

@@ -1,0 +1,27 @@
+<div class="account-icon-wrapper">
+    <div class="account-icon">
+      <a href="javascript:;" (click)="onLogIn()" >
+        <img alt="Account icon. On clicking login pop up will open." src="assets/icons/account-icon.svg">
+      </a>
+      <a href="javascript:;" (click)="expanded = !expanded" *ngIf="isLoggedIn">
+        <img alt="Account icon.  On clicking login pop up will open." src="assets/icons/account-icon-dark.svg">
+      </a>
+    </div>
+  
+    <div class="dropdown-container" [ngClass]="{'dropdown-opened': expanded}" *ngIf="expanded" >
+      <div class="logged-in-as">
+        <span translate>Logged in as</span>
+        <span>{{username}}</span>
+      </div>
+  
+      <div class="account-options">
+        <div>
+          <a href="javascript:;" (click)="onLogout()" translate>Logout</a>
+        </div>
+        <div>
+          <a href="javascript:;" (click)="onManageProfile()" translate>Manage Profile</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  

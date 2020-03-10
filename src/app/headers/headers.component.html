@@ -1,4 +1,4 @@
-
+<!-- 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand logo" routerLink="/">Demo</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,9 +13,6 @@
       <li class="nav-item">
         <a class="nav-link" *ngIf="authService.isLoggedIn " routerLinkActive="active" routerLink="/post">Top Picks</a>
       </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link" *ngIf="authService.isLoggedIn" routerLinkActive="active" routerLink="/viewpost">Viewpost</a>
-      </li> -->
       <li class="nav-item">
           <a class="nav-link"
             *ngIf="authService.isLoggedIn && authService.isAdmin"
@@ -29,9 +26,6 @@
       <li class="nav-item">
         <a class="nav-link" href="#">My List</a>
       </li>
-      <a href="javascript:;" (click)="onLogIn()" *ngIf="!isLoggedIn">
-          <img alt="Account icon. On clicking login pop up will open." src="assets/icons/account-icon.svg">
-        </a>
       <li class="nav-item">
         <a class="nav-link" *ngIf="!authService.isLoggedIn" routerLinkActive="active" routerLink="/login">Login</a>
       </li>
@@ -69,20 +63,29 @@
       </ul>
     </div>
   </div>
-</nav>
 
 
-
-
-<!-- <nav class="navbar navbar-light bg-faded justify-content-between flex-nowrap flex-row">
-  <div class="container">
-      <a href="/" class="navbar-brand float-left">PIM</a>
-      <ul class="nav navbar-nav flex-row float-right">
-          <li class="nav-item"><a class="nav-link pr-3" href="">Login</a></li>
-          <li class="nav-item"><a class="nav-link" href="">Sign up</a></li>
-      </ul>
-  </div>
 </nav> -->
 
 
 
+<header>
+  <ng-container>
+    <div class="logo-container">
+      <app-logo ></app-logo>
+    </div>
+  </ng-container>
+
+  <div class="header-right">
+
+
+    <section class="header-icons">
+
+
+
+      <ng-container >
+        <app-account></app-account>
+      </ng-container>
+    </section>
+  </div>
+</header>
