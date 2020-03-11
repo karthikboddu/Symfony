@@ -1,6 +1,6 @@
 <div class="account-icon-wrapper">
     <div class="account-icon">
-      <a href="javascript:;" (click)="onLogIn()" >
+      <a href="javascript:;" (click)="onLogIn()" *ngIf="!isLoggedIn" >
         <img alt="Account icon. On clicking login pop up will open." src="assets/icons/account-icon.svg">
       </a>
       <a href="javascript:;" (click)="expanded = !expanded" *ngIf="isLoggedIn">
@@ -11,7 +11,7 @@
     <div class="dropdown-container" [ngClass]="{'dropdown-opened': expanded}" *ngIf="expanded" >
       <div class="logged-in-as">
         <span translate>Logged in as</span>
-        <span>{{username}}</span>
+        <span>Boddu</span>
       </div>
   
       <div class="account-options">

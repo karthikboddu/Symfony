@@ -1,0 +1,101 @@
+
+
+
+nav{
+    border-bottom: 1px solid ;  
+}
+
+nav ul{
+    margin: 0 20% 10px 0;
+    padding: 0;
+    list-style: none;
+    text-align: right;
+}
+nav ul li{
+    display: inline-block;
+    vertical-align: middle;
+    text-transform: uppercase;
+    margin-right: 50px;
+}
+nav ul li:last-child{
+    margin-right:0;
+}
+nav ul li a{
+    display: block;
+    padding: 15px 15px 8px 15px;
+    color: #000;
+}
+nav ul li a:hover{
+    text-decoration: none;
+}
+nav ul li.active a{
+    font-family: 'jost_uisemibold';
+}
+nav ul li a span.icon{
+    display: none;
+}
+@media (max-width:1200px){
+    nav ul{
+        margin: 0 90px 20px 0;
+    }
+}
+@media (max-width:500px){
+    nav{
+        position: fixed;
+        left: 0;
+        bottom:0;
+        z-index: 10;
+        background: #000;   
+        box-shadow: 0 1px 3px 0 rgba(0,
+        0,
+        0,
+        0.5);
+        width: 100%;
+    }    
+    nav ul{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        margin: 0;
+    }
+    nav ul li{
+        display: table-cell;
+        text-align: center;
+        margin: 0;
+    }
+    nav ul li a{
+        font-family: Roboto;
+        font-size: 8px;
+        line-height: 8px;
+        color: #656565;
+        display: block;
+        padding: 10px;
+    }
+    nav ul li a span{
+        display: block;
+    }
+    nav ul li a span.icon{
+        display: block;
+        margin-bottom: 5px;
+    }
+    nav ul li a span.icon i{
+        font-size: 20px;
+    }
+    nav ul li.hide-mobile {
+        display: none;
+    }
+}
+@media (min-width:500px){
+    nav ul li.more-link {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    nav ul li{
+        margin-right: 30px;
+    }
+    nav ul li a{
+        padding: 15px 10px 8px 10px;
+        }
+}

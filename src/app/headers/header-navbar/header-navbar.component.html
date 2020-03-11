@@ -1,0 +1,27 @@
+<nav>
+    <ul [ngClass]="{'journet-section': isJournet}">
+
+      <ng-container >
+        <li [ngClass]="{'active' : isActive('/my-library'), 'hide-mobile': i >= maxNavLinks}">
+          <a href="javascript:;" (click)="onTabClick({link:'/home'})">
+            <span class="icon"><i class="icon "></i></span>
+            <span class="text" translate>my-library</span>
+          </a>
+        </li>
+      </ng-container>
+      <ng-container>
+        <li [ngClass]="{'active' : isActive('/my-dashboard')}">
+          <a href="javascript:;" (click)="onTabClick({link:'fileexplorer'})">
+            <span class="icon"><i class="icon "></i></span>
+            <span class="text" translate>My Dashboard</span>
+          </a>
+        </li>
+      </ng-container>
+      <li class="more-link">
+        <a href="javascript:;" (click)="onTabClick({link:'more'})">
+          <span class="icon"><i class="icon icon-more-icon"></i></span>
+          <span class="text" translate="more">More</span>
+        </a>
+      </li>
+    </ul>
+  </nav>

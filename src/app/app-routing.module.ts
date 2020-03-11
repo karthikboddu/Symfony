@@ -19,12 +19,29 @@ import { UserDetailsComponent } from './user/user-details/user-details.component
 import { UserContentComponent } from './user/user-content/user-content.component';
 import { AppComponent } from './app.component';
 import { ModalWindowComponent } from './modal-window/modal-window.component';
+import { ContainerComponent } from './layout/container/container.component';
 const routes: Routes = [
- 
+  {
+    path: 'home',
+    component: ContainerComponent,
+    data: {
+      title: ('Home'),
+      pageName: 'home'
+    }
+  },
+  {
+    path: 'fileexplorer',
+    component: ContainerComponent,
+    data: {
+      title: ('fileexplorer'),
+      pageName: 'fileexplorer'
+    }
+  },
   { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'post', component: PostComponent,canActivate:[AuthGuard] },
-  { path: 'home', component: HomeComponent },
-  { path: 'home/:id', component: HomeComponent,canActivate:[AuthGuard] },
+  //{ path: 'home', component: HomeComponent },
+  //{ path: 'home/:id', component: HomeComponent,canActivate:[AuthGuard] },
   { path: 'movies', component: MoviesComponent,canActivate:[AuthGuard] },
   { path: 'viewpost', component: ViewpostComponent,canActivate:[AuthGuard] },
   { path: 'viewpost/:id', component: ViewpostComponent,canActivate:[AuthGuard] },
@@ -71,7 +88,7 @@ const routes: Routes = [
   },
   { path: 'upload', component: UploadComponent },
   {
-    path: 'login',
+    path: 'auth/login',
     outlet: 'modal',
     component: ModalWindowComponent,
     data: {

@@ -1,0 +1,293 @@
+// Make default navbar links display block at choosen breakpoint and adjust styles to fit...
+@media (max-width: 62em) {
+	.navbar-nav {
+		padding-top: .425rem;
+		padding-left: 0.75rem;
+	}
+	.navbar-nav .nav-item {
+		float: none;
+	}
+	.navbar-brand {
+		float: right;
+	}
+	.navbar-brand,
+	.navbar-nav .nav-item {
+		display: block;
+	}
+	.navbar-nav .nav-item + .nav-item {
+		margin-left: 0;
+	}
+	.dropdown-menu {
+		position: relative;
+		float: none;
+	}
+}
+
+.darkthemeToggle{
+
+	margin-top: 8px;
+}
+
+//@import "src/theme/color-font-variables";
+
+header {
+  padding: 10px;
+}
+.logo-container {
+  padding: 10px 20px 10px 10px;
+}
+.searchbar-and-accesscode {
+  text-align: right;
+}
+.searchbar-and-accesscode {
+  display: flex;
+  flex-basis: 100%;
+  min-width: 180px;
+  padding: 20px;
+}
+.enter-access-code {
+  padding-left: 20px;
+}
+.searchbar-and-accesscode > * {
+  flex-basis: 100%;
+}
+.searchbar-and-accesscode .enter-access-code {
+  flex-basis: 30%;
+  min-width: 205px;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+}
+.header-right > * {
+  padding: 0 0 0 40px;
+}
+.header-icons {
+  display: flex;
+  align-items: center;
+}
+.header-icons > .account-icon {
+  margin: 0 10px 0 20px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  padding-top: 5px;
+}
+.header-icons > .cart-icon,
+.header-icons > .download-icon {
+  position: relative;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  padding-top: 5px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+.header-icons > .cart-icon {
+  img {
+    height: 25px;
+  }  
+}
+.header-icons > .download-icon {
+  margin-left: 0px;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: auto 3 auto;
+  min-height: 90px;
+}
+.badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  text-align: center;
+  width: 16px;
+  line-height: 10px;
+  height: 16px;
+
+  border-radius: 50%;
+  font-size: 12px;
+  color: #ffffff;
+  width: auto;
+  padding: 4px;
+  min-width: 18px;
+  vertical-align: top;
+  margin-left: -10px;
+  //background-color: $color-default;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+}
+
+@media (max-width: 1200px) {
+  header {
+    flex-wrap: wrap;
+  }
+  .searchbar-and-accesscode {
+    order: 3;
+  }
+  .searchbar-and-accesscode {
+    padding: 20px 20px 20px 30px;
+  }
+  .enter-access-code {
+    padding-left: 34px;
+  }
+}
+
+//Styles below 850px
+@media (max-width: 850px) {
+  .header-right {
+    padding-right: 0;
+  }
+}
+@media (max-width: 760px) {
+  .header-right > * {
+    padding-left: 0;
+  }
+}
+//Styles below 500x
+@media (max-width: 500px) {
+  header {
+    padding: 0;
+  }
+  .header-icons {
+    height: 60px;
+  }
+  .searchbar-and-accesscode {
+    //border-top: 1px solid $search-bar-border-mobile;
+    padding: 0;
+  }
+  ::ng-deep .search-input {
+    padding: 10px;
+  }
+  .logo-container {
+    width: calc(100% - 250px);
+    padding-right: 0;
+  }
+  .logo-container ::ng-deep img {
+    max-width: 100%;
+  }
+  .searchbar-and-accesscode {
+    flex-wrap: wrap;
+  }
+  .searchbar-and-accesscode .enter-access-code {
+    flex-basis: 100%;
+    padding: 15px 25px;
+    //background: $acess-code-bg-mobile;
+  }
+}
+
+.close-inl2 {
+  padding: 10px;
+}
+
+.dropdown {
+  position: relative;
+  float: none;
+}
+
+.dropdown-content {
+  position: absolute;
+  background-color: white;
+  margin: -10px;
+  right: 0;
+  left: auto;
+  z-index: 1000;
+  overflow: auto;
+}
+
+.dropdown .dropdown-content {
+  display: block;
+  color: black;
+}
+
+.buttn {
+  width: 132px;
+  font-size: 15px;
+  color: #ffffff;
+  padding: 13px 15px;
+  background-color: black;
+  text-align: center;
+}
+
+p.inl {
+  display: inline-block;
+}
+.dropdown-content-decorate {
+  max-width: 690px;
+  min-width: 500px;
+  min-height: 200px;
+  max-height: 500px;
+  overflow: auto;
+  padding: 25px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+
+  .header {
+    padding: 0 0 25px;
+    color: black;
+    float: left;
+    width: 100%;
+  }
+
+  .heading {
+    float: left;
+    font-size: 20px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: left;
+    color: black;
+    margin: 0;
+  }
+
+  .cartable {
+    float: left;
+    width: 100%;
+  }
+
+  .close1 {
+    margin: 0;
+    font-size: 15px;
+    cursor: pointer;
+    float: right;
+    margin-top: 5px;
+  }
+
+  .checkout {
+    margin: 30px 25px 20px 0;
+    cursor: pointer;
+    float: right;
+  }
+
+  @media only screen and (max-width: 768px) {
+    min-width: 340px;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+
+    .header {
+      padding: 5px 10px;
+    }
+    .heading {
+      font-size: 1rem;
+    }
+    .close1 {
+      margin-top: 3px;
+    }
+  }
+}
+
+@media (max-width: 414px) {
+  section.searchbar-and-accesscode.hide-mydashboard{
+    display : none;
+  }
+}
+
+@media screen and (min-width:0\0) {
+.searchbar-and-accesscode{
+  max-width:41%
+  }
+}

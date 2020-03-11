@@ -1,0 +1,99 @@
+.account-icon-wrapper { 
+    position: relative;
+}
+
+.account-icon {
+    margin:0 10px 0 20px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    padding-top: 5px;
+    img {
+        height: 25px;
+    }
+}
+
+.account-icon a {
+    padding: 5px;
+}
+
+
+
+
+
+
+.account-options {
+    padding: 20px 10px 0px 10px;
+}
+.account-options div {
+    padding-bottom: 20px;
+}
+
+.account-options div a {
+    padding: 3px;
+    text-decoration: none;
+    color: #5c5c5c;
+    font-size: 22px;
+}
+
+
+.account-icon-wrapper { 
+    position: relative;
+}
+
+.account-icon {
+    margin:0 10px 0 20px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    padding-top: 5px;
+    img {
+        height: 25px;
+    }
+}
+
+.account-icon a {
+    padding: 5px;
+}
+
+.dropdown-container {
+  position: absolute;
+  right: 15px;
+  top:35px;
+  min-width: 240px;
+  background: #ffffff;
+  margin: 0;
+  padding:15px;
+  border-radius: 5px;
+  box-shadow: 0 3px 6px 0 rgba(0,
+  0,
+  0,
+  0.16);
+  z-index: 2;
+
+  transition: top 300ms ease-in-out, opacity 300ms ease-in-out,  max-height 500ms cubic-bezier(0, 1, 0, 1);
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  
+}
+
+.dropdown-container.dropdown-opened {
+  max-height: calc(100vh - 100px);
+  opacity: 1;
+}
+
+.logged-in-as {
+    border-bottom: 1px solid #5c5c5c;  
+    padding: 10px 10px 20px 10px;
+    span {
+        display: block;
+        font-size: 22px;
+        color: #5c5c5c;
+    }
+    span:nth-child(2) {
+        font-size: 22px;
+        color: #5c5c5c;
+        padding-top: 5px;
+    }
+}

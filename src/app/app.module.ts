@@ -48,6 +48,11 @@ import { UploadModule } from './upload/upload.module';
 import { ModalWindowComponent } from './modal-window/modal-window.component';
 import { LogoComponent } from './headers/header-gadgets/logo/logo.component';
 import { AccountComponent } from './headers/header-gadgets/account/account.component';
+import { ContainerComponent } from './layout/container/container.component';
+import { HeaderContainerComponent } from './headers/header-container/header-container.component';
+import { HeaderNavbarComponent } from './headers/header-navbar/header-navbar.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,7 +66,7 @@ import { AccountComponent } from './headers/header-gadgets/account/account.compo
     SliderComponent,
     SliderImageComponent,
     SliderItemDirective,
-    AdminComponent,HeadersComponent, AdminViewpostsComponent, AdminViewusersComponent, UserComponent, UserContentComponent, UserDetailsComponent, ModalWindowComponent, LogoComponent, AccountComponent
+    AdminComponent,HeadersComponent, AdminViewpostsComponent, AdminViewusersComponent, UserComponent, UserContentComponent, UserDetailsComponent, ModalWindowComponent, LogoComponent, AccountComponent, ContainerComponent, HeaderContainerComponent, HeaderNavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +88,7 @@ import { AccountComponent } from './headers/header-gadgets/account/account.compo
     FlexLayoutModule,CKEditorModule,
     MatContenteditableModule,FontAwesomeModule,InfiniteScrollModule,NgxSpinnerModule,FileExplorerModule
   ],
-  entryComponents: [AdminViewusersComponent],
+  entryComponents: [AdminViewusersComponent,HeadersComponent,HomeComponent],
   providers: [{ provide: MatDialogRef, useValue: {} },{ provide: MAT_DIALOG_DATA, useValue: [] },AuthenticationService,AuthGuard,UploadService
               ,ThemeService ,FileService],
   bootstrap: [AppComponent],

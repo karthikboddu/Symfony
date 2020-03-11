@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthenticationService } from '../services/authentication.service';
-import { PostService } from '../services/post.service';
+import { AuthenticationService } from '../../services/authentication.service';
 import { first } from 'rxjs/operators';
-import { ThemeService } from '../services/theme.service';
+import { ThemeService } from '../../services/theme.service';
 import { FormControl } from '@angular/forms';
 import { faSearch, faBell, faUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-headers',
-  templateUrl: './headers.component.html',
-  styleUrls: ['./headers.component.scss']
+  selector: 'app-header-container',
+  templateUrl: './header-container.component.html',
+  styleUrls: ['./header-container.component.scss']
 })
-export class HeadersComponent implements OnInit {
+export class HeaderContainerComponent implements OnInit {
+
   darkTheme =  new FormControl(false);
-  constructor(public authService : AuthenticationService,private route: ActivatedRoute,private postService: PostService
+  constructor(public authService : AuthenticationService,private route: ActivatedRoute
     , private router: Router,private themeService:ThemeService
     ) {
       console.log("theme",this.darkTheme);
