@@ -21,6 +21,7 @@ import { AppComponent } from './app.component';
 import { ModalWindowComponent } from './modal-window/modal-window.component';
 import { ContainerComponent } from './layout/container/container.component';
 const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
   {
     path: 'home',
     component: ContainerComponent,

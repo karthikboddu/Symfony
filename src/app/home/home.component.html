@@ -24,10 +24,8 @@
     >
     <div  fxLayout.xs="column" fxLayout="row wrap" fxLayoutGap="10px" ngClass.gt-xs="ml-10">
       <mat-card *ngFor="let posts of allPostDetails;" fxFlex.sm="0 1 calc(50%-10px)" fxFlex.md="0 1 calc(33%-10px)" fxFlex.gt-md="0 1 calc(35%-10px)">
-        
-        <div *ngFor="let fileDetails of posts.uploadDetails">
-            <img mat-card-image src="{{fileDetails.fileupload_imageUrl}}" class="image">
-        </div>
+        <app-home-list [productDetails]="posts"></app-home-list>
+
       </mat-card>
       
      
