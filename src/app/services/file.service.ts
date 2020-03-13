@@ -111,4 +111,11 @@ export class FileService implements IFileService {
   getFilesAndFoldersById(fid){
     return this.http.get(this.serviceUrl.host+this.serviceUrl.getFilesAndFoldersByid+"/"+fid);
   }
+
+  getFilesAndFoldersByUserId(){
+    let headers = new HttpHeaders();
+       
+    headers = headers.append('X-Custom-Auth', 'Bearer ' + this.authenticationService.getToken());
+    return this.http.get<FileElement[]>(this.serviceUrl.host+this.serviceUrl.getFilesAndFoldersByid,{headers:headers});
+  }
 }

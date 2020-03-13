@@ -6,7 +6,7 @@ export class Post {
     uploadDetails : Array<fileUpload>
 }
 export class userpost{
-    id : number
+    p_id : number
     name : string
     description :string
     post_url : string
@@ -27,7 +27,7 @@ export class fileUpload{
     uploadedAt : string
     fileName :  string
     etag : string
-    image_url : string
+    fileupload_imageUrl : string
     status :boolean
     fut_id : number
     fut_name :string

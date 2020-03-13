@@ -1,3 +1,5 @@
 <div *ngFor="let fileDetails of productDetails.uploadDetails">
-    <img mat-card-image src="{{fileDetails.fileupload_imageUrl}}" class="image">
+    <a #productGridCarousel href="javascript:;" role="button" (click)="productClick(productGridCarousel)">
+    <img mat-card-image src="{{fileDetails.fileupload_imageUrl}}" class="img-reponsive">
+    </a>
 </div>

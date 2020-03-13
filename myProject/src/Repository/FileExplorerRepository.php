@@ -48,7 +48,7 @@ class FileExplorerRepository extends ServiceEntityRepository
     }
     */
 
-    public function findByFolderAll($limitId ,$offsetId)
+    public function findByFolderAll($limitId ,$offsetId,$id)
     {
 
         // $query = $this->em->createQuery("SELECT pfp.id as post_id,users.id AS user_id ,GROUP_CONCAT( fu.id SEPARATOR ', ') AS upload_id FROM App\Entity\UserPostUpload p JOIN p.fk_user_id users JOIN p.fk_post_id pfp left join p.fk_upload_id fu group by p.fk_post_id");
@@ -58,9 +58,10 @@ class FileExplorerRepository extends ServiceEntityRepository
 
 
         return $this->getEntityManager()
-        ->createQuery("SELECT users.id AS user_id ,GROUP_CONCAT( fu.id SEPARATOR ', ') AS upload_id , fk_folder.id as folder_id FROM App\Entity\UserPostUpload p JOIN p.fk_user_folder fk_folder JOIN p.fk_user_id users  left join p.fk_upload_id fu group by p.fk_user_folder")
+        ->createQuery("SELECT users.id AS user_id ,GROUP_CONCAT( fu.id SEPARATOR ', ') AS upload_id , fk_folder.id as folder_id FROM App\Entity\UserPostUpload p JOIN p.fk_user_folder fk_folder JOIN p.fk_user_id users  left join p.fk_upload_id fu where users=:id group by p.fk_user_folder")
         // ->setMaxResults($limitId)
         //  ->setFirstResult($offsetId)
+        ->setParameter('id',$id)
         ->getScalarResult();
     }
 

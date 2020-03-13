@@ -52,6 +52,8 @@ import { ContainerComponent } from './layout/container/container.component';
 import { HeaderContainerComponent } from './headers/header-container/header-container.component';
 import { HeaderNavbarComponent } from './headers/header-navbar/header-navbar.component';
 import { HomeListComponent } from './home/home-list/home-list.component';
+import { PostDetailsComponent } from './post/post-details/post-details.component';
+import { CoreDetailsComponent } from './post/core-details/core-details.component';
 
 
 @NgModule({
@@ -67,7 +69,7 @@ import { HomeListComponent } from './home/home-list/home-list.component';
     SliderComponent,
     SliderImageComponent,
     SliderItemDirective,
-    AdminComponent,HeadersComponent, AdminViewpostsComponent, AdminViewusersComponent, UserComponent, UserContentComponent, UserDetailsComponent, ModalWindowComponent, LogoComponent, AccountComponent, ContainerComponent, HeaderContainerComponent, HeaderNavbarComponent, HomeListComponent
+    AdminComponent,HeadersComponent, AdminViewpostsComponent, AdminViewusersComponent, UserComponent, UserContentComponent, UserDetailsComponent, ModalWindowComponent, LogoComponent, AccountComponent, ContainerComponent, HeaderContainerComponent, HeaderNavbarComponent, HomeListComponent, PostDetailsComponent, CoreDetailsComponent
   ],
   imports: [
     BrowserModule,

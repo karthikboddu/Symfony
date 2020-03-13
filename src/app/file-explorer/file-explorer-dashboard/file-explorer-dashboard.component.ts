@@ -14,7 +14,7 @@ import { MatGridList } from '@angular/material';
   templateUrl: './file-explorer-dashboard.component.html',
   styleUrls: ['./file-explorer-dashboard.component.scss']
 })
-export class FileExplorerDashboardComponent implements AfterContentInit{
+export class FileExplorerDashboardComponent implements OnInit, AfterContentInit{
 
   constructor(public dialog: MatDialog,public authService: AuthenticationService,public router: Router,private observableMedia: MediaObserver) {}
 
@@ -44,6 +44,10 @@ export class FileExplorerDashboardComponent implements AfterContentInit{
   @Output() elementMoved = new EventEmitter<{ element: FileElement; moveTo: FileElement }>();
   @Output() navigatedDown = new EventEmitter<FileElement>();
   @Output() navigatedUp = new EventEmitter();
+
+  ngOnInit(){
+    console.log(this.fileElements,"fileElements");
+  }
 
   deleteElement(element: FileElement) {
     this.elementRemoved.emit(element);

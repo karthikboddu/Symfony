@@ -102,22 +102,6 @@ this.gallery.ref('lightbox').load(this.items);
             //this.allImg = data[0]['postfile'];
             console.log("postdata", this.allPostDetails);
             //console.log("imgdata",data['postfile']);
-
-    /** Basic Gallery Example */
-    debugger
-    // Creat gallery items
-
-
-   
-
-
-
-
-
-
-
-
-
           },
           error => {
             console.log("errors", error);

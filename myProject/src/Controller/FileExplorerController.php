@@ -90,6 +90,7 @@ class FileExplorerController extends AbstractController
      */
     public function getFileExp(Request $request)
     {
+
         $em = $this->getDoctrine()->getManager();
         $files = $em->getRepository(FileExplorer::class)->findAll();
         return $files;
@@ -102,13 +103,23 @@ class FileExplorerController extends AbstractController
      */
     public function postGroupAll(Request $request)
     {
+        try {
+
+            if ($this->jwtEncoder->supports($request)) {    
+                $preAuthToken = $this->jwtEncoder->getCredentials($request);
+                $data = $this->jwtEncoderIn->decode($preAuthToken);
+                $em = $this->getDoctrine()->getManager();
+                $username = $data['username'];
+                $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
+                $id = $user->getId();
+
        // $limitId =  $request->get('id');
        // $offsetId =  $request->get('offset');
        // if(!$limitId){
        //     $limitId = '5';
        // }
         $newArrayy = array();
-        $postfileUpload = $this->getDoctrine()->getRepository(FileExplorer::class)->findByFolderAll($limitId='',$offsetId='');
+        $postfileUpload = $this->getDoctrine()->getRepository(FileExplorer::class)->findByFolderAll($limitId='',$offsetId='',$id);
         //return $postfileUpload;
         foreach ($postfileUpload as $key => $value) {
             //$postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByPostsByPostId($value['post_id']);
@@ -130,20 +141,26 @@ class FileExplorerController extends AbstractController
             // if($postfileUpload  ){
 
             // }
-                            $newArrayy[$key] = array('user'=>$userDetails,'uploadDetails'=>$fileUploadDetails,'folderDetails'=>$folderDetails);
+                            $newArrayy[$key] = $folderDetails;
             
 
         }
         $totalPosts = sizeof($newArrayy);        
 
-        return new JsonResponse(['data' => $newArrayy,'totalPosts'=>$totalPosts]);
+        //return new JsonResponse(['data' => $newArrayy,'totalPosts'=>$totalPosts]);
         return $newArrayy;
-            
+    }
+    }catch (\Exception $e) {
+        //throw $th; 'message' => $exception->getMessage(),
+        // throw new HttpException(400, "Invalid data");
+        return new JsonResponse(['status' => '0', 'message' => $e->getMessage()]);
+    }
+
     }
 
 
    /**
-     * @Route(path="/api/folderGroupAll/{fid}", name="folderGroupAll")
+     * @Route(path="/api/file/folderGroupAll/{fid}", name="folderGroupAll")
      * @Method("GET")
      */
     public function postGroupByfId(Request $request,$fid)

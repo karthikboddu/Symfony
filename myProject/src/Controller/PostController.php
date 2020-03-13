@@ -594,7 +594,53 @@ class PostController extends AbstractController
            $limitId = '5';
        }
        $newArrayy = array();
-        $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByGroupAll($limitId,$offsetId);
+       $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByGroupAll($limitId,$offsetId);
+        //return $postfileUpload;
+        foreach ($postfileUpload as $key => $value) {
+            $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByPostsByPostId($value['post_id']);
+            $fileUploadDetails='';
+            $userDetails = '';
+            if($value['upload_id']){
+                $uploadIds = explode(",", $value['upload_id']);
+                $fileUploadDetails = $this->getDoctrine()->getRepository(FileUpload::class)->findByUploadDetailsById($uploadIds);
+            }
+            if($value['user_id']){
+                $userDetails = $this->getDoctrine()->getRepository(User::class)->findByUsersDetailsById($value['user_id']);
+
+            }            
+            if($postfileUpload  ){
+
+            }
+                            $newArrayy[$key] = array('user'=>$userDetails,'userPost'=>$postfileUpload,'uploadDetails'=>$fileUploadDetails);
+            
+
+        }
+        $totalPosts = sizeof($newArrayy);        
+
+        return new JsonResponse(['data' => $newArrayy,'totalPosts'=>$totalPosts]);
+        return $newArrayy;
+            
+    }
+
+
+    /**
+     * @Route(path="/api/postGroupAll/{pid}", name="postGroupByPid")
+     * @Method("GET")
+     */
+    public function postGroupAllByPid(Request $request,$pid)
+    {
+       $limitId =  $request->get('limit');
+       $offsetId =  $request->get('offset');
+       if(!$limitId){
+           $limitId = '5';
+       }
+       $newArrayy = array();
+        
+        if($pid){
+            $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByPostGroupByPid($pid);
+        }else{
+            $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByGroupAll($limitId,$offsetId);
+        }
         //return $postfileUpload;
         foreach ($postfileUpload as $key => $value) {
             $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByPostsByPostId($value['post_id']);

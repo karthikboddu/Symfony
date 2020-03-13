@@ -93,7 +93,13 @@ export class PostService {
       let scrollData = new FormData();
       scrollData.append("limit",limit);
       scrollData.append("offset",offset);
-      return this.http.post<Response>(this.serviceUrl.host+this.serviceUrl.allPostWithFileDetails,scrollData);
+      return this.http.post<Response>(this.serviceUrl.host+this.serviceUrl.getAllPostWithFileDetails,scrollData);
+    }
+
+    getSinglePostWithFileByActive(pid){
+      let postData = new FormData();
+      postData.append("pid",pid);
+      return this.http.post<Response>(this.serviceUrl.host+this.serviceUrl.getAllPostWithFileDetails+"/"+pid,postData);
     }
     
 }

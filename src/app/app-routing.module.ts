@@ -20,6 +20,7 @@ import { UserContentComponent } from './user/user-content/user-content.component
 import { AppComponent } from './app.component';
 import { ModalWindowComponent } from './modal-window/modal-window.component';
 import { ContainerComponent } from './layout/container/container.component';
+import { PostDetailsComponent } from './post/post-details/post-details.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   {
@@ -38,8 +39,16 @@ const routes: Routes = [
       pageName: 'fileexplorer'
     }
   },
+  {
+    path: 'login',
+    component: ContainerComponent,
+    data: {
+      title: ('login'),
+      pageName: 'login'
+    }
+  },
   { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
+  //{ path: 'login', component: LoginComponent },
   { path: 'post', component: PostComponent,canActivate:[AuthGuard] },
   //{ path: 'home', component: HomeComponent },
   //{ path: 'home/:id', component: HomeComponent,canActivate:[AuthGuard] },
@@ -102,6 +111,18 @@ const routes: Routes = [
       }
     ]
   },
+  {
+    path: 'post-details/:id',
+    outlet: 'modal',
+    component: ModalWindowComponent,
+    children: [
+      {
+        path: '',
+        component: PostDetailsComponent
+      }
+    ]
+  },
+  
 ];
 
 @NgModule({

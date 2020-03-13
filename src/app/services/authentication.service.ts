@@ -24,7 +24,7 @@ export class AuthenticationService {
       }
       
     }else{
-      this.router.navigate(['/home']);
+      this.router.navigate(['/login']);
     }
     //console.log("currentuser",this.currentUserValue);
   }
@@ -71,7 +71,7 @@ export class AuthenticationService {
   }
   logout() {
     // remove user from local storage to log user out
-    this.router.navigate(['/home']);
+    this.router.navigate(['/login']);
     localStorage.removeItem('currentUser');
     this.isAdmin = false;
     this.isLoggedIn = false;

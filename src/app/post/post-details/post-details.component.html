@@ -1,0 +1,65 @@
+<div *ngIf="allPostDetails" class="product-details-container">
+    <!-- <div class="product-type" *ngIf='product.productTypeName'>
+      <span>{{allPostDetails.productTypeName}}</span>
+      <span class="bubble new" translate *ngIf="isNew && !isAboutToExpire">New</span>
+      <span class="bubble coming-soon" translate *ngIf="isComingSoon">Coming Soon</span>
+      <span class="bubble expire" translate *ngIf="isAboutToExpire">About to Expire</span>
+    </div> -->
+    <div class="product-name" *ngFor="let posts of allPostDetails">
+        <div *ngFor="let eachPost of posts.userPost">{{eachPost.p_name}}</div>
+        </div>
+    <div class="tabs">
+            <app-core-details [productDetails]="allPostDetails" ></app-core-details>
+      <ngb-tabset>
+        <ngb-tab>
+          <ng-template ngbTabTitle>dfdf</ng-template>
+          <ng-template ngbTabContent>
+            <div class="all-components">
+             
+              <div class="products-table" [ngClass]="{'hide-products': tocExpanded}" >
+                <!-- <div>
+                  <div class="social-media">
+                    <app-social-media-share [url]="linkShareUrl"></app-social-media-share>
+                  </div>
+                  <div *ngIf="wholeProductAssetId" class="table-of-contents">
+                    <app-table-of-contents [assetRevisionId]="wholeProductAssetId" (broaden)="tocExpanded=!tocExpanded">
+                    </app-table-of-contents>
+                  </div>
+                </div> -->
+                <!-- <div>
+                  <ng-container *ngIf="relatedProducts && relatedProducts.length">
+                    <div class="related-product-heading" translate>relatedProducts</div>
+                    <div class="product-details">
+                      <app-product-list [products]="relatedProducts" [mode]="1"></app-product-list>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="productsInCollection && productsInCollection.length">
+                    <div class="related-product-heading" translate>Products In This Collection</div>
+                    <div class="product-details">
+                      <app-product-list [products]="productsInCollection" [mode]="1"></app-product-list>
+                    </div>
+                  </ng-container>
+                </div> -->
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+  
+        <!-- <ngb-tab
+          *ngIf="isAuthenticated && product.productType && product.productType.toLowerCase() == AppConstants.PRODUCT_TYPES.COURSE">
+          <ng-template ngbTabTitle>{{'Results' | translate | uppercase}}</ng-template>
+          <ng-template ngbTabContent>
+            <app-course-result [productId]="product.id" (triggerActiveCloseModal)="triggerActiveCloseModal($event)"></app-course-result>
+          </ng-template>
+  
+        </ngb-tab>
+  
+        <ngb-tab *ngIf="supplements && supplements.length">
+          <ng-template ngbTabTitle>{{'supplementaryMaterials' | translate | uppercase}}</ng-template>
+          <ng-template ngbTabContent>
+            <app-asset-list [productId]="product.id" [isSubscribed]="product.isSubscribed" [assets]="supplements"></app-asset-list>
+          </ng-template>
+        </ngb-tab> -->
+      </ngb-tabset>
+    </div>
+  </div>

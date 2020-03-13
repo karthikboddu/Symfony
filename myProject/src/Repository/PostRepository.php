@@ -167,4 +167,19 @@ class PostRepository extends ServiceEntityRepository
         ->getScalarResult();
     }
 
+    public function findByPostGroupByPid($pid)
+    {
+
+        // $query = $this->em->createQuery("SELECT pfp.id as post_id,users.id AS user_id ,GROUP_CONCAT( fu.id SEPARATOR ', ') AS upload_id FROM App\Entity\UserPostUpload p JOIN p.fk_user_id users JOIN p.fk_post_id pfp left join p.fk_upload_id fu group by p.fk_post_id");
+        // $totalPosts = $query->getScalarResult();
+        
+        // return $totalPosts;
+
+
+        return $this->getEntityManager()
+        ->createQuery("SELECT pfp.id as post_id,users.id AS user_id ,GROUP_CONCAT( fu.id SEPARATOR ', ') AS upload_id FROM App\Entity\UserPostUpload p JOIN p.fk_user_id users JOIN p.fk_post_id pfp left join p.fk_upload_id fu where pfp=:pid group by p.fk_post_id")
+         ->setParameter('pid',$pid)
+        ->getScalarResult();
+    }
+
 }

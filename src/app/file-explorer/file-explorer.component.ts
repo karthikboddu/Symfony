@@ -20,7 +20,7 @@ export class FileExplorerComponent implements OnInit{
 
   constructor(public dialog: MatDialog,public authService: AuthenticationService,public router: Router,public fileService: FileService,public uploadService:UploadService) {}
   currentRoot: FileElement;
-  fEle : FileElement[];
+  fEle : FileElement[] =null;
   currentPath: string;
   canNavigateUp = false;
   newid:any;
@@ -29,7 +29,7 @@ export class FileExplorerComponent implements OnInit{
   ngOnInit() {
     debugger
     console.log("fileexpolorer");
-    this.fileService.getFilesAndFolders()
+    this.fileService.getFilesAndFoldersByUserId()
     .pipe(first())
     .subscribe(data=>{
       debugger
