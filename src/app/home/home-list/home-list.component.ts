@@ -10,15 +10,15 @@ import { Router } from '@angular/router';
 export class HomeListComponent implements OnInit {
 
   constructor(private router:Router) { }
-  @Input() productDetails: Post;
-
+ // @Input() productDetails: Post;
+  public showFilter: boolean = false;
   ngOnInit() {
-    console.log(this.productDetails.userPost[0].p_id,"ddddd");
+   // console.log(this.productDetails,"ddddd");
   }
 
   productClick(){
     debugger
-    this.router.navigate([{ outlets: { modal: ['post-details', this.productDetails.userPost[0].p_id] } }]);  
+    //this.router.navigate([{ outlets: { modal: ['post-details', this.productDetails.userPost[0].p_id] } }]);  
   }
   
 }

@@ -2,7 +2,7 @@
 
 export class Post {
     userDetails : Array<user>
-    userPost : Array<userpost>
+    userpost
     uploadDetails : Array<fileUpload>
 }
 export class userpost{
@@ -33,6 +33,9 @@ export class fileUpload{
     fut_name :string
     fut_mediatype : string
     fut_createdAt : string
+    futn_id: number
+    futn_name : string;
+    futn_createdAt :string;
 }
 export class fileUploadType{
     id : number

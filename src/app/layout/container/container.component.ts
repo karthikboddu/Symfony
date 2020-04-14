@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { FileExplorerComponent } from 'src/app/file-explorer/file-explorer.component';
 import { HomeComponent } from 'src/app/home/home.component';
 import { LoginComponent } from 'src/app/login/login.component';
+import {ExploreComponent} from 'src/app/layout/explore/explore.component'
+import { AdminComponent } from 'src/app/Admin/admin/admin.component';
 
 @Component({
   selector: 'app-container',
@@ -23,12 +25,16 @@ export class ContainerComponent implements OnInit {
     this.createComponent(this.component);
   }
   loadComponent(pageName){
+    debugger
     if(pageName =='fileexplorer'){
        this.component = FileExplorerComponent;
     }else if(pageName == 'home'){
-      this.component = HomeComponent;
+      this.component = ExploreComponent;
     }else if(pageName == 'login'){
       this.component = LoginComponent;
+    }
+    else if(pageName == 'admin'){
+      this.component = AdminComponent;
     }
     console.log(this.component,"component");
     return this.component;

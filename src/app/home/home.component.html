@@ -10,12 +10,12 @@
 
 
 
-    <h1 fxHide fxShow.xs>XS</h1>
+    <!-- <h1 fxHide fxShow.xs>XS</h1>
     <h1 fxHide fxShow.sm>SM</h1>
     <h1 fxHide fxShow.md>MD</h1>
     <h1 fxHide fxShow.lg>LG</h1>
-    <h1 fxHide fxShow.xl>XL</h1>
-    <div
+    <h1 fxHide fxShow.xl>XL</h1> -->
+    <!-- <div
     class="search-results"
     infiniteScroll
     [infiniteScrollDistance]="2"
@@ -23,10 +23,10 @@
     (scrolled)="onScroll()"
     >
     <div  fxLayout.xs="column" fxLayout="row wrap" fxLayoutGap="10px" ngClass.gt-xs="ml-10">
-      <mat-card *ngFor="let posts of allPostDetails;" fxFlex.sm="0 1 calc(50%-10px)" fxFlex.md="0 1 calc(33%-10px)" fxFlex.gt-md="0 1 calc(35%-10px)">
-        <app-home-list [productDetails]="posts"></app-home-list>
-
-      </mat-card>
+      <div fxFlex.sm="0 1 calc(50%-10px)" fxFlex.md="0 1 calc(33%-10px)" fxFlex.gt-md="0 1 calc(35%-10px)">
+        <app-home-list *ngFor="let posts of allPostDetails;" ></app-home-list>
+        
+      </div>
       
      
 
@@ -35,10 +35,10 @@
       
     </div>
     
-</div>
+</div> -->
 
 
-<div class="row pb-5">
+<!-- <div class="row pb-5">
     <div class="col-md-12 p-5">
      <ngx-spinner
      bdOpacity = 0.9
@@ -50,7 +50,7 @@
      >
      </ngx-spinner>
    </div>
- </div>
+ </div> -->
 
     <!--     <img mat-card-image class="img-article" src={{article.urlToImage}} alt=""> -->
 
@@ -70,4 +70,42 @@
         <h2>Lightbox Example</h2>
         <button mat-button (click)="lightbox.open(0, 'lightbox')">Open Lightbox</button>
       </div> -->
+
+
+
+
+
+
+
+      <div class="expore-container">
+        <div  [ngClass]="{'left-filter': true,'hide-filter': !showFilter}">
+        <app-post-filter></app-post-filter>
+        </div>
+
+        
+        
+        
+        <div tabindex="-1" id="productsContainer"  class="product-details">
+        <!-- <div *ngFor="let fileDetails of productDetails.uploadDetails">
+            <a #productGridCarousel href="javascript:;" role="button" (click)="productClick(productGridCarousel)">
+            <img mat-card-image src="{{fileDetails.fileupload_imageUrl}}" class="img-reponsive">
+            </a>
+        </div> -->
+        
+        <ng-container >
+            <div class="mobile-filter-category">
+              <div class="filter-container">
+                <a href="javascript:;" (click)="enableFilter()" class="show-filter-btn" translate>Filter
+                  <img src="assets/icons/filter-icon.png"></a>
+              </div>
+            </div>
+            <app-category-display ></app-category-display>
+          </ng-container>
+        </div>
+      </div>
+
+
+
+
+
 

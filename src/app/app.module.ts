@@ -54,8 +54,7 @@ import { HeaderNavbarComponent } from './headers/header-navbar/header-navbar.com
 import { HomeListComponent } from './home/home-list/home-list.component';
 import { PostDetailsComponent } from './post/post-details/post-details.component';
 import { CoreDetailsComponent } from './post/core-details/core-details.component';
-
-
+import { ExploreModule } from './layout/explore/explore.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,9 +88,9 @@ import { CoreDetailsComponent } from './post/core-details/core-details.component
     MatMenuModule,MatIconModule, MatSidenavModule, MatListModule,MatProgressSpinnerModule
     ,MatButtonModule, MatDialogModule, MatListModule, HttpClientModule, MatProgressBarModule,
     FlexLayoutModule,CKEditorModule,
-    MatContenteditableModule,FontAwesomeModule,InfiniteScrollModule,NgxSpinnerModule,FileExplorerModule
+    MatContenteditableModule,FontAwesomeModule,InfiniteScrollModule,NgxSpinnerModule,FileExplorerModule,ExploreModule
   ],
-  entryComponents: [AdminViewusersComponent,HeadersComponent,HomeComponent],
+  entryComponents: [AdminViewusersComponent,HeadersComponent,HomeComponent,AdminComponent],
   providers: [{ provide: MatDialogRef, useValue: {} },{ provide: MAT_DIALOG_DATA, useValue: [] },AuthenticationService,AuthGuard,UploadService
               ,ThemeService ,FileService],
   bootstrap: [AppComponent],

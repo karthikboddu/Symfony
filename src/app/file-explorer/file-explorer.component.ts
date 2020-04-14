@@ -29,7 +29,7 @@ export class FileExplorerComponent implements OnInit{
   ngOnInit() {
     debugger
     console.log("fileexpolorer");
-    this.fileService.getFilesAndFoldersByUserId()
+    this.fileService.getFilesAndFolders()
     .pipe(first())
     .subscribe(data=>{
       debugger

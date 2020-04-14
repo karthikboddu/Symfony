@@ -2,18 +2,26 @@
     <ul [ngClass]="{'journet-section': isJournet}">
 
       <ng-container >
-        <li [ngClass]="{'active' : isActive('/my-library'), 'hide-mobile': i >= maxNavLinks}">
+        <li [ngClass]="{'active' : isActive('/home'), 'hide-mobile': i >= maxNavLinks}">
           <a href="javascript:;" (click)="onTabClick({link:'/home'})">
             <span class="icon"><i class="icon "></i></span>
-            <span class="text" translate>my-library</span>
+            <span class="text" translate>Home</span>
+          </a>
+        </li>
+      </ng-container>
+      <ng-container >
+        <li [ngClass]="{'active' : isActive('/admin'), 'hide-mobile': i >= maxNavLinks}">
+          <a href="javascript:;" (click)="onTabClick({link:'/admin'})">
+            <span class="icon"><i class="icon "></i></span>
+            <span class="text" translate>Admin</span>
           </a>
         </li>
       </ng-container>
       <ng-container>
-        <li [ngClass]="{'active' : isActive('/my-dashboard')}">
+        <li [ngClass]="{'active' : isActive('/fileexplorer')}">
           <a href="javascript:;" (click)="onTabClick({link:'fileexplorer'})">
             <span class="icon"><i class="icon "></i></span>
-            <span class="text" translate>My Dashboard</span>
+            <span class="text" translate>File Explorer</span>
           </a>
         </li>
       </ng-container>

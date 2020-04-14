@@ -1,5 +1,25 @@
-<div *ngFor="let fileDetails of productDetails.uploadDetails">
+<div class="expore-container">
+<div  [ngClass]="{'left-filter': true,'hide-filter': !showFilter}">
+<app-post-filter></app-post-filter>
+</div>
+</div>
+
+
+
+<div tabindex="-1" id="productsContainer"  class="product-details">
+<!-- <div *ngFor="let fileDetails of productDetails.uploadDetails">
     <a #productGridCarousel href="javascript:;" role="button" (click)="productClick(productGridCarousel)">
     <img mat-card-image src="{{fileDetails.fileupload_imageUrl}}" class="img-reponsive">
     </a>
+</div> -->
+
+<ng-container *ngIf="!searchParams">
+    <div class="mobile-filter-category">
+      <div class="filter-container">
+        <a href="javascript:;" (click)="enableFilter()" class="show-filter-btn" translate>Filter
+          <img src="assets/icons/filter-icon.png"></a>
+      </div>
+    </div>
+    <app-category-display ></app-category-display>
+  </ng-container>
 </div>

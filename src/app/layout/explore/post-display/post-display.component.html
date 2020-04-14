@@ -1,0 +1,14 @@
+<!-- <div fxLayout.xs="column" fxLayout="row wrap" fxLayoutGap="10px" ngClass.gt-xs="ml-10"> -->
+
+<!-- </div> -->
+
+
+<mat-card *ngFor="let product of productDetails" fxFlex.sm="0 1 calc(50%-10px)" fxFlex.md="0 1 calc(33%-10px)"
+  fxFlex.gt-md="0 1 calc(25%-10px)">
+  <div *ngFor="let fileDetails of product.uploadDetails">
+    <a #productGridCarousel href="javascript:;" role="button" (click)="productClick(productGridCarousel)">
+      <img mat-card-image src="{{fileDetails.fileupload_imageUrl}}" class="img-reponsive">
+    </a>
+  </div>
+
+</mat-card>

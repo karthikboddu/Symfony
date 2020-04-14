@@ -21,6 +21,7 @@ import { AppComponent } from './app.component';
 import { ModalWindowComponent } from './modal-window/modal-window.component';
 import { ContainerComponent } from './layout/container/container.component';
 import { PostDetailsComponent } from './post/post-details/post-details.component';
+
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   {
@@ -84,7 +85,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AdminComponent
+        component: ContainerComponent,
+        data: {
+          title: ('Home'),
+          pageName: 'admin'
+        }
       },
       {
         path: 'users',

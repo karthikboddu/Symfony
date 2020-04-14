@@ -51,7 +51,15 @@ class FileUploadRepository extends ServiceEntityRepository
 
     public function findByUploadDetailsById($id){
 
-        $query1= $this->em->createQuery("SELECT fileupload,fut FROM App\Entity\FileUpload fileupload  join fileupload.fileuplodtype fut WHERE fileupload.status = '1' AND fileupload.id IN (:id) ");
+        $query1= $this->em->createQuery("SELECT fileupload,fut,futn FROM App\Entity\FileUpload fileupload  join fileupload.fileuplodtype fut join fut.MediaUploadName futn WHERE fileupload.status = '1' AND fileupload.id IN (:id) ");
+        $query1->setParameter('id',$id);
+        $users1 = $query1->getScalarResult();
+        return $users1;
+    }
+
+    public function findByUploadDetailsByTypeId($id){
+
+        $query1= $this->em->createQuery("SELECT fileupload,fut FROM App\Entity\FileUpload fileupload  join fileupload.fileuplodtype fut WHERE fileupload.status = '1' AND fileupload.fileuplodtype IN (:id) ");
         $query1->setParameter('id',$id);
         $users1 = $query1->getScalarResult();
         return $users1;

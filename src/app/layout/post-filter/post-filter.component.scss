@@ -1,0 +1,139 @@
+
+
+.clear-all{
+  border-left: 3px solid #000;
+  border-right :0;
+  border-top: 0;
+  border-bottom: 0;
+  padding: 0px 8px;
+  display: flex;
+  text-decoration: none;
+  font-size: 15px;
+  color: #000;
+  background: #fff;
+  overflow: hidden;
+  cursor: pointer;          
+}
+.close-btn {
+  display: none;
+  border: 0;
+  background: #fff;
+  cursor: pointer;
+}
+.close-btn span{
+  display: inline-block;
+  vertical-align: middle;
+}
+.close-btn span.close-icon::before
+,.close-btn span.close-icon::after {
+  position: absolute;
+  left: 6px;
+  content: ' ';
+  height: 15px;
+  width: 2px;
+  background-color: #275379;
+}
+.close-btn span.close-icon {
+  width: 15px;
+  height: 15px;
+  opacity: 1;
+  position: relative;
+  margin-left: 6px;
+}
+.close-btn span.close-icon::before {
+  transform: rotate(45deg);
+}
+.close-btn span.close-icon::after {
+  transform: rotate(-45deg);
+}
+
+@media (max-width: 1024px) {
+  .close-btn {
+      display: flex;
+      height: 60px;
+      align-items: center;
+      color: #275379;
+  }
+  .close-btn:hover{
+    text-decoration: none;
+  }
+  .close-btn span:first-child{
+    font-size: .85em;
+  }
+  .close-btn span:last-child{
+    margin-left: 10px;
+  }
+  .filter-heading{
+    display: flex;
+    justify-content: space-between;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 0 20px;
+    align-items: center;
+    // position: absolute;
+    // right:0;
+    width:350px;
+    top:0;
+    z-index: 1;
+  }
+  .filter-footer{
+    position: fixed;
+    height: 60px;
+    background: #275379;
+    right: 0;
+    bottom: 0;
+    width: 350px;
+    z-index: 1;
+    justify-content: space-between;
+    display: flex;
+    padding: 10px;
+
+  }
+  .filter-footer button{
+    text-align: center;
+    line-height: 36px;
+    height: 40px;
+    font-size: 15px;
+  }
+  .filter-footer button:last-child{
+    color: #275379;
+    background: #fff;
+    width: 45%;
+  }
+  .filter-footer button:first-child{
+    color: #fff;    
+    width: 45%;
+    background: none;
+    border:1px solid #fff;
+  }
+}
+@media (max-width: 420px) {
+  .filter-footer, .filter-heading{
+    width: 100%;
+  }
+
+}
+
+.skip-filters {
+  position: absolute;
+    left: -100vw;
+    top: -25px;
+    padding: 3px;
+    font-size: 13px;
+}
+
+.skip-filters:focus, .skip-filters:active {
+  left: 0;
+}
+
+.filter-wrapper {
+  position: relative;
+  padding-left: 30px;
+  padding-top: 20px;
+}
+@media (max-width: 1024px) {
+  .filter-wrapper {
+    padding-left: 0px;
+    padding-top: 0px;
+  }
+}

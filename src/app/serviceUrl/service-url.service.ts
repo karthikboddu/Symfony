@@ -30,4 +30,6 @@ export class ServiceUrlService {
   public getFilesAndFoldersByid = '/api/file/folderGroupAll';
   
   public addFileAndFolders = '/api/File/addFileExp';
+
+  public getMediaDataByType = '/api/getMediaDataByType';
 }

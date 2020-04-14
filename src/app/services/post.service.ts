@@ -102,4 +102,12 @@ export class PostService {
       return this.http.post<Response>(this.serviceUrl.host+this.serviceUrl.getAllPostWithFileDetails+"/"+pid,postData);
     }
     
+    getMediaDataByType(typeId){
+      let headers = new HttpHeaders();
+
+      headers = headers.append('X-Custom-Auth', 'Bearer ' + this.authenticationService.getToken());
+      let postData = new FormData();
+      postData.append("mediatype",typeId);
+      return this.http.post<Response>(this.serviceUrl.host+this.serviceUrl.getMediaDataByType,postData,{headers:headers});
+    }
 }

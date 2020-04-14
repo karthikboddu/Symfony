@@ -1,0 +1,287 @@
+
+
+$mobile-screen-size: 767px;
+
+.grid-view-container{
+  .product-card{
+      border-top: 2px solid #cef3ce;
+      padding-top: 20px;
+      margin: 0 auto;
+      max-width: 175px;
+      cursor: pointer;
+      display: block;
+      min-height: 260px;
+      > a {
+        min-height: 200px;
+        display: inline-block;
+        width: 100%;
+      }
+      @media (max-width: 767px) {
+        border: 1px solid #e2e2e2;
+      }
+  }
+  .product-card img{
+    min-height: 200px;
+    width: 100%;
+    border: 1px solid #f3f3f3;
+  }
+  .product-card strong{
+      position: absolute;
+      width: 100%;
+      left: 0;
+      bottom: 0;
+      padding: 20px;
+      text-align: center;
+  }
+  .product-details{
+      text-align: center;
+      padding-top: 18px;      
+      margin: 0 auto;
+  }
+
+  &.journet-section .product-details {
+    font-family: 'merriweathersans_regular';
+  }
+
+  .product-details strong{
+      display: block;
+  }
+  .author{
+      padding: 8px 0;
+      color: #5f5f5f;
+      height: 36px;
+      overflow: hidden;
+      max-width: 175px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      margin: 0 auto;
+  }
+
+//   &.journet-section .author {
+//     font-family: $font-family-lora-regular;
+//   }
+
+//   &.journet-section .totalDownload {
+//     font-family: $font-family-lora-regular;
+//     font-size: $font-size14;
+//   }
+  
+  ::ng-deep .add-cart{
+      padding-top:8px;
+      padding-bottom: 4px;
+  }
+  .product-details-name{
+    max-width: 175px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    color: #000;
+  }
+ 
+  .product-details-name:hover{
+    text-decoration: none;
+  }
+  &.journet-section .product-details-name {
+    white-space: normal;
+  }
+
+  .product-details-name strong{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &.journet-section .product-details-name{
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    height: 80px;
+    white-space: initial;
+    margin: 0 auto 10px;
+    text-align: left;
+    @media (max-width: $mobile-screen-size) {
+      -webkit-line-clamp: 1;
+      height: auto; 
+    }
+  }
+
+  ::ng-deep .product-meta-item{
+    white-space: nowrap;
+    max-width: 175px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: block;
+    margin: 0 auto;
+  }
+    @media screen and (max-width: 420px) {
+      .product-card{
+          max-width: 225px;
+          box-shadow: 0 0 10px  rgba(0,0,0,.2);
+
+      }
+    }
+}
+
+.list-view-container{
+  padding-bottom: 40px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid #eee;
+  .data-container{
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+  .data-container > div{
+    display: table-cell;
+    vertical-align: top;
+  }
+  .data-container > div:first-child {
+    padding-right: 20px;
+  }
+  .img-section{
+    width: 200px;
+    cursor: pointer;
+  }
+  .img-section img{
+    max-width: 180px;    
+  }
+  .data-container{
+    width: calc(100% - 200px);
+  }
+  .title-text{
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.29;
+    color: #1d1e1e;
+    cursor: pointer;
+  }
+  .author-name{
+    font-size: 14px;
+    line-height: 1.33;
+    color: #5f5f5f;
+    margin: 5px 0 10px 0;
+  }
+  .meta-data{
+    //font-family: OpenSans;
+    font-family: 'opensans_regular';
+    font-size: 10px;
+    line-height: 1.33;
+    color: #275379;
+    margin-top: 8px;
+  }
+  .meta-data.first{
+    margin-top: 18px;
+  }
+  .meta-data label{
+    font-weight:bold;
+  }
+  ::ng-deep .button-container{
+    margin-top: 20px;
+  }
+  ::ng-deep .button{
+    margin-left: 0;
+  }
+  .decsription-container{
+    width: 100%;
+    display: block;
+    margin-top: 30px;
+    //font-family: OpenSans;
+    font-family: 'opensans_regular';
+    font-size: 16px;
+    line-height: 1.38;
+    color: #000;
+  }
+  @media (max-width: 1024) {
+    .img-section{
+      width: 120px;
+    }
+    .img-section img{
+      max-width: 100px;
+    }
+    .data-container{
+      width: calc(100% - 140px);
+    }
+    .title-text{
+      font-size: 26px;
+    }
+    .author-name,.meta-data,.decsription-container{
+      font-size: 15px;
+    }
+  }
+  @media (max-width: 600px) {
+    ::ng-deep .product-meta-item{
+      margin-bottom: 10px;
+    }
+    .img-section{
+      width: 60px;
+    }
+    .img-section img{
+      max-width: 40px;
+    }
+    .data-container{
+      width: 100%;
+    }
+    .title-text{
+      font-size: 20px;
+    }
+    .author-name,.meta-data,.decsription-container{
+      font-size: 13px;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+.img-article{
+    max-width: 400px;
+    max-height: 3000px;
+  }
+    .card-content{
+      max-width: 400px;
+      max-height: 550px;
+    }
+  
+    .img-article{
+      max-width: 400px;
+      max-height: 3000px;
+    }
+      .blog-content{
+        max-width: 200px;
+        max-height: 550px;
+      }
+    
+      
+    
+      /** No CSS for this example */
+    mat-card {
+      margin-bottom: 70px;
+      max-height: 175px;
+    }
+    
+    .mr-10 {
+      margin-right: 10px;
+    }
+    
+    .ml-10 {
+      margin-left: 10px;
+    }
+    
+    .img-responsive{
+      max-height: 200px;
+    }
+    
+    
+  
+  

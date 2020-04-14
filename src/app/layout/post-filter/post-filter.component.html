@@ -1,0 +1,25 @@
+<div class="filter-wrapper">
+  <a class="skip-filters" href='javascript:;' aria-label="Click Enter to skip filters" (click)='onSkipFilters()'
+    translate>Skip Filters</a>
+
+  <div class="filter-heading">
+    <button aria-label="Clear all filters" (click)="clearAllFilters()" class="clear-all"
+      translate>{{'Clear All'}}</button>
+    <button aria-label="Close Filter" (click)="closeFilter()" class="close-btn" translate> <span>Close</span>
+      <span class="close-icon"></span></button>
+    <mat-chip-list  aria-label="">
+      <mat-chip color="dark" selected (click)="onLoadFilter()">All</mat-chip>
+    </mat-chip-list>
+    <mat-chip-list aria-label="">
+      <mat-chip color="dark" selected (click)="onLoadFilter()">Video</mat-chip>
+    </mat-chip-list>
+    <mat-chip-list aria-label="">
+      <mat-chip color="dark" selected (click)="onLoadFilter()">Audio</mat-chip>
+    </mat-chip-list>
+  </div>
+  <div class="filter-container" #filterContainer></div>
+  <div *ngIf="isMobile" class="filter-footer">
+    <button (click)="onCancel()" translate>Cancel</button>
+    <button (click)="onApply()" translate>Apply</button>
+  </div>
+</div>

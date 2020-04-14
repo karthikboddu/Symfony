@@ -1,0 +1,10 @@
+<div infiniteScroll [infiniteScrollDistance]="1" (scrolled)="onScroll()">
+    <div>
+      <div  class="products-container">
+        <div  class="category">
+          <h2 class="products-heading"> </h2>
+          <app-category-posts [productDetails]="productDetails " ></app-category-posts>
+        </div>
+      </div>
+    </div>
+  </div>

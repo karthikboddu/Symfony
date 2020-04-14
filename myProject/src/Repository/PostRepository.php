@@ -182,4 +182,15 @@ class PostRepository extends ServiceEntityRepository
         ->getScalarResult();
     }
 
+    public function findByMediaDataByTypeId($id){
+        // $query = $this->em->createQuery("SELECT p,pt,pf FROM App\Entity\Post p JOIN p.posttag pt left JOIN p.postfile pf");
+        // $users = $query->getArrayResult();
+
+
+        $query1= $this->em->createQuery("SELECT UMT.id FROM App\Entity\UploadMediaType UMT WHERE  UMT.MediaUploadName = :id  ");
+        $query1->setParameter('id',$id);
+        $users1 = $query1->getScalarResult();
+        return $users1;
+    }
+
 }

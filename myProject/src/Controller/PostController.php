@@ -611,7 +611,7 @@ class PostController extends AbstractController
             if($postfileUpload  ){
 
             }
-                            $newArrayy[$key] = array('user'=>$userDetails,'userPost'=>$postfileUpload,'uploadDetails'=>$fileUploadDetails);
+                            $newArrayy[$key] = array($postfileUpload[0],'user'=>$userDetails,'uploadDetails'=>$fileUploadDetails);
             
 
         }
@@ -666,6 +666,45 @@ class PostController extends AbstractController
         return new JsonResponse(['data' => $newArrayy,'totalPosts'=>$totalPosts]);
         return $newArrayy;
             
+    }
+
+
+    /**
+     * @Route(path="/api/getMediaDataByType", name="getMediaDataByType")
+     * @Method("GET")
+     */
+    public function getMediaDataByType(Request $request){
+        if ($this->jwtEncoder->supports($request)) {
+            $typeId =  $request->get('mediatype');
+            $preAuthToken = $this->jwtEncoder->getCredentials($request);
+            $data = $this->jwtEncoderIn->decode($preAuthToken);
+            if ($data == false) {
+                throw new CustomUserMessageAuthenticationException('Expired Token');
+            } else {
+                $username = $data['username'];
+                // $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
+                // $userId = $user->getId();
+                $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByMediaDataByTypeId($typeId);
+
+                foreach ($postfileUpload as $key => $value) {
+
+                    if($value['id']){
+                        
+                        $fileUploadDetails = $this->getDoctrine()->getRepository(FileUpload::class)->findByUploadDetailsByTypeId($value['id']);
+                    }
+                    if(!empty($fileUploadDetails)){
+                        $newArrayy = array('uploadDetails'=>$fileUploadDetails);
+                    }
+                    
+                }
+                $totalPosts = sizeof($newArrayy);        
+
+                return new JsonResponse(['data' => $newArrayy,'totalPosts'=>$totalPosts]);
+        
+                return $newArrayy;
+            }
+
+        }
     }
 
 }
