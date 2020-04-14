@@ -19,7 +19,7 @@ export class FileExplorerDashboardComponent implements OnInit, AfterContentInit{
   constructor(public dialog: MatDialog,public authService: AuthenticationService,public router: Router,private observableMedia: MediaObserver) {}
 
 
-  @ViewChild('grid', {static: false}) grid: MatGridList;
+  @ViewChild('grid') grid: MatGridList;
   gridByBreakpoint = {
     xl: 12,
     lg: 10,

@@ -11,7 +11,7 @@ import { FileElement } from 'src/app/models/file-explorer';
 })
 export class UploadDialogComponent implements OnInit {
 
-  @ViewChild('file', { static: false }) file;
+  @ViewChild('file') file;
 
   public files: Set<File> = new Set();
   @Output() fileAdded = new EventEmitter<{ name: string }>();

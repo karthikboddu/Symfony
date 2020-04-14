@@ -17,6 +17,7 @@ export class PostFilterComponent implements OnInit {
   
   allPostDetails: Post[];
   postResponse : Response;
+  isMobile:false;
   ngOnInit() {
   }
   @Output() loadFilter = new EventEmitter<Post[]>();
@@ -27,6 +28,23 @@ export class PostFilterComponent implements OnInit {
     this.onClearAll.emit();
     this.exploreService.getMediaDataByType('1');
     //this.loadFilter.emit();
+  }
+
+  closeFilter(){
+
+  }
+
+  onCancel(){
+
+  }
+
+  onApply(){
+    
+  }
+
+
+  onSkipFilters(){
+
   }
 
   clearAllFilters(){

@@ -28,7 +28,7 @@ import { GallerizeModule } from '@ngx-gallery/gallerize';
 
 import {MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { UploadService } from './services/upload.service';
-import {DataTableModule} from "angular-6-datatable";
+
 import { ThemeService } from './services/theme.service';
 import { UserComponent } from './user/user.component';
 import { UserContentComponent } from './user/user-content/user-content.component';
@@ -83,7 +83,7 @@ import { ExploreModule } from './layout/explore/explore.module';
     MatButtonModule,
     MatInputModule,
     MatChipsModule,    GalleryModule,
-    LightboxModule,DataTableModule,MatTabsModule,
+    LightboxModule,
     GallerizeModule,MatGridListModule,MatPaginatorModule, MatSortModule, MatTableModule,MatSelectModule,   MatSlideToggleModule,
     MatMenuModule,MatIconModule, MatSidenavModule, MatListModule,MatProgressSpinnerModule
     ,MatButtonModule, MatDialogModule, MatListModule, HttpClientModule, MatProgressBarModule,

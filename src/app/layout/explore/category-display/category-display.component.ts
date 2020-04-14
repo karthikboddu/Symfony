@@ -24,7 +24,7 @@ export class CategoryDisplayComponent implements OnInit {
    // this.fileAdded1.emit();
   }
 
-  onScroll(e) {
+  onScroll() {
     console.log("scroll");
     // if (this.notscrolly && this.notEmptyPost) {
     //   this.spinner.show();

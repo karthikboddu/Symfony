@@ -14,6 +14,7 @@ export class PostDetailsComponent implements OnInit {
   constructor(private activatedRoute:ActivatedRoute,private postService:PostService) { }
   allPostDetails: Post[];
   postResponse : Response;
+  tocExpanded;
   ngOnInit() {
     let sub = this.activatedRoute.params.subscribe(routeParams => {
       let postId = routeParams.id;

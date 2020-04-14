@@ -1,8 +1,8 @@
 <nav>
-    <ul [ngClass]="{'journet-section': isJournet}">
+    <ul >
 
       <ng-container >
-        <li [ngClass]="{'active' : isActive('/home'), 'hide-mobile': i >= maxNavLinks}">
+        <li [ngClass]="{'active' : isActive('/home')}">
           <a href="javascript:;" (click)="onTabClick({link:'/home'})">
             <span class="icon"><i class="icon "></i></span>
             <span class="text" translate>Home</span>
@@ -10,7 +10,7 @@
         </li>
       </ng-container>
       <ng-container >
-        <li [ngClass]="{'active' : isActive('/admin'), 'hide-mobile': i >= maxNavLinks}">
+        <li [ngClass]="{'active' : isActive('/admin')}">
           <a href="javascript:;" (click)="onTabClick({link:'/admin'})">
             <span class="icon"><i class="icon "></i></span>
             <span class="text" translate>Admin</span>

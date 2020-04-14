@@ -19,6 +19,7 @@ export class ExploreComponent implements OnInit {
   lastPostId = '';
   offset = '5';
   frontCoverImgPath;
+  showFilter;
   ngOnInit() {
     this.postService.getAllPostsWithFileByActive(this.lastPostId,this.offset)
     .pipe(first())
@@ -53,6 +54,10 @@ export class ExploreComponent implements OnInit {
   updatePost(){
     this.allPostObs =  this.exploreService.queryInFolder();
     console.log("ss",this.allPostObs);
+  }
+
+  enableFilter(){
+
   }
 
 }

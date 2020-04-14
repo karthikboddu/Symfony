@@ -13,7 +13,7 @@ import { AdminComponent } from 'src/app/Admin/admin/admin.component';
   styleUrls: ['./container.component.scss']
 })
 export class ContainerComponent implements OnInit {
-  @ViewChild('pageLayout', { read: ViewContainerRef,static:false }) pageLayoutRef: ViewContainerRef;
+  @ViewChild('pageLayout', { read: ViewContainerRef }) pageLayoutRef: ViewContainerRef;
   constructor(private componentFactoryResolver: ComponentFactoryResolver,private route: ActivatedRoute) { }
   component : any;
   ngOnInit() {

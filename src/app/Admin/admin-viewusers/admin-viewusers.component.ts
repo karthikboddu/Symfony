@@ -23,8 +23,8 @@ export class AdminViewusersComponent implements OnInit {
   //datasource = new UserDataSource(this.admin);
   roles = ['Role Admin','Role User'];
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  // @ViewChild(MatPaginator) paginator: MatPaginator;
+  // @ViewChild(MatSort) sort: MatSort;
   constructor(private admin: AdminService) {
 
     //  for (let i = 1; i <= 100; i++) { users.push(createNewUser(i)); }
@@ -33,100 +33,100 @@ export class AdminViewusersComponent implements OnInit {
 
   ngOnInit() {
 
-    const users: User[] = [];
-    this.allUsers = this.admin.getAllUsers().subscribe(
-      data => {
-        this.allUsersData = data;
-        this.dataSource.data = data as User[];
-        console.log(this.allUsersData,"adminusers");
-      },
-      error => {
-        console.log(error);
-      });
+    // const users: User[] = [];
+    // this.allUsers = this.admin.getAllUsers().subscribe(
+    //   data => {
+    //     this.allUsersData = data;
+    //     this.dataSource.data = data as User[];
+    //     console.log(this.allUsersData,"adminusers");
+    //   },
+    //   error => {
+    //     console.log(error);
+    //   });
 
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
+    // // Assign the data to the data source for the table to render
+    // this.dataSource = new MatTableDataSource(users);
     // console.log("datasource", this.dataSource);
 
 
   }
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
+  // ngAfterViewInit() {
+  //   this.dataSource.paginator = this.paginator;
+  //   this.dataSource.sort = this.sort;
+  // }
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
-    console.log("datasss", this.dataSource);
-  }
-  public redirectToDetails = (id: string) => {
+  // applyFilter(filterValue: string) {
+  //   filterValue = filterValue.trim(); // Remove whitespace
+  //   filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+  //   this.dataSource.filter = filterValue;
+  //   console.log("datasss", this.dataSource);
+  // }
+  // public redirectToDetails = (id: string) => {
 
-  }
+  // }
 
-  public redirectToUpdate = (id: string) => {
+  // public redirectToUpdate = (id: string) => {
 
-  }
+  // }
 
-  public redirectToDelete = (id: number,active:boolean) => {
-    if (id) {
-      debugger
-      this.allUsersData.forEach(element => {
-        if (element.id == id) {
-          this.admin.adminDeleteUsers(id).subscribe(res => {
-            console.log("deleteuser", res);
-            if (res.code == '200') {
-              element.active = false;
-            } else {
+  // public redirectToDelete = (id: number,active:boolean) => {
+  //   if (id) {
+  //     debugger
+  //     this.allUsersData.forEach(element => {
+  //       if (element.id == id) {
+  //         this.admin.adminDeleteUsers(id).subscribe(res => {
+  //           console.log("deleteuser", res);
+  //           if (res.code == '200') {
+  //             element.active = false;
+  //           } else {
 
-            }
-          }, error => {
-            console.log(error);
-          });
+  //           }
+  //         }, error => {
+  //           console.log(error);
+  //         });
 
-        }
-      });
-    }
-
-
-  }
+  //       }
+  //     });
+  //   }
 
 
-  filterChanged(event){
-  debugger
-  }
+  // }
+
+
+  // filterChanged(event){
+  // debugger
+  // }
 }
 
 /** Builds and returns a new User. */
-function createNewUser(ele: User): User {
-  const name =
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
+// function createNewUser(ele: User): User {
+//   const name =
+//     NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
+//     NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
 
-  return {
-    id: ele.id,
-    name: ele.name,
-    surname: ele.surname,
-    username: ele.username,
-    email: ele.email,
-    roles: ele.roles,
-    created_at: ele.created_at,
-    password: ele.password,
-    phonenumber: ele.phonenumber,
-    active: ele.active,
+//   return {
+//     id: ele.id,
+//     name: ele.name,
+//     surname: ele.surname,
+//     username: ele.username,
+//     email: ele.email,
+//     roles: ele.roles,
+//     created_at: ele.created_at,
+//     password: ele.password,
+//     phonenumber: ele.phonenumber,
+//     active: ele.active,
 
-  };
-}
-export class UserDataSource extends DataSource<User> {
-  constructor(private admind: AdminService) {
-    super();
-  }
-  connect(): Observable<User[]> {
-    return this.admind.getAllUsers();
-  }
-  disconnect() { }
-}
+//   };
+// }
+// export class UserDataSource extends DataSource<User> {
+//   constructor(private admind: AdminService) {
+//     super();
+//   }
+//   connect(): Observable<User[]> {
+//     return this.admind.getAllUsers();
+//   }
+//   disconnect() { }
+// }
 /** Constants used to fill up our data base. */
 const COLORS = ['maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
   'fuchsia', 'lime', 'teal', 'aqua', 'blue', 'navy', 'black', 'gray'];

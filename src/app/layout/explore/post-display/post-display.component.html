@@ -6,7 +6,7 @@
 <mat-card *ngFor="let product of productDetails" fxFlex.sm="0 1 calc(50%-10px)" fxFlex.md="0 1 calc(33%-10px)"
   fxFlex.gt-md="0 1 calc(25%-10px)">
   <div *ngFor="let fileDetails of product.uploadDetails">
-    <a #productGridCarousel href="javascript:;" role="button" (click)="productClick(productGridCarousel)">
+    <a #productGridCarousel href="javascript:;" role="button" (click)="productClick()">
       <img mat-card-image src="{{fileDetails.fileupload_imageUrl}}" class="img-reponsive">
     </a>
   </div>

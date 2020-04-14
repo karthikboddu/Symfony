@@ -10,7 +10,7 @@ export class SliderComponent implements AfterContentInit {
 
   @ContentChildren(SliderItemDirective, { read: ElementRef }) items
     : QueryList<ElementRef<HTMLDivElement>>;
-  @ViewChild('slides', {static: false}) slidesContainer: ElementRef<HTMLDivElement>;
+  @ViewChild('slides') slidesContainer: ElementRef<HTMLDivElement>;
 
   private slidesIndex = 0;
 

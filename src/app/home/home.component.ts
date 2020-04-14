@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit {
   notEmptyPost = true;
   lastPostId = '';
   offset = '5';
+  showFilter;
   constructor(private postService: PostService, private http: HttpClient, private route: ActivatedRoute,
     private router: Router, public gallery: Gallery, public lightbox: Lightbox, private spinner: NgxSpinnerService) { }
   @Output() postsData = new EventEmitter();
