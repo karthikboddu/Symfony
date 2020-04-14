@@ -12,7 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { AlertComponent } from './alert/alert.component';
 import { PostComponent } from './post/post.component';
 import { MoviesComponent } from './movies/movies.component';
-import { MatPaginator, MatSort, MatTableDataSource,MatButtonModule,MatInputModule, MatCardModule,MatChipsModule, MatMenuModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatFormFieldModule, MatProgressSpinnerModule, MatProgressBarModule, MatGridListModule, MatPaginatorModule, MatSortModule, MatTableModule, MatSelectModule, MatSlideToggleModule, MatTabsModule } from '@angular/material';
+import { MatButtonModule,MatInputModule, MatCardModule,MatChipsModule, MatMenuModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatFormFieldModule, MatProgressSpinnerModule } from '@angular/material';
 import { ViewpostComponent } from './viewpost/viewpost.component';
 import { SliderComponent } from './slider/slider.component';
 import { SliderItemDirective } from './slider/slider-item.directive';
@@ -23,21 +23,6 @@ import { HeadersComponent } from './headers/headers.component';
 import { AdminViewpostsComponent } from './Admin/admin-viewposts/admin-viewposts.component';
 import { AdminViewusersComponent } from './Admin/admin-viewusers/admin-viewusers.component';
 import { SliderImageComponent } from './slider-image/slider-image.component';
-import { GalleryModule } from '@ngx-gallery/core';
-import { LightboxModule } from '@ngx-gallery/lightbox';
-import { GallerizeModule } from '@ngx-gallery/gallerize';
-import { UploadComponent } from './upload/upload.component';
-import { UploadDialogComponent } from './upload/upload-dialog/upload-dialog.component';
-import {MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { UploadService } from './services/upload.service';
-import {DataTableModule} from "angular-6-datatable";
-import { ThemeService } from './services/theme.service';
-import { UserComponent } from './user/user.component';
-import { UserContentComponent } from './user/user-content/user-content.component';
-import { UserDetailsComponent } from './user/user-details/user-details.component';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import { CKEditorModule } from 'ckeditor4-angular';
-import { MatContenteditableModule } from 'mat-contenteditable';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +36,7 @@ import { MatContenteditableModule } from 'mat-contenteditable';
     SliderComponent,
     SliderImageComponent,
     SliderItemDirective,
-    AdminComponent,HeadersComponent, AdminViewpostsComponent, AdminViewusersComponent, UploadComponent, UploadDialogComponent, UserComponent, UserContentComponent, UserDetailsComponent
+    AdminComponent,HeadersComponent, AdminViewpostsComponent, AdminViewusersComponent
   ],
   imports: [
     BrowserModule,
@@ -65,17 +50,10 @@ import { MatContenteditableModule } from 'mat-contenteditable';
     HttpClientModule,
     MatButtonModule,
     MatInputModule,
-    MatChipsModule,    GalleryModule,
-    LightboxModule,DataTableModule,MatTabsModule,
-    GallerizeModule,MatGridListModule,MatPaginatorModule, MatSortModule, MatTableModule,MatSelectModule,   MatSlideToggleModule,
+    MatChipsModule,
     MatMenuModule,MatIconModule, MatSidenavModule, MatListModule,MatProgressSpinnerModule
-    ,MatButtonModule, MatDialogModule, MatListModule, HttpClientModule, MatProgressBarModule,
-    FlexLayoutModule,CKEditorModule,
-    MatContenteditableModule
   ],
-  entryComponents: [UploadDialogComponent,AdminViewusersComponent],
-  providers: [{ provide: MatDialogRef, useValue: {} },{ provide: MAT_DIALOG_DATA, useValue: [] },AuthenticationService,AuthGuard,UploadService
-              ,ThemeService ],
+  providers: [AuthenticationService,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

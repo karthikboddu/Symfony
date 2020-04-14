@@ -1,10 +1,9 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PostService } from '../services/post.service';
 import { first } from 'rxjs/operators';
 import { Post } from '../models/post';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-movies',
@@ -25,7 +24,7 @@ export class MoviesComponent implements OnInit {
   pageUrl:any;
   constructor(private postService: PostService,private http: HttpClient,  private route: ActivatedRoute,
     private router: Router) { }
-    @Output() postsData = new EventEmitter();
+
   ngOnInit() {
 
     this.page = this.route.snapshot.queryParamMap.get('page');
@@ -39,9 +38,8 @@ export class MoviesComponent implements OnInit {
           .subscribe(
               data => {  
                   this.allPost = data;
-                  this.postsData.emit(this.allPost);
                   //this.allImg = data[0]['postfile'];
-                  console.log("postsData",data);
+                  console.log("data",data);
                   //console.log("imgdata",data['postfile']);
               },
               error => {

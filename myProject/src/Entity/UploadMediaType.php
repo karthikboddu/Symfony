@@ -39,19 +39,11 @@ class UploadMediaType
      */
     private $MediaUploadName;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\FileUpload", mappedBy="fileuplodtype", orphanRemoval=true)
-     */
-    private $fileuploadid;
-
-
-
 
 
     public function __construct()
     {
         $this->mediaUploadType = new ArrayCollection();
-        $this->fileuploadid = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -106,54 +98,5 @@ class UploadMediaType
 
         return $this;
     }
-
-    public function getUploadMediaTypeUser(): ?User
-    {
-        return $this->uploadMediaTypeUser;
-    }
-
-    public function setUploadMediaTypeUser(?User $uploadMediaTypeUser): self
-    {
-        $this->uploadMediaTypeUser = $uploadMediaTypeUser;
-
-        return $this;
-    }
-
-    public function getFileuploadid(): ?FileUpload
-    {
-        return $this->fileuploadid;
-    }
-
-    public function setFileuploadid(?FileUpload $fileuploadid): self
-    {
-        $this->fileuploadid = $fileuploadid;
-
-        return $this;
-    }
-
-    public function addFileuploadid(FileUpload $fileuploadid): self
-    {
-        if (!$this->fileuploadid->contains($fileuploadid)) {
-            $this->fileuploadid[] = $fileuploadid;
-            $fileuploadid->setFileuplodtype($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFileuploadid(FileUpload $fileuploadid): self
-    {
-        if ($this->fileuploadid->contains($fileuploadid)) {
-            $this->fileuploadid->removeElement($fileuploadid);
-            // set the owning side to null (unless already changed)
-            if ($fileuploadid->getFileuplodtype() === $this) {
-                $fileuploadid->setFileuplodtype(null);
-            }
-        }
-
-        return $this;
-    }
-
-
 
 }

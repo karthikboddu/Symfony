@@ -4,8 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostService } from '../services/post.service';
 import { first } from 'rxjs/operators';
 import { AlertService } from '../services/alert.service';
-import { Tags } from '../models/tags';
-import { UploadService } from '../services/upload.service';
+import {Tags} from '../models/tags';
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
@@ -17,106 +16,104 @@ export class PostComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
-  fileUploadId : any;
+
   constructor(
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private postService: PostService,
-    private alertService: AlertService, private uploadService:UploadService) { }
+      private formBuilder: FormBuilder,
+      private route: ActivatedRoute,
+      private router: Router,
+      private postService: PostService,
+      private alertService: AlertService) {}
 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required]
-    });
-    this.getAllTags();
-    // reset login status
-    // get return url from route parameters or default to '/'
-    this.returnUrl = 'home';
-    this.imgURL = 'http://cliquecities.com/assets/no-image-e3699ae23f866f6cbdf8ba2443ee5c4e.jpg';
-    this.fileUploadId = this.uploadService.getUserFileUploadId();
-    console.log(this.fileUploadId,"fileid");
+      this.loginForm = this.formBuilder.group({
+          name: ['', Validators.required],
+          description: ['', Validators.required]
+      });
+      this.getAllTags();
+      // reset login status
+      // get return url from route parameters or default to '/'
+      this.returnUrl = 'home';
+      this.imgURL = 'http://cliquecities.com/assets/no-image-e3699ae23f866f6cbdf8ba2443ee5c4e.jpg';
   }
   divs: number[] = [];
-  divtags: string[] = [];
+  divtags : string[]=[];
   public imagePath;
   imgURL: any;
   public message: string;
   fileToUpload: File = null;
-  allTags: any;
+  allTags :any;
   createDiv(): void {
-    debugger
+      debugger
     this.divs.push(this.divs.length);
   }
-  removeDiv() {
-    debugger
+  removeDiv(){
+      debugger
     this.divs.pop();
   }
   createTag(selected): void {
     debugger
-    this.divtags.push(selected);
-  }
+  this.divtags.push(selected);
+}
   // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
 
   onSubmit() {
-    this.submitted = true;
+      this.submitted = true;
 
-    // stop here if form is invalid
-    if (this.loginForm.invalid) {
-      return;
-    }
+      // stop here if form is invalid
+      if (this.loginForm.invalid) {
+          return;
+      }
 
-    this.loading = true;
-    this.postService.post(this.loginForm.value, this.fileUploadId, this.divtags)
-      .pipe(first())
-      .subscribe(
-        data => {
-          console.log("postdata", data);
-          this.router.navigate([this.returnUrl]);
-          this.loading = true;
-        },
-        error => {
-          console.log("errors", error);
-          this.alertService.error(error.statusText);
-          this.loading = false;
-        });
+      this.loading = true;
+      this.postService.post(this.loginForm.value,this.imagePath,this.fileToUpload,this.divtags)
+          .pipe(first())
+          .subscribe(
+              data => {  
+                  console.log("data",data);
+                  this.router.navigate([this.returnUrl]);
+                  this.loading = true;
+              },
+              error => {
+                  console.log("errors",error);
+                  this.alertService.error(error.statusText);
+                  this.loading = false;
+              });
   }
 
-  preview(files: FileList) {
+  preview(files:FileList) {
     debugger
     if (files.length === 0)
       return;
-    this.fileToUpload = files.item(0);
+      this.fileToUpload = files.item(0);
     var mimeType = files[0].type;
     if (mimeType.match(/image\/*/) == null) {
       this.message = "Only images are supported.";
       return;
     }
-
+ 
     var reader = new FileReader();
     this.imagePath = files[0]['name'];
-    reader.readAsDataURL(files[0]);
-    reader.onload = (_event) => {
-      this.imgURL = reader.result;
+    reader.readAsDataURL(files[0]); 
+    reader.onload = (_event) => { 
+      this.imgURL = reader.result; 
       console.log(reader);
     }
   }
 
-  getAllTags() {
+  getAllTags(){
     this.postService.getTags()
-      .pipe(first())
-      .subscribe(
-        data => {
-          this.allTags = data;
-          console.log("tags", data);
-        },
-        error => {
+    .pipe(first())
+    .subscribe(
+      data => {
+        this.allTags = data;
+        console.log("tags",data);
+      },
+      error => {
           console.log(error);
-        });
+      });
   }
 
-
+  
 
 }
