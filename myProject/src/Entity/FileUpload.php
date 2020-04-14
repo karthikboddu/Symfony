@@ -34,11 +34,6 @@ class FileUpload
     private $fileName;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Post", mappedBy="postfile")
-     */
-    private $filepost;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $etag;
@@ -48,9 +43,27 @@ class FileUpload
      */
     private $imageUrl;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\UploadMediaType", inversedBy="fileuploadid")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $fileuplodtype;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserPostUpload", mappedBy="fk_upload_id")
+     */
+    private $fk_upload_userpostupload;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $status;
+
     public function __construct()
     {
         $this->filepost = new ArrayCollection();
+        $this->fileuplodtype = new ArrayCollection();
+        $this->fk_upload_userpostupload = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,34 +107,6 @@ class FileUpload
         return $this;
     }
 
-    /**
-     * @return Collection|Post[]
-     */
-    public function getFilepost(): Collection
-    {
-        return $this->filepost;
-    }
-
-    public function addFilepost(Post $filepost): self
-    {
-        if (!$this->filepost->contains($filepost)) {
-            $this->filepost[] = $filepost;
-            $filepost->addPostfile($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFilepost(Post $filepost): self
-    {
-        if ($this->filepost->contains($filepost)) {
-            $this->filepost->removeElement($filepost);
-            $filepost->removePostfile($this);
-        }
-
-        return $this;
-    }
-
     public function getEtag(): ?string
     {
         return $this->etag;
@@ -145,4 +130,87 @@ class FileUpload
 
         return $this;
     }
+
+    /**
+     * @return Collection|UploadMediaType[]
+     */
+    public function getFileuplodtype(): Collection
+    {
+        return $this->fileuplodtype;
+    }
+
+    public function addFileuplodtype(UploadMediaType $fileuplodtype): self
+    {
+        if (!$this->fileuplodtype->contains($fileuplodtype)) {
+            $this->fileuplodtype[] = $fileuplodtype;
+            $fileuplodtype->setFileuploadid($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFileuplodtype(UploadMediaType $fileuplodtype): self
+    {
+        if ($this->fileuplodtype->contains($fileuplodtype)) {
+            $this->fileuplodtype->removeElement($fileuplodtype);
+            // set the owning side to null (unless already changed)
+            if ($fileuplodtype->getFileuploadid() === $this) {
+                $fileuplodtype->setFileuploadid(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function setFileuplodtype(?UploadMediaType $fileuplodtype): self
+    {
+        $this->fileuplodtype = $fileuplodtype;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserPostUpload[]
+     */
+    public function getFkUploadUserpostupload(): Collection
+    {
+        return $this->fk_upload_userpostupload;
+    }
+
+    public function addFkUploadUserpostupload(UserPostUpload $fkUploadUserpostupload): self
+    {
+        if (!$this->fk_upload_userpostupload->contains($fkUploadUserpostupload)) {
+            $this->fk_upload_userpostupload[] = $fkUploadUserpostupload;
+            $fkUploadUserpostupload->setFkUploadId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFkUploadUserpostupload(UserPostUpload $fkUploadUserpostupload): self
+    {
+        if ($this->fk_upload_userpostupload->contains($fkUploadUserpostupload)) {
+            $this->fk_upload_userpostupload->removeElement($fkUploadUserpostupload);
+            // set the owning side to null (unless already changed)
+            if ($fkUploadUserpostupload->getFkUploadId() === $this) {
+                $fkUploadUserpostupload->setFkUploadId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+ 
 }

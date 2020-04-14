@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
+
 /**
  * User
  *
@@ -57,108 +57,118 @@ class User implements UserInterface
      */
     private $created_at;
 
-
     /**
      * @ORM\Column(type="bigint", nullable=true)
      */
     private $phonenumber;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="postuser")
-     */
-    private $postuser;
-
-    /**
      * @ORM\Column(type="json")
      */
     private $accountstatus = [];
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $active;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserPostUpload", mappedBy="fk_user_id", orphanRemoval=true)
+     */
+    private $fk_user_userpostupload;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\UserTypeMaster", inversedBy="fk_userType")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $fk_userType;
 
     public function __construct()
     {
         $this->postuser = new ArrayCollection();
+        $this->fk_user_userpostupload = new ArrayCollection();
     }
 
-	public function getId(): int
-                                                                                    	{
-                                                                                    		return $this->id;
-                                                                                    	}
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
-	public function setName(string $name): void
-                                                                                    	{
-                                                                                    		$this->name = $name;
-                                                                                    	}
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
 
-	public function getName(): ?string
-                                                                                    	{
-                                                                                    		return $this->name;
-                                                                                    	}
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
 
-	public function setSurname(string $surname): void
-                                                                                    	{
-                                                                                    		$this->surname = $surname;
-                                                                                    	}
+    public function setSurname(string $surname): void
+    {
+        $this->surname = $surname;
+    }
 
-	public function getSurname(): ?string
-                                                                                    	{
-                                                                                    		return $this->surname;
-                                                                                    	}
+    public function getSurname(): ?string
+    {
+        return $this->surname;
+    }
 
-	public function setUsername(string $username): void
-                                                                                    	{
-                                                                                    		$this->username = $username;
-                                                                                    	}
+    public function setUsername(string $username): void
+    {
+        $this->username = $username;
+    }
 
-	public function getUsername(): ?string
-                                                                                    	{
-                                                                                    		return $this->username;
-                                                                                    	}
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
 
-	public function setEmail(string $email): void
-                                                                                    	{
-                                                                                    		$this->email = $email;
-                                                                                    	}
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
+    }
 
-	public function getEmail(): ?string
-                                                                                    	{
-                                                                                    		return $this->email;
-                                                                                    	}
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
 
-	public function setPassword(string $password): void
-                                                                                    	{
-                                                                                    		$this->password = $password;
-                                                                                    	}
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
 
-	public function getPassword(): ?string
-                                                                                    	{
-                                                                                    		return $this->password;
-                                                                                    	}
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
 
-	public function getRoles(): array
-                                                                                    	{
-                                                                                    		$roles = $this->roles;
-                                                                                    
-                                                                                    		if (empty($roles)) {
-                                                                                    			$roles[] = ['ROLE_USER','ROLE_ADMIN'];
-                                                                                    		}
-                                                                                    
-                                                                                    		return array_unique($roles);
-                                                                                    	}
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
 
-	public function setRoles(array $roles): void
-                                                                                    	{
-                                                                                    		$this->roles = $roles;
-                                                                                    	}
+        if (empty($roles)) {
+            $roles[] = ['ROLE_USER', 'ROLE_ADMIN'];
+        }
 
-	public function getSalt(): ?string
-                                                                                    	{
-                                                                                    		return null;
-                                                                                    	}
+        return array_unique($roles);
+    }
 
-	public function eraseCredentials(): void
-                                                                                    	{
-                                                                                    
-                                                                                    	}
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    public function eraseCredentials(): void
+    {
+
+    }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -171,7 +181,6 @@ class User implements UserInterface
 
         return $this;
     }
-
 
     public function getPhonenumber(): ?string
     {
@@ -193,34 +202,11 @@ class User implements UserInterface
         return $this->postuser;
     }
 
-    public function addPostuser(Post $postuser): self
-    {
-        if (!$this->postuser->contains($postuser)) {
-            $this->postuser[] = $postuser;
-            $postuser->setPostuser($this);
-        }
-
-        return $this;
-    }
-
-    public function removePostuser(Post $postuser): self
-    {
-        if ($this->postuser->contains($postuser)) {
-            $this->postuser->removeElement($postuser);
-            // set the owning side to null (unless already changed)
-            if ($postuser->getPostuser() === $this) {
-                $postuser->setPostuser(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getAccountstatus(): ?array
     {
         $accountstatus = $this->accountstatus;
         if (empty($accountstatus)) {
-            $accountstatus[] = ['ACTIVE','IN_ACTIVE','DELETED'];
+            $accountstatus[] = ['ACTIVE', 'IN_ACTIVE', 'DELETED'];
         }
 
         return array_unique($accountstatus);
@@ -229,6 +215,61 @@ class User implements UserInterface
     public function setAccountstatus(array $accountstatus): self
     {
         $this->accountstatus = $accountstatus;
+
+        return $this;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserPostUpload[]
+     */
+    public function getFkUserUserpostupload(): Collection
+    {
+        return $this->fk_user_userpostupload;
+    }
+
+    public function addFkUserUserpostupload(UserPostUpload $fkUserUserpostupload): self
+    {
+        if (!$this->fk_user_userpostupload->contains($fkUserUserpostupload)) {
+            $this->fk_user_userpostupload[] = $fkUserUserpostupload;
+            $fkUserUserpostupload->setFkUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFkUserUserpostupload(UserPostUpload $fkUserUserpostupload): self
+    {
+        if ($this->fk_user_userpostupload->contains($fkUserUserpostupload)) {
+            $this->fk_user_userpostupload->removeElement($fkUserUserpostupload);
+            // set the owning side to null (unless already changed)
+            if ($fkUserUserpostupload->getFkUserId() === $this) {
+                $fkUserUserpostupload->setFkUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getFkUserType(): ?UserTypeMaster
+    {
+        return $this->fk_userType;
+    }
+
+    public function setFkUserType(?UserTypeMaster $fk_userType): self
+    {
+        $this->fk_userType = $fk_userType;
 
         return $this;
     }

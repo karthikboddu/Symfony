@@ -20,5 +20,14 @@ export class ServiceUrlService {
   public getAuth = '/api/check_login';
   public postsByHomeScreen = '/api/postsByHomeScreen';
   public isTokenValid = '/api/auth/isTokenValid';
-  public adminUsers ='/api/users/fetchactiveusers'
+  public adminUsers ='/api/users/fetchactiveusers';
+  public adminTotalPostsActive = '/api/admin/totalPostsByActive';
+  public adminTotalUsers = '/api/admin/getNumberUsers';
+  public adminDeleteUsers = '/api/admin/deleteUser';
+  public userFileUpload = '/api/postfileUpload';
+  public allPostWithFileDetails = '/api/postGroupAll';
+  public getFilesAndFolders = '/api/file/getFileExp';
+  public getFilesAndFoldersByid = '/api/folderGroupAll';
+  
+  public addFileAndFolders = '/api/File/addFileExp';
 }

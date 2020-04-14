@@ -73,6 +73,8 @@ export class AuthenticationService {
     // remove user from local storage to log user out
     this.router.navigate(['/login']);
     localStorage.removeItem('currentUser');
+    this.isAdmin = false;
+    this.isLoggedIn = false;
   }
 
   public getToken(): string {
@@ -88,7 +90,7 @@ export class AuthenticationService {
     debugger
     let headers = new HttpHeaders();
 
-    headers = headers.append('Authorization', 'Bearer ' + this.getToken());
+    headers = headers.append('X-Custom-Auth', 'Bearer ' + this.getToken());
 
     return this.http.get<any>(this.serviceUrl.host + this.serviceUrl.getAuth, { headers: headers });
   }
@@ -130,7 +132,7 @@ export class AuthenticationService {
     debugger
     let headers = new HttpHeaders();
 
-    headers = headers.append('Authorization', 'Bearer ' + this.getToken());
+    headers = headers.append('X-Custom-Auth', 'Bearer ' + this.getToken());
 
     this.http.get(this.serviceUrl.host + this.serviceUrl.isTokenValid, { headers: headers })
     .subscribe(

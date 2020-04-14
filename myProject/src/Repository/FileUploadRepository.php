@@ -17,6 +17,7 @@ class FileUploadRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, FileUpload::class);
+        $this->em = $this->getEntityManager();
     }
 
     // /**
@@ -47,4 +48,12 @@ class FileUploadRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByUploadDetailsById($id){
+
+        $query1= $this->em->createQuery("SELECT fileupload,fut FROM App\Entity\FileUpload fileupload  join fileupload.fileuplodtype fut WHERE fileupload.status = '1' AND fileupload.id IN (:id) ");
+        $query1->setParameter('id',$id);
+        $users1 = $query1->getScalarResult();
+        return $users1;
+    }
 }

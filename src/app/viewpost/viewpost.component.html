@@ -1,18 +1,38 @@
-<div class="blog">
-  
-  <div class="container">
-    
-<ul *ngFor="let data of allPost">
-        <div class="blog-image" *ngFor="let pf of data.postfile" >
-      <img src="{{pf.image_url}}" height=200px width=200px>
-    </div>
-    <h3>{{data.name}}</h3>
-    <!-- <p>Author: {{data.metadata.author}}</p> -->
+<div class="row blog">
 
-    <div class="blog-content">
-     <div [innerHTML]=data.description></div>
-     </div>
-  </ul>
-    
-</div>
+  <div class="container">
+
+    <!-- <ul *ngFor="let data of allPost">
+      <div class="blog-image" *ngFor="let pf of data.postfile">
+        <img src="{{pf.image_url}}" width="450px">
+      </div>
+      <h3>{{data.name}}</h3>
+      <p>Author: {{data.metadata.author}}</p>
+
+      <div class="blog-content">
+        <div [innerHTML]=data.description></div>
+      </div>
+    </ul> -->
+    <div class="col-lg-4 col-md-6 mb-3 card-content" *ngFor="let data of allPost">
+    <mat-card class="viewpost" *ngFor="let pf of data.postfile">
+
+        <img mat-card-image class="img-responsive img-article img-fluid z-depth-1" src="{{pf.image_url}}"
+        alt="...">
+    <mat-card-header>
+        <mat-card-title class="title">{{data.name}}</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <p>
+            {{data.description}}
+        </p>
+    </mat-card-content>
+
+
+
+    </mat-card>
+
+      </div>
+   
+  </div>
 </div>

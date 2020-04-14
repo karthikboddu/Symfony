@@ -31,7 +31,7 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
 
     public function supports(Request $request)
     {
-        return $request->headers->has('Authorization');
+        return $request->headers->has('X-Custom-Auth');
     }
 
     public function start(Request $request, AuthenticationException $authException = null)
@@ -41,13 +41,13 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
 
     public function getCredentials(Request $request)
     {
-        if (!$request->headers->has('Authorization')) {
+        if (!$request->headers->has('X-Custom-Auth')) {
             return;
         }
 
         $extractor = new AuthorizationHeaderTokenExtractor(
             'Bearer',
-            'Authorization'
+            'X-Custom-Auth'
         );
 
         $token = $extractor->extract($request);

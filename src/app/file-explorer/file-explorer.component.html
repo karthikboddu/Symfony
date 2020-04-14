@@ -1,0 +1,9 @@
+<div style="padding: 100px; height: 100%; box-sizing: border-box;">
+  <mat-card style="height: 100%; box-sizing: border-box; padding:0">
+    <app-upload (fileAdded)="addFiles($event)"  *ngIf="authService.isLoggedIn && ( !router.url.includes('post') && !router.url.includes('users') && !router.url.includes('admin') && !router.url.includes('home') )" ></app-upload>
+    <app-file-explorer-dashboard [fileElements]="fileElements | async" [path]="currentPath" [canNavigateUp]="canNavigateUp" (folderAdded)="addFolder($event)" (fileAdded)="addFiles($event)"
+      (elementRemoved)="removeElement($event)" (navigatedDown)="navigateToFolder($event)" (navigatedUp)="navigateUp()" (elementRenamed)="renameElement($event)"
+      (elementMoved)="moveElement($event)">
+    </app-file-explorer-dashboard>
+  </mat-card>
+</div>
