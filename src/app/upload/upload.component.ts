@@ -1,5 +1,5 @@
 import { Component, OnInit , Input, Output, EventEmitter} from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { UploadService } from '../services/upload.service';
 import { UploadDialogComponent } from './upload-dialog/upload-dialog.component';
 import { FileElement } from '../models/file-explorer';

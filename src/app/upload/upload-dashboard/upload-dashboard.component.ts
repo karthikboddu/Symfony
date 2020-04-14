@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { UploadDialogComponent } from '../upload-dialog/upload-dialog.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { UploadService } from 'src/app/services/upload.service';
 
 @Component({

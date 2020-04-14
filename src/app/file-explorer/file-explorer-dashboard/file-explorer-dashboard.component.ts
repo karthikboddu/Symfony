@@ -7,7 +7,7 @@ import { NewfolderdiaologComponent } from '../newfolderdiaolog/newfolderdiaolog.
 import { RenamefolderdiaologComponent } from '../renamefolderdiaolog/renamefolderdiaolog.component';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
-import { MatGridList } from '@angular/material';
+import { MatGridList } from '@angular/material/grid-list';
 
 @Component({
   selector: 'app-file-explorer-dashboard',

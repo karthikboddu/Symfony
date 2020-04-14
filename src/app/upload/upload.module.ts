@@ -13,7 +13,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { RenamefolderdiaologComponent } from '../file-explorer/renamefolderdiaolog/renamefolderdiaolog.component';
 import { FileExplorerComponent } from '../file-explorer/file-explorer.component';
-import { MatProgressBarModule, MatListModule } from '@angular/material';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { UploadDashboardComponent } from './upload-dashboard/upload-dashboard.component';
 @NgModule({
   imports: [
