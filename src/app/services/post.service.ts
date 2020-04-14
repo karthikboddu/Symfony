@@ -22,15 +22,14 @@ export class PostService {
 
         headers = headers.append('Authorization', 'Bearer ' + this.authenticationService.getToken());
       
-        return this.http.get(this.serviceUrl.host+this.serviceUrl.postid,{headers: headers});
+        return this.http.get<Post[]>(this.serviceUrl.host+this.serviceUrl.postid,{headers: headers});
     }
 
-    post(posts,imagePath,fileToUpload,divTags) {
+    post(posts,fileToUpload,divTags) {
         debugger
        
         let uploads = new FormData();
         uploads.append("file",fileToUpload);
-        uploads.append("fileName",imagePath);
         uploads.append("name",posts.name);
         uploads.append("description",posts.description);
         uploads.append("tags",divTags);
@@ -41,9 +40,9 @@ export class PostService {
         return this.http.post(this.serviceUrl.host+this.serviceUrl.post,uploads,{headers:headers});
     }
 
-    update(post: Post) {
-        return this.http.put(`/users/` + post.id, post);
-    }
+    // update(post: Post) {
+    //     return this.http.put(`/users/` + post.id, post);
+    // }
 
     delete(id: number) {
         return this.http.delete(`/posts/` + id);
@@ -87,4 +86,8 @@ export class PostService {
       return this.http.get(this.serviceUrl.host+this.serviceUrl.postsByHomeScreen);
     }
 
+    getTotalPostsByActive(){
+  
+      return this.http.get(this.serviceUrl.host+this.serviceUrl.adminTotalPostsActive);
+    }
 }

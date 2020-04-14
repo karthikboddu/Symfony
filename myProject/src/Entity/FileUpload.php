@@ -48,9 +48,26 @@ class FileUpload
      */
     private $imageUrl;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="userMediaData")
+     */
+    private $MediaUserData;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\UploadMediaType", inversedBy="fileuploadid")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $fileuplodtype;
+
+
+
+
+
     public function __construct()
     {
         $this->filepost = new ArrayCollection();
+        $this->MediaUserData = new ArrayCollection();
+        $this->fileuplodtype = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,4 +162,72 @@ class FileUpload
 
         return $this;
     }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getMediaUserData(): Collection
+    {
+        return $this->MediaUserData;
+    }
+
+    public function addMediaUserData(User $mediaUserData): self
+    {
+        if (!$this->MediaUserData->contains($mediaUserData)) {
+            $this->MediaUserData[] = $mediaUserData;
+            $mediaUserData->addUserMediaData($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMediaUserData(User $mediaUserData): self
+    {
+        if ($this->MediaUserData->contains($mediaUserData)) {
+            $this->MediaUserData->removeElement($mediaUserData);
+            $mediaUserData->removeUserMediaData($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UploadMediaType[]
+     */
+    public function getFileuplodtype(): Collection
+    {
+        return $this->fileuplodtype;
+    }
+
+    public function addFileuplodtype(UploadMediaType $fileuplodtype): self
+    {
+        if (!$this->fileuplodtype->contains($fileuplodtype)) {
+            $this->fileuplodtype[] = $fileuplodtype;
+            $fileuplodtype->setFileuploadid($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFileuplodtype(UploadMediaType $fileuplodtype): self
+    {
+        if ($this->fileuplodtype->contains($fileuplodtype)) {
+            $this->fileuplodtype->removeElement($fileuplodtype);
+            // set the owning side to null (unless already changed)
+            if ($fileuplodtype->getFileuploadid() === $this) {
+                $fileuplodtype->setFileuploadid(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function setFileuplodtype(?UploadMediaType $fileuplodtype): self
+    {
+        $this->fileuplodtype = $fileuplodtype;
+
+        return $this;
+    }
+
+ 
 }

@@ -9,13 +9,17 @@ import { Subscription } from 'rxjs';
 export class AlertComponent implements OnInit {
     private subscription: Subscription;
     message: any;
-
+    postDetails :any;
     constructor(private alertService: AlertService) { }
   ngOnInit() {
           this.subscription = this.alertService.getMessage().subscribe(message => { 
           console.log(message);
             this.message = message; 
         });
+  }
+
+  loadPostDetails(event){
+    this.postDetails = event;
   }
 
 }

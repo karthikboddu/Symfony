@@ -1,9 +1,12 @@
 export class User {
     id: number;
+    name:string;
+    surname:string;
     username: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    phonenumber:string;
     email:string;
+    roles :string;
+    created_at:string;
+    password: string;
+    phonenumber:string;
+    active : boolean;
 }

@@ -64,6 +64,7 @@ export class LoginComponent implements OnInit {
                     localStorage.setItem('currentUser', JSON.stringify(data));
                   }else{
                     this.alertService.error(data.message);
+                    this.loading = false;
                   }
                   
               },

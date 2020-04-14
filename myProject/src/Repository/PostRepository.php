@@ -55,15 +55,47 @@ class PostRepository extends ServiceEntityRepository
         // $users = $query->getArrayResult();
 
 
-        $query1= $this->em->createQuery("SELECT u,pu,pt,pf FROM App\Entity\User u JOIN u.postuser pu JOIN pu.posttag pt LEFt JOIN pu.postfile pf WHERE  pu.status = '1' ");
-        $users1 = $query1->getArrayResult();
+        $query1= $this->em->createQuery("SELECT u,pu,pt,pf FROM App\Entity\User u JOIN u.postuser pu JOIN pu.posttag pt LEFt JOIN pu.postfile pf WHERE  pu.status = '1' AND u.active ='1' ");
+        
+        $users1 = $query1->getScalarResult();
+        return $users1;
+    }
+
+    public function findByPostsById($id){
+        // $query = $this->em->createQuery("SELECT p,pt,pf FROM App\Entity\Post p JOIN p.posttag pt left JOIN p.postfile pf");
+        // $users = $query->getArrayResult();
+
+
+        $query1= $this->em->createQuery("SELECT p FROM App\Entity\Post p  WHERE  p.status = '1' AND p.postuser = :id ");
+        $query1->setParameter('id',$id);
+        $users1 = $query1->getScalarResult();
         return $users1;
     }
 
 
     public function findByAllUserHomePosts(){
-        $query1= $this->em->createQuery("SELECT u,pu,pt,pf FROM App\Entity\User u JOIN u.postuser pu JOIN pu.posttag pt LEFt JOIN pu.postfile pf WHERE u.accountstatus = 'ACTIVE' AND pu.status = '1' ");
+        $query1= $this->em->createQuery("SELECT u,pu,pt,pf FROM App\Entity\User u JOIN u.postuser pu JOIN pu.posttag pt LEFt JOIN pu.postfile pf WHERE u.active = '1' AND pu.status = '1' ");
         $users1 = $query1->getScalarResult();
+        return $users1;
+    }
+
+    public function findByTotalActivePosts(){
+        $query = $this->em->createQuery("SELECT count(p.id) as totalposts from App\Entity\Post p  where p.status='1'");
+        $totalPosts = $query->getScalarResult();
+        return $totalPosts;
+    }
+
+    public function findByAdminAllPosts(){
+        $query = $this->em->createQuery("SELECT p FROM App\Entity\Post p ");
+        $totalPosts = $query->getScalarResult();
+        return $totalPosts;
+    }
+
+    public function findByFileUpload(){
+
+        $query1= $this->em->createQuery("SELECT u,pu,psf,pm FROM App\Entity\User u JOIN u.userMediaData pu LEFT join u.postuser pss JOIN pss.postfile psf  JOIN pu.fileuplodtype pm  WHERE  u.active ='1' ");
+        
+        $users1 = $query1->getArrayResult();
         return $users1;
     }
     
