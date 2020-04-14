@@ -15,15 +15,10 @@ export class ServiceUrlService {
   public postid = '/api/postById';
   public tags = '/api/tags';
   public postByTag = '/api/postByTag';
-  public upload = '/api/uploads3';
+  public upload = '/api/upload';
   public singlePost = '/api/viewPostByUser';
   public getAuth = '/api/check_login';
   public postsByHomeScreen = '/api/postsByHomeScreen';
   public isTokenValid = '/api/auth/isTokenValid';
-  public adminUsers ='/api/users/fetchactiveusers';
-  public adminTotalPostsActive = '/api/admin/totalPostsByActive';
-  public adminTotalUsers = '/api/admin/getNumberUsers';
-  public adminDeleteUsers = '/api/admin/deleteUser';
-  public userFileUpload = '/api/postfileUpload';
-  public getFileByUserId = '/api/getFileByUserId';
+  public adminUsers ='/api/users/fetchactiveusers'
 }

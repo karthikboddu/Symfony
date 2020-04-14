@@ -40,10 +40,9 @@ class LoginController extends Controller
                 throw $this->createNotFoundException();
             }
             $role = $user->getRoles();
-            $userActive = $user->getActive();
             $accountStatus = $user->getAccountstatus();
             // $use = new User();
-            if (in_array('ACTIVE', $accountStatus) && ($userActive == 1) ) {
+            if (in_array('ACTIVE', $accountStatus)) {
                 if (in_array('ROLE_USER', $role)) {
                     $role = $role['0'];
                 } else {
@@ -63,9 +62,9 @@ class LoginController extends Controller
                 return new JsonResponse([
                     'status' => 1, 'role' => $role, 'isAdmin' => $this->isAdmin, 'token' => $token,
                 ]);
-            } else if (in_array('IN_ACTIVE', $accountStatus) || ($userActive == 0)) {
+            } else if (in_array('IN_ACTIVE', $accountStatus)) {
                 $message = 'Account Inactive';
-            } else if (in_array('DELETED', $accountStatus) || ($userActive == 0) ) {
+            } else if (in_array('DELETED', $accountStatus)) {
                 $message = 'Account Deleted';
             }
 

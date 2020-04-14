@@ -21,8 +21,8 @@ export class UserService {
     register(user: User) {
         debugger
         let registeruser = new FormData();
-        registeruser.append("name",user.name);
-        registeruser.append("surname",user.surname);
+        registeruser.append("name",user.firstName);
+        registeruser.append("surname",user.lastName);
         registeruser.append("username",user.username);
         registeruser.append("email",user.email);
         registeruser.append("password",user.password);
@@ -36,10 +36,6 @@ export class UserService {
 
     delete(id: number) {
         return this.http.delete(`/users/` + id);
-    }
-
-    getTotalUsers(){
-        return this.http.get(this.serviceUrl.host+this.serviceUrl.adminTotalUsers);
     }
 }
 

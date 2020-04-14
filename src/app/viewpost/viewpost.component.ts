@@ -4,7 +4,6 @@ import { first } from 'rxjs/operators';
 import { Post } from '../models/post';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ThemeService } from '../services/theme.service';
 @Component({
   selector: 'app-viewpost',
   templateUrl: './viewpost.component.html',
@@ -13,7 +12,7 @@ import { ThemeService } from '../services/theme.service';
 export class ViewpostComponent implements OnInit {
 
   constructor(private postService: PostService,private http: HttpClient,private route: ActivatedRoute,
-    private router: Router,private themeService:ThemeService) { }
+    private router: Router) { }
  allPost : any;
    page:any;
   pageUrl:any;
@@ -35,7 +34,6 @@ export class ViewpostComponent implements OnInit {
               });
     	
     }
-    this.themeService.viewPostTheme();
   }
 
 

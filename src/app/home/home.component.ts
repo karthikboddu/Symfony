@@ -1,12 +1,9 @@
-import { Component, OnInit,Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PostService } from '../services/post.service';
-import { first, count } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { Post } from '../models/post';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Gallery, GalleryItem, ImageItem, ThumbnailsPosition, ImageSize } from '@ngx-gallery/core';
-import { Lightbox } from '@ngx-gallery/lightbox';
-import { EventEmitter } from 'events';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -14,9 +11,7 @@ import { EventEmitter } from 'events';
 })
 export class HomeComponent implements OnInit {
 
-  allPostDetails : Post[];
-  allPostEmit  : any;
-  allPost :any;
+  allPost : any;
   allImg : any;
   allTags : any;
   public imagePath;
@@ -26,39 +21,10 @@ export class HomeComponent implements OnInit {
   sub:any;
   page:any;
   pageUrl:any;
-  displayPosts:boolean = false;
-  items: GalleryItem[];
-  imageData = data;
   constructor(private postService: PostService,private http: HttpClient,  private route: ActivatedRoute,
-    private router: Router,public gallery: Gallery, public lightbox: Lightbox) { }
-    @Output() postsData = new EventEmitter();
+    private router: Router) { }
+
   ngOnInit() {
-
-
- /** Basic Gallery Example */
-debugger
-    // Creat gallery items
-    this.items = this.imageData.map(item => new ImageItem({ src: item.srcUrl, thumb: item.previewUrl }));
-    
-
-    /** Lightbox Example */
-
-    // Get a lightbox gallery ref
-    const lightboxRef = this.gallery.ref('lightbox');
-
-    // Add custom gallery config to the lightbox (optional)
-    lightboxRef.setConfig({
-      imageSize: ImageSize.Cover,
-      thumbPosition: ThumbnailsPosition.Top
-    });
-
-    // Load items into the lightbox gallery ref
-    lightboxRef.load(this.items);
-
-
-
-
-
 
     this.page = this.route.snapshot.queryParamMap.get('page');
 
@@ -70,9 +36,7 @@ debugger
           .pipe(first())
           .subscribe(
               data => {  
-                  this.allPostDetails = data;
-                  this.allPostEmit = data;
-                  this.postsData.emit(this.allPostEmit);
+                  this.allPost = data;
                   //this.allImg = data[0]['postfile'];
                   console.log("data",data);
                   //console.log("imgdata",data['postfile']);
@@ -82,9 +46,7 @@ debugger
               });
   
     }
-    // if(count(this.allPost)){
-    //   this.displayPosts = true;
-    // }
+
     
     this.postService.getTags()
           .pipe(first())
@@ -177,23 +139,3 @@ debugger
   }
 
 }
-
-
-const data = [
-  {
-    srcUrl: 'https://my-blog-19.s3.ap-south-1.amazonaws.com/karthikboddu/jpeg/download.jpeg',
-    previewUrl: 'https://my-blog-19.s3.ap-south-1.amazonaws.com/karthikboddu/jpeg/download.jpeg'
-  },
-  {
-    srcUrl: 'https://my-blog-19.s3.ap-south-1.amazonaws.com/karthikboddu/jpg/259316.jpg',
-    previewUrl: 'https://my-blog-19.s3.ap-south-1.amazonaws.com/karthikboddu/jpg/259316.jpg'
-  },
-  {
-    srcUrl: 'https://preview.ibb.co/mwsA6R/img7.jpg',
-    previewUrl: 'https://preview.ibb.co/mwsA6R/img7.jpg'
-  },
-  {
-    srcUrl: 'https://preview.ibb.co/kZGsLm/img8.jpg',
-    previewUrl: 'https://preview.ibb.co/kZGsLm/img8.jpg'
-  }
-];

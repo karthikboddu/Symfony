@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
   selector: 'app-admin-viewposts',
@@ -8,10 +7,9 @@ import { AdminService } from 'src/app/services/admin.service';
 })
 export class AdminViewpostsComponent implements OnInit {
 
-  constructor(private adminService : AdminService) { }
+  constructor() { }
 
   ngOnInit() {
-    
   }
 
 }
