@@ -32,4 +32,5 @@ export class ServiceUrlService {
   public addFileAndFolders = '/api/File/addFileExp';
 
   public getMediaDataByType = '/api/getMediaDataByType';
+  public getMediaTypes = '/api/getMediaTypes';
 }

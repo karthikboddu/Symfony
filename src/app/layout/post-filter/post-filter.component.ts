@@ -18,15 +18,26 @@ export class PostFilterComponent implements OnInit {
   allPostDetails: Post[];
   postResponse : Response;
   isMobile:false;
+  mediaFilterTypes;
   ngOnInit() {
+    this.postService.getMediaTypes()
+    .pipe(first())
+    .subscribe(
+      data => {
+        this.mediaFilterTypes = data;
+        console.log(this.mediaFilterTypes);
+      },
+      error => {
+        console.log("errors", error);
+      });
   }
   @Output() loadFilter = new EventEmitter<Post[]>();
   @Output() onClearAll = new EventEmitter<Post[]>();
   filterType = ['All','Audio','Video'];
-  onLoadFilter(){
+  onLoadFilter(filterId){
     debugger
     this.onClearAll.emit();
-    this.exploreService.getMediaDataByType('1');
+    this.exploreService.getMediaDataByType(filterId);
     //this.loadFilter.emit();
   }
 

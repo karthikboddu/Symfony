@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Post } from 'src/app/models/post';
 import { ExploreService } from '../explore.service';
-
+import { Track } from 'ngx-audio-player';   
 @Component({
   selector: 'app-post-display',
   templateUrl: './post-display.component.html',
@@ -11,7 +11,11 @@ export class PostDisplayComponent implements OnInit {
   @Input() productDetails: Post[];
   frontCoverImgPath;
   constructor(private exploreService:ExploreService) { }
-
+  msbapTitle = 'Audio Title'; 
+  msbapDisplayTitle = false; 
+  msbapDisplayVolumeControls = true; 
+  //msbapAudioUrl = 'https://my-blog-19.s3.ap-south-1.amazonaws.com/karthikboddu/mp3/file_example_MP3_700KB.mp3';
+// Material Style Advance Audio Player Playlist
   ngOnInit() {
 
     

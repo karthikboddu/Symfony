@@ -7,14 +7,8 @@
       translate>{{'Clear All'}}</button>
     <button aria-label="Close Filter" (click)="closeFilter()" class="close-btn" translate> <span>Close</span>
       <span class="close-icon"></span></button>
-    <mat-chip-list  aria-label="">
-      <mat-chip color="dark" selected (click)="onLoadFilter()">All</mat-chip>
-    </mat-chip-list>
-    <mat-chip-list aria-label="">
-      <mat-chip color="dark" selected (click)="onLoadFilter()">Video</mat-chip>
-    </mat-chip-list>
-    <mat-chip-list aria-label="">
-      <mat-chip color="dark" selected (click)="onLoadFilter()">Audio</mat-chip>
+    <mat-chip-list  aria-label="" *ngFor="let filterTypes of mediaFilterTypes">
+      <mat-chip color="dark" selected (click)="onLoadFilter(filterTypes.mt_id)">{{filterTypes.mt_name}}</mat-chip>
     </mat-chip-list>
   </div>
   <div class="filter-container" #filterContainer></div>

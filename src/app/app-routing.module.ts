@@ -48,6 +48,14 @@ const routes: Routes = [
       pageName: 'login'
     }
   },
+  {
+    path: 'file-upload',
+    component: ContainerComponent,
+    data: {
+      title: ('file-upload'),
+      pageName: 'file-upload'
+    }
+  },
   { path: 'register', component: RegisterComponent },
   //{ path: 'login', component: LoginComponent },
   { path: 'post', component: PostComponent,canActivate:[AuthGuard] },

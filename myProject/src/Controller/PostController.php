@@ -6,6 +6,7 @@ use App\Entity\FileUpload;
 use App\Entity\Post;
 use App\Entity\Tags;
 use App\Entity\UploadMediaType;
+use App\Entity\UploadMedia;
 use App\Entity\User;
 use App\Entity\UserPostUpload;
 use App\Form\FileUploadType;
@@ -611,7 +612,7 @@ class PostController extends AbstractController
             if($postfileUpload  ){
 
             }
-                            $newArrayy[$key] = array($postfileUpload[0],'user'=>$userDetails,'uploadDetails'=>$fileUploadDetails);
+                            $newArrayy[$key] = array($postfileUpload[0],'user'=>$userDetails,'uploadDetails'=>$fileUploadDetails,'mediaType'=>$fileUploadDetails[0]['futn_id']);
             
 
         }
@@ -705,6 +706,15 @@ class PostController extends AbstractController
             }
 
         }
+    }
+
+    /**
+     * @Route(path="/api/getMediaTypes", name="getMediaTypes")
+     * @Method("GET")
+     */
+    public function getMediaTypes(Request $request){
+        $mediaTypes = $this->getDoctrine()->getRepository(UploadMedia::class)->findByMediaTypes();
+        return $mediaTypes;
     }
 
 }

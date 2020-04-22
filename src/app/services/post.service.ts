@@ -110,4 +110,8 @@ export class PostService {
       postData.append("mediatype",typeId);
       return this.http.post<Response>(this.serviceUrl.host+this.serviceUrl.getMediaDataByType,postData,{headers:headers});
     }
+
+    getMediaTypes(){
+      return this.http.get<Response>(this.serviceUrl.host+this.serviceUrl.getMediaTypes);
+    }
 }

@@ -73,6 +73,9 @@ import { HomeListComponent } from './home/home-list/home-list.component';
 import { PostDetailsComponent } from './post/post-details/post-details.component';
 import { CoreDetailsComponent } from './post/core-details/core-details.component';
 import { ExploreModule } from './layout/explore/explore.module';
+import { UploadFileModule } from './layout/upload-files/upload.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
@@ -106,7 +109,7 @@ import { ExploreModule } from './layout/explore/explore.module';
     MatMenuModule,MatIconModule, MatSidenavModule, MatListModule,MatProgressSpinnerModule
     ,MatButtonModule, MatDialogModule, MatListModule, HttpClientModule, MatProgressBarModule,
     FlexLayoutModule,CKEditorModule,
-    MatContenteditableModule,FontAwesomeModule,InfiniteScrollModule,NgxSpinnerModule,FileExplorerModule,ExploreModule
+    MatContenteditableModule,FontAwesomeModule,InfiniteScrollModule,NgxSpinnerModule,FileExplorerModule,ExploreModule,UploadFileModule, ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   entryComponents: [AdminViewusersComponent,HeadersComponent,HomeComponent,AdminComponent],
   providers: [{ provide: MatDialogRef, useValue: {} },{ provide: MAT_DIALOG_DATA, useValue: [] },AuthenticationService,AuthGuard,UploadService

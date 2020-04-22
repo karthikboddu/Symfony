@@ -284,4 +284,7 @@ $mobile-screen-size: 767px;
     
     
   
-  
+    mat-card {
+      width: calc(100% - 70px);
+      height: calc(100% - 70px);
+    }

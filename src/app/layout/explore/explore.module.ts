@@ -8,11 +8,14 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PostDisplayComponent } from './post-display/post-display.component';
 import {CustomMaterial} from '../../material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import { NgxAudioPlayerModule } from 'ngx-audio-player';
+import { MatVideoModule } from 'mat-video';
+
 @NgModule({
   declarations: [ExploreComponent,CategoryDisplayComponent,
     CategoryPostsComponent,PostFilterComponent,PostDisplayComponent],
   imports: [
-    CommonModule,InfiniteScrollModule,CustomMaterial,FlexLayoutModule
+    CommonModule,InfiniteScrollModule,CustomMaterial,FlexLayoutModule,NgxAudioPlayerModule,MatVideoModule
   ],
   exports: [CategoryPostsComponent,CategoryDisplayComponent,PostDisplayComponent,PostFilterComponent],
   entryComponents: [ExploreComponent],

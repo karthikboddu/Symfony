@@ -3,12 +3,29 @@
 <!-- </div> -->
 
 
-<mat-card *ngFor="let product of productDetails" fxFlex.sm="0 1 calc(50%-10px)" fxFlex.md="0 1 calc(33%-10px)"
+<mat-card *ngFor="let product of productDetails" fxFlex.xs="1 0 auto " fxFlex.sm="0 1 calc(20%-10px)" fxFlex.md="0 1 calc(33%-10px)"
   fxFlex.gt-md="0 1 calc(25%-10px)">
   <div *ngFor="let fileDetails of product.uploadDetails">
-    <a #productGridCarousel href="javascript:;" role="button" (click)="productClick()">
+    <a #productGridCarousel href="javascript:;" *ngIf="product.mediaType===1" role="button" (click)="productClick()">
       <img mat-card-image src="{{fileDetails.fileupload_imageUrl}}" class="img-reponsive">
     </a>
-  </div>
+    <mat-basic-audio-player *ngIf="product.mediaType===3" [audioUrl]="fileDetails.fileupload_imageUrl" [title]="msbapTitle" [autoPlay]="false" muted="muted"
+    [displayTitle]="msbapDisplayTitle" [displayVolumeControls]="msbapDisplayVolumeControls" ></mat-basic-audio-player>
+    <!-- <mat-video *ngIf="product.mediaType===2" src="{{fileDetails.fileupload_imageUrl}}"></mat-video> -->
 
+    <!-- <mat-video *ngIf="product.mediaType===2" title="My Tutorial Title" [autoplay]="true" [preload]="true" [fullscreen]="true" [download]="false" color="accent" spinner="spin" poster=""  src="{{fileDetails.fileupload_imageUrl}}">
+    </mat-video> -->
+
+    <!-- <video *ngIf="product.mediaType===2"   src="{{fileDetails.fileupload_imageUrl}}">
+    </video> -->
+
+    <video  *ngIf="product.mediaType===2" poster="/path/to/poster.jpg" id="player" playsinline controls>
+      <source src="{{fileDetails.fileupload_imageUrl}}" type="video/mp4">
+      
+      
+      
+     </video>
+  </div>
+  <!-- <h6 *ngIf="product.mediaType===1">ff</h6>
+  <h6 *ngIf="product.mediaType===3">f</h6> -->
 </mat-card>

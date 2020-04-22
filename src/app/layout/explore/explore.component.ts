@@ -4,6 +4,7 @@ import { ExploreService } from './explore.service';
 import { Observable } from 'rxjs';
 import { PostService } from 'src/app/services/post.service';
 import { first } from 'rxjs/operators';
+import { Track } from 'ngx-audio-player';   
 
 @Component({
   selector: 'app-explore',
@@ -20,6 +21,10 @@ export class ExploreComponent implements OnInit {
   offset = '5';
   frontCoverImgPath;
   showFilter;
+
+
+
+
   ngOnInit() {
     this.postService.getAllPostsWithFileByActive(this.lastPostId,this.offset)
     .pipe(first())
@@ -60,4 +65,7 @@ export class ExploreComponent implements OnInit {
 
   }
 
+  ngOnDestroy() {
+    this.exploreService.clearPost();
+   }
 }

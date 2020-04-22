@@ -17,6 +17,7 @@ class UploadMediaRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, UploadMedia::class);
+        $this->em = $this->getEntityManager();
     }
 
     // /**
@@ -47,4 +48,11 @@ class UploadMediaRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByMediaTypes(){
+
+        $query1= $this->em->createQuery("SELECT mt FROM App\Entity\UploadMedia mt  ");
+        $users1 = $query1->getScalarResult();
+        return $users1;
+    }
 }

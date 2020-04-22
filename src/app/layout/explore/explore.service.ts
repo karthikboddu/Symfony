@@ -17,18 +17,18 @@ export class ExploreService {
   setPost(id,post:Post){
     debugger
     console.log("singlepost",post);
-    if((this.postMap.size)>0){
-      this.postMap.forEach(element => {
-        if (element[0].p_id === post[0].p_id) {
+    // if((this.postMap.size)>0){
+    //   this.postMap.forEach(element => {
+    //     if (element[0].p_id === post[0].p_id) {
           
-        }else{
-           this.postMap.set(v4(),post)
-        }
-      });
-    }else{
-      this.postMap.set(v4(),post)
-    }
-
+    //     }else{
+    //        this.postMap.set(v4(),post)
+    //     }
+    //   });
+    // }else{
+    //   this.postMap.set(v4(),post)
+    // }
+    this.postMap.set(v4(),post)
    
       return post;
   }
@@ -70,6 +70,11 @@ export class ExploreService {
           this.queryInFolder(element[0].p_id);
       }
     });
+  }
+
+
+  clearPost(){
+    this.postMap.clear();
   }
 
 }

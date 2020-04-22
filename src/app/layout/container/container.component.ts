@@ -6,6 +6,7 @@ import { HomeComponent } from 'src/app/home/home.component';
 import { LoginComponent } from 'src/app/login/login.component';
 import {ExploreComponent} from 'src/app/layout/explore/explore.component'
 import { AdminComponent } from 'src/app/Admin/admin/admin.component';
+import { UploadComponent } from 'src/app/layout/upload-files/upload.component';
 
 @Component({
   selector: 'app-container',
@@ -35,6 +36,9 @@ export class ContainerComponent implements OnInit {
     }
     else if(pageName == 'admin'){
       this.component = AdminComponent;
+    }
+    else if(pageName =='file-upload'){
+      this.component= UploadComponent;
     }
     console.log(this.component,"component");
     return this.component;

@@ -25,6 +25,15 @@
           </a>
         </li>
       </ng-container>
+      <ng-container>
+        <li [ngClass]="{'active' : isActive('/file-upload')}">
+          <a href="javascript:;" (click)="onTabClick({link:'file-upload'})">
+            <span class="icon"><i class="icon "></i></span>
+            <span class="text" translate>File Upload</span>
+          </a>
+        </li>
+      </ng-container>
+      
       <li class="more-link">
         <a href="javascript:;" (click)="onTabClick({link:'more'})">
           <span class="icon"><i class="icon icon-more-icon"></i></span>
