@@ -31,7 +31,6 @@
     "@ngx-gallery/core": "^4.0.1",
     "@ngx-gallery/gallerize": "^4.0.1",
     "@ngx-gallery/lightbox": "^4.0.1",
-    "angular-9-datatable": "^0.1.1",
     "bootstrap": "^4.4.1",
     "bulma": "^0.7.5",
     "ckeditor4-angular": "^1.0.1",
