@@ -592,7 +592,7 @@ class PostController extends AbstractController
        $limitId =  $request->get('limit');
        $offsetId =  $request->get('offset');
        if(!$limitId){
-           $limitId = '5';
+           $limitId = '10';
        }
        $newArrayy = array();
        $postfileUpload = $this->getDoctrine()->getRepository(Post::class)->findByGroupAll($limitId,$offsetId);
@@ -612,7 +612,7 @@ class PostController extends AbstractController
             if($postfileUpload  ){
 
             }
-                            $newArrayy[$key] = array($postfileUpload[0],'user'=>$userDetails,'uploadDetails'=>$fileUploadDetails,'mediaType'=>$fileUploadDetails[0]['futn_id']);
+            $newArrayy[$key] = array($postfileUpload[0],'user'=>$userDetails,'uploadDetails'=>$fileUploadDetails,'mediaType'=>$fileUploadDetails[0]['futn_id']);
             
 
         }
@@ -633,7 +633,7 @@ class PostController extends AbstractController
        $limitId =  $request->get('limit');
        $offsetId =  $request->get('offset');
        if(!$limitId){
-           $limitId = '5';
+           $limitId = '20';
        }
        $newArrayy = array();
         
@@ -716,5 +716,107 @@ class PostController extends AbstractController
         $mediaTypes = $this->getDoctrine()->getRepository(UploadMedia::class)->findByMediaTypes();
         return $mediaTypes;
     }
+
+
+    /**
+     * @Route(path="/api/getMediaUploadData", name="getMediaUploadData")
+     * @Method("POST")
+     */
+    public function getMediaUploadData(Request $request){
+
+
+        try {
+            
+            if ($this->jwtEncoder->supports($request)) {
+                $preAuthToken = $this->jwtEncoder->getCredentials($request);
+                $data = $this->jwtEncoderIn->decode($preAuthToken);
+                if ($data == false) {
+                    throw new CustomUserMessageAuthenticationException('Expired Token');
+                } else {
+                    $type =  $request->get('type');
+                     
+                    if($type == "uploaded"){
+                        $uploadData = $this->getDoctrine()->getRepository(UserPostUpload::class)->findByAllActiveUploadId();
+                    
+                        foreach ($uploadData as $key => $value) {
+                            $uploadIds[$key] = $value['upload_id'];
+                        }
+                        $getMediaUploadData = $this->getDoctrine()->getRepository(FileUpload::class)->findByMediaUploadData($uploadIds,$type);
+                        return $getMediaUploadData;
+                    }else{
+                        $uploadData = $this->getDoctrine()->getRepository(UserPostUpload::class)->findByAllActiveUploadId();
+                    
+                        foreach ($uploadData as $key => $value) {
+                            $uploadIds[$key] = $value['upload_id'];
+                        }
+                        $getMediaUploadData = $this->getDoctrine()->getRepository(FileUpload::class)->findByMediaUploadData($uploadIds,$type);
+                        return $getMediaUploadData;
+                    }
+
+                    // foreach ($getMediaUploadData as $key => $value) {
+                       
+                    // }
+
+
+                }
+            } else{
+                return "Invalid JWT";
+            }   
+        }
+        catch (\Exception $exception) {
+
+            return new JsonResponse([
+                'success' => '',
+                'code' => $exception->getCode(),
+                'message' => $exception->getMessage(),
+            ], Response::HTTP_SERVICE_UNAVAILABLE);
+        }
+    }
+
+
+    // $this->postService->flushAllPostUpload($eachUserFileId, $user, $post);
+    
+    /**
+     * @Route(path="/api/postPublishByUploadId", name="postPublishByUploadId")
+     * @Method("POST")
+     */
+    public function postPublishByUploadId(Request $request){
+        try {
+            if ($this->jwtEncoder->supports($request)) {
+
+               
+                $userTypeMaster = new UserPostUpload();
+                $em = $this->getDoctrine()->getManager();
+                // if ($form->isValid()) {
+                $preAuthToken = $this->jwtEncoder->getCredentials($request);
+                $data = $this->jwtEncoderIn->decode($preAuthToken);
+                $username = $data['username'];
+
+                $imgId = $request->get('fileUploadId');
+ 
+                $post = $this->postService->newPost();
+                $user = $em->getRepository(User::class)->findOneBy(['username' => $username]);
+                if ($imgId) {
+                    $userFileUploadId = explode(",", $imgId);
+                }
+                foreach ($userFileUploadId as $item) {
+                    $eachUserFileId = $em->getRepository(FileUpload::class)->findOneBy(['id' => $item]);
+                    $s = $this->postService->flushAllPostUpload($eachUserFileId, $user, $post);
+                    $s = " " . $s;
+
+                }
+
+
+                return new JsonResponse(['status' => 'ok', 'data' => $s]);
+                // }
+            }
+        } catch (\Exception $e) {
+            //throw $th; 'message' => $exception->getMessage(),
+            // throw new HttpException(400, "Invalid data");
+            return new JsonResponse(['status' => '0', 'message' => $e->getMessage()]);
+        }
+
+    }
+
 
 }

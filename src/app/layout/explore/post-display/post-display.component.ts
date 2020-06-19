@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Post } from 'src/app/models/post';
 import { ExploreService } from '../explore.service';
 import { Track } from 'ngx-audio-player';   
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-post-display',
   templateUrl: './post-display.component.html',
@@ -10,7 +11,7 @@ import { Track } from 'ngx-audio-player';
 export class PostDisplayComponent implements OnInit {
   @Input() productDetails: Post[];
   frontCoverImgPath;
-  constructor(private exploreService:ExploreService) { }
+  constructor(private exploreService:ExploreService,private router:Router) { }
   msbapTitle = 'Audio Title'; 
   msbapDisplayTitle = false; 
   msbapDisplayVolumeControls = true; 
@@ -31,8 +32,8 @@ export class PostDisplayComponent implements OnInit {
   //   this.frontCoverImgPath = this.productDetails.uploadDetails[0].fileupload_imageUrl;
   // }
 
-  productClick(){
+  productClick(post){
     debugger
-    //this.router.navigate([{ outlets: { modal: ['post-details', this.productDetails.userPost[0].p_id] } }]);  
+    this.router.navigate([{ outlets: { modal: ['post-details', post[0].p_id] } }]);  
   }
 }

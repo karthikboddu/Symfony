@@ -18,7 +18,7 @@ export class ExploreComponent implements OnInit {
   public allPostObs: Observable<Post[]>;
   postResponse : Response;
   lastPostId = '';
-  offset = '5';
+  offset = '50';
   frontCoverImgPath;
   showFilter;
 

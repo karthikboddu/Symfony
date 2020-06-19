@@ -114,4 +114,18 @@ export class PostService {
     getMediaTypes(){
       return this.http.get<Response>(this.serviceUrl.host+this.serviceUrl.getMediaTypes);
     }
+
+
+    postByUploadId(fileToUpload) {
+      debugger
+     
+      let uploads = new FormData();
+      uploads.append("fileUploadId",fileToUpload);
+   
+      let headers = new HttpHeaders();
+
+      headers = headers.append('X-Custom-Auth', 'Bearer ' + this.authenticationService.getToken());
+      
+      return this.http.post(this.serviceUrl.host+this.serviceUrl.postPublishByUploadId,uploads,{headers:headers});
+  }
 }

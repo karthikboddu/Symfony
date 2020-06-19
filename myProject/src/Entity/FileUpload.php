@@ -59,6 +59,16 @@ class FileUpload
      */
     private $status;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $thumbnail_url;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $Objectkey;
+
     public function __construct()
     {
         $this->filepost = new ArrayCollection();
@@ -208,6 +218,30 @@ class FileUpload
     public function setStatus(bool $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getThumbnailUrl(): ?string
+    {
+        return $this->thumbnail_url;
+    }
+
+    public function setThumbnailUrl(?string $thumbnail_url): self
+    {
+        $this->thumbnail_url = $thumbnail_url;
+
+        return $this;
+    }
+
+    public function getObjectkey(): ?string
+    {
+        return $this->Objectkey;
+    }
+
+    public function setObjectkey(?string $Objectkey): self
+    {
+        $this->Objectkey = $Objectkey;
 
         return $this;
     }

@@ -27,14 +27,14 @@ export class UploadDashboardComponent implements OnInit {
   userfiledata : any;
   ngOnInit() {
   
-  	this.uploadService.getFileUpload().subscribe(
-        data => {
-        	debugger
-        	this.userfiledata = data;
-          console.log("datasssss", data);
-        },
-        error => {
-          console.log("errors", error);
-        });
+  	// this.uploadService.getFileUpload().subscribe(
+    //     data => {
+    //     	debugger
+    //     	this.userfiledata = data;
+    //       console.log("datasssss", data);
+    //     },
+    //     error => {
+    //       console.log("errors", error);
+    //     });
   }
 }

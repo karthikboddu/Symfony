@@ -15,7 +15,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { UploadDashboardComponent } from './upload-dashboard/upload-dashboard.component';
 import { UploadService } from './upload.service';
-
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import {CustomMaterial} from '../../material.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -27,7 +29,7 @@ import { UploadService } from './upload.service';
     MatDialogModule,
     MatInputModule,
     FormsModule,
-    MatButtonModule,MatProgressBarModule,MatListModule
+    MatButtonModule,MatProgressBarModule,MatListModule,MatTableModule,CustomMaterial,MatPaginatorModule
   ],
   declarations: [UploadDialogComponent,UploadComponent, UploadDashboardComponent],
   exports: [UploadComponent,UploadDashboardComponent],

@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Entity\Post;
+use App\Entity\Tags;
 use App\Entity\UserTypeMaster;
 use App\Entity\UserPostUpload;
 use Doctrine\ORM\EntityManagerInterface;
@@ -42,7 +43,22 @@ class PostService extends FOSRestController
     }
 
     public function newPost(){
-
+        $post = new Post();
+        $tag = $this->em->getRepository(Tags::class)->findOneBy(['name' => 'Others']);
+        $post->setName('');
+        $post->setDescription('');
+        $post->setCreated(new \DateTime());
+        $post->setPosttag($tag);
+        $post->setPosturl('');
+        $post->setStatus(1);
+        try {
+            
+            $this->em->persist($post);
+            $this->em->flush();
+            return $post;
+        } catch (\Doctrine\ORM\ORMException $e) {
+           
+        }
     }
 
 

@@ -64,4 +64,17 @@ class FileUploadRepository extends ServiceEntityRepository
         $users1 = $query1->getScalarResult();
         return $users1;
     }
+
+    public function findByMediaUploadData($id,$type)
+    {
+        if($type=="uploaded"){
+            $mediaTypeSql= $this->em->createQuery("SELECT FU,FUT FROM App\Entity\FileUpload FU  join FU.fileuplodtype FUT WHERE FU.status = '1' AND FU.id IN (:id) ");
+        }else{
+            $mediaTypeSql= $this->em->createQuery("SELECT FU,FUT FROM App\Entity\FileUpload FU  join FU.fileuplodtype FUT WHERE FU.status = '1' AND FU.id NOT IN (:id) ");
+        }
+        
+        $mediaTypeSql->setParameter('id',$id);
+        $users1 = $mediaTypeSql->getScalarResult();
+        return $users1;    
+    }
 }

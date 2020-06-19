@@ -19,10 +19,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatContenteditableModule } from 'mat-contenteditable';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 @NgModule({
   imports: [
   CommonModule, 
@@ -33,6 +36,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   MatInputModule,
   MatDialogModule,
   MatTableModule,
+  MatSortModule,
+  MatTabsModule,
+  MatContenteditableModule,
   MatMenuModule,
   MatIconModule,
   MatSelectModule,
@@ -45,7 +51,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   MatDatepickerModule,
   MatNativeDateModule,MatSnackBarModule
   ,MatTooltipModule,
-  MatCheckboxModule
+  MatCheckboxModule,MatPaginatorModule
   ],
   exports: [
   CommonModule,
@@ -65,7 +71,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
    MatChipsModule,
    MatDatepickerModule,
    MatNativeDateModule,MatSnackBarModule,MatTooltipModule,
-   MatCheckboxModule
+   MatCheckboxModule,MatPaginatorModule , MatSortModule,
+   MatTabsModule,
+   MatContenteditableModule,
    ],
 })
 export class CustomMaterial { }

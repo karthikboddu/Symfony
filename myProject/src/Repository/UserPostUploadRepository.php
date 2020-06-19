@@ -17,6 +17,7 @@ class UserPostUploadRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, UserPostUpload::class);
+        $this->em = $this->getEntityManager();
     }
 
     // /**
@@ -47,4 +48,13 @@ class UserPostUploadRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    public function findByAllActiveUploadId(){
+        $query = $this->em->createQuery("SELECT pfp.id as post_id,users.id AS user_id ,GROUP_CONCAT( fu.id SEPARATOR ', ') AS upload_id FROM App\Entity\UserPostUpload p JOIN p.fk_user_id users JOIN p.fk_post_id pfp left join p.fk_upload_id fu group by p.fk_post_id  ");
+        // $query->setParameter('pid',$pid);
+        $uploadData = $query->getScalarResult();
+        return $uploadData;
+    }
+    
 }

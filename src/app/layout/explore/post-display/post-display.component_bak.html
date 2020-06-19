@@ -1,0 +1,80 @@
+<!-- <div fxLayout.xs="column" fxLayout="row wrap" fxLayoutGap="10px" ngClass.gt-xs="ml-10"> -->
+
+<!-- </div> -->
+
+
+<div *ngFor="let product of productDetails" fxFlex.xs="1 0 auto " fxFlex.sm="0 1 calc(20%-10px)" fxFlex.md="0 1 calc(33%-10px)"
+  fxFlex.gt-md="0 1 calc(25%-10px)" [ngStyle.xs]="{'margin-bottom.px': 10}" [ngStyle.lg]="{'margin-bottom.px': 10}">
+  <div *ngFor="let fileDetails of product.uploadDetails">
+    <a #productGridCarousel href="javascript:;" *ngIf="product.mediaType===1" role="button" (click)="productClick(product)">
+      <img  src="{{fileDetails.fileupload_imageUrl}}" class="img-fluid z-depth-1">
+    </a>
+    <mat-basic-audio-player *ngIf="product.mediaType===3" [audioUrl]="fileDetails.fileupload_imageUrl" [title]="msbapTitle" [autoPlay]="false" muted="muted"
+    [displayTitle]="msbapDisplayTitle" [displayVolumeControls]="msbapDisplayVolumeControls" ></mat-basic-audio-player>
+    <!-- <mat-video *ngIf="product.mediaType===2" src="{{fileDetails.fileupload_imageUrl}}"></mat-video> -->
+
+    <!-- <mat-video *ngIf="product.mediaType===2" title="My Tutorial Title" [autoplay]="true" [preload]="true" [fullscreen]="true" [download]="false" color="accent" spinner="spin" poster=""  src="{{fileDetails.fileupload_imageUrl}}">
+    </mat-video> -->
+<!-- 
+    <video *ngIf="product.mediaType===2"   src="{{fileDetails.fileupload_imageUrl}}">
+    </video> -->
+<video  *ngIf="product.mediaType===2"  class="video-fluid z-depth-1"  loop controls muted>
+  <source src="{{fileDetails.fileupload_imageUrl}}" type="video/mp4" />
+</video>
+    
+  </div>
+  <!-- <h6 *ngIf="product.mediaType===1">ff</h6>
+  <h6 *ngIf="product.mediaType===3">f</h6> -->
+  </div>
+
+
+
+<!-- Grid row -->
+<div class="row">
+
+  <!-- Grid column -->
+  <div class="col-lg-4 col-md-12 mb-4" *ngFor="let product of productDetails">
+
+    <!--Modal: Name-->
+    
+    <!--Modal: Name-->
+<div *ngFor="let fileDetails of product.uploadDetails">
+    <a *ngIf="product.mediaType===1" (click)="productClick(product)"><img class="img-fluid z-depth-1" src="{{fileDetails.fileupload_imageUrl}}"  alt="video"
+        data-toggle="modal" data-target="#modal1"></a>
+    <mat-basic-audio-player *ngIf="product.mediaType===3" [audioUrl]="fileDetails.fileupload_imageUrl" [title]="msbapTitle" [autoPlay]="false" muted="muted"
+    [displayTitle]="msbapDisplayTitle" [displayVolumeControls]="msbapDisplayVolumeControls" ></mat-basic-audio-player>
+<video  *ngIf="product.mediaType===2"  class="video-fluid z-depth-1"  loop controls muted>
+  <source src="https://mdbootstrap.com/img/video/Sail-Away.mp4" type="video/mp4" />
+</video>
+</div>
+  </div>
+  <!-- Grid column -->
+
+  <!-- Grid column -->
+  <div class="col-lg-4 col-md-6 mb-4">
+
+    <!--Modal: Name-->
+    
+    <!--Modal: Name-->
+
+    <a><img class="img-fluid z-depth-1" src="https://mdbootstrap.com/img/screens/yt/screen-video-2.jpg" alt="video"
+        data-toggle="modal" data-target="#modal6"></a>
+
+  </div>
+  <!-- Grid column -->
+
+  <!-- Grid column -->
+  <div class="col-lg-4 col-md-6 mb-4">
+
+    <!--Modal: Name-->
+    
+    <!--Modal: Name-->
+
+    <a><img class="img-fluid z-depth-1" src="https://mdbootstrap.com/img/screens/yt/screen-video-3.jpg" alt="video"
+        data-toggle="modal" data-target="#modal4"></a>
+
+  </div>
+  <!-- Grid column -->
+
+</div>
+<!-- Grid row -->

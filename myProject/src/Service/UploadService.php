@@ -86,6 +86,7 @@ class UploadService extends FOSRestController
                         'Body' => 'this is the body!',
                         'SourceFile' => $fileName,
                     ]);
+print_r($result);exit;
                     // $signedRequest = $s3Client->createPresignedRequest($cmd, '+20 minutes');
                     // $result = $s3Client->execute($cmd);
                     // $response = new JsonResponse([

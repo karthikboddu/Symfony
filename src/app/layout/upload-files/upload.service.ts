@@ -6,7 +6,7 @@ import { ServiceUrlService } from '../../serviceUrl/service-url.service';
 import { UploadElement } from '../../models/upload-element';
 import { v4 } from 'uuid';
 import { FileElement, FileResponse } from '../../models/file-explorer';
-
+import { Response, fileUpload } from '../../models/post';
 
 @Injectable()
 export class UploadService {
@@ -53,7 +53,7 @@ export class UploadService {
           resultId.push(event.body);
           console.log(event.body,"event");  
         }
-        
+        console.log(event);
 
         // this.userFileUploadId.next(resultId);
         // this.add(file);
@@ -154,6 +154,15 @@ export class UploadService {
       this.querySubject.next(result);
     }
     return this.querySubject.value;
+  }
+
+  getMediaUploadData(type='') {
+    let headers = new HttpHeaders();
+    let fdata = new FormData();
+    fdata.append("type",type);
+    headers = headers.append('X-Custom-Auth', 'Bearer ' + this.authenticationService.getToken());
+debugger
+    return this.http.post<fileUpload[]>(this.serviceUrl.host + this.serviceUrl.getMediaUploadData,fdata,{headers:headers});
   }
 
 }

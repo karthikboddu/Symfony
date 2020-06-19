@@ -33,4 +33,7 @@ export class ServiceUrlService {
 
   public getMediaDataByType = '/api/getMediaDataByType';
   public getMediaTypes = '/api/getMediaTypes';
+  public getMediaUploadData = '/api/getMediaUploadData';
+  public postPublishByUploadId = '/api/postPublishByUploadId';
+  
 }
